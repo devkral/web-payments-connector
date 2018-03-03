@@ -1,12 +1,14 @@
-django-payments
+web-payments-connector
 ===============
 
-Universal payment handling for Django
+This project is a fork from django-payments because I could not get my patches upstream and had
+some projects and providers depending on it.
+I hope I can create a successful fork and clean some ugly parts up.
 
-Documentation: https://django-payments.readthedocs.org/
+Goals:
+* small connector (this is why I have connector in the name)
+* configurable address stuff
+* remove support for python2 (it should die)
+* maybe someday integration of none django frameworks like webalchemy
 
-
-Additional payment providers
-----------------------------
-
-* [BNL POSitivity (BNP Paribas)](https://github.com/esistgut/django-payments-bnlepos)
+I hope I can get some help.

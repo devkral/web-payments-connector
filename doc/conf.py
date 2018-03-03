@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# django-payments documentation build configuration file, created by
+# web-payments-connector documentation build configuration file, created by
 # sphinx-quickstart on Thu Sep 30 16:25:38 2010.
 #
 # This file is execfile()d with the current directory set to its containing dir.
@@ -35,8 +35,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'django-payments'
-copyright = u'2010-2013, Mirumee Software'
+project = 'web-payments-connector'
+copyright = '2010-2018, Alexander Kaftan, Mirumee Software'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the

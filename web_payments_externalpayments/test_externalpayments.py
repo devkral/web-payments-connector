@@ -1,11 +1,7 @@
 from unittest import TestCase
-try:
-    from unittest.mock import MagicMock
-except ImportError:
-    from mock import MagicMock
 from . import DirectPaymentProvider, BankTransferProvider
-from .. import PaymentStatus, RedirectNeeded
-from ..testcommon import create_test_payment
+from web_payments import PaymentStatus, RedirectNeeded
+from web_payments.testcommon import create_test_payment
 
 Payment = create_test_payment()
 

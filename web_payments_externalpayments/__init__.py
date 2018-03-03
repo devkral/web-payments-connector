@@ -5,8 +5,8 @@ from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 
 from .forms import OrderIdForm, IBANBankingForm
-from .. import PaymentError, PaymentStatus, RedirectNeeded
-from ..core import BasicProvider
+from web_payments import PaymentError, PaymentStatus, RedirectNeeded
+from web_payments.core import BasicProvider
 
 class DirectPaymentProvider(BasicProvider):
     '''

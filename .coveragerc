@@ -1,9 +1,9 @@
 [run]
 branch = 1
 omit =
-    payments/test_*.py
-    payments/*/test_*.py
-source = payments
+    web_payments/test_*.py
+    web_payments/*/test_*.py
+source = web_payments
 
 [report]
 exclude_lines =

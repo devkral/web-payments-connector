@@ -1,7 +1,7 @@
 from django.utils.translation import ugettext_lazy as _
 from django import forms
 
-from ..forms import PaymentForm
+from web_payments.forms import PaymentForm
 
 class OrderIdForm(PaymentForm):
     # only shown, return is ignored
