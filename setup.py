@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 from setuptools import setup
 from setuptools.command.test import test as TestCommand
 import os
@@ -9,12 +9,12 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'test_settings')
 PACKAGES = [
     'web_payments',
     'web_payments_externalpayments',
+    'web_payments_dummy',
     # slowly put them into own packages
     'web_payments.authorizenet',
     'web_payments.braintree',
     'web_payments.coinbase',
     'web_payments.cybersource',
-    'web_payments.dummy',
     'web_payments.dotpay',
     'web_payments.paypal',
     'web_payments.sagepay',
@@ -61,8 +61,8 @@ class PyTest(TestCommand):
 
 setup(
     name='web-payments-connector',
-    author='Mirumee Software',
-    author_email='hello@mirumee.com',
+    author='Alexander Kaftan',
+    author_email='devkral@web.de',
     description='Universal payment handling for Web Frameworks',
     version='0.12.0',
     url='http://github.com/devkral/web-payments-connector',

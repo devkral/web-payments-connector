@@ -8,6 +8,8 @@ I hope I can create a successful fork and clean some ugly parts up.
 Goals:
 * small connector (this is why I have connector in the name)
 * configurable address stuff
+* migrate from payments name (this name clashes easily)
+* unify testmocks
 * remove support for python2 (it should die)
 * maybe someday integration of none django frameworks like webalchemy
 
