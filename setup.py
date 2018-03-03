@@ -52,12 +52,12 @@ class PyTest(TestCommand):
 
 
 setup(
-    name='django-payments',
+    name='django-payments-connector',
     author='Mirumee Software',
     author_email='hello@mirumee.com',
     description='Universal payment handling for Django',
     version='0.12.0',
-    url='http://github.com/mirumee/django-payments',
+    url='http://github.com/devkral/django-payments-connector',
     packages=PACKAGES,
     include_package_data=True,
     classifiers=[
