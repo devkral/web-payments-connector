@@ -1,3 +1,4 @@
+import json
 
 from .. import FraudStatus, PaymentStatus
 
@@ -122,7 +123,8 @@ class BasePaymentLogic(object):
             self.save()
         return amount
 
-    def check_token_exists(self, token):
+    @classmethod
+    def check_token_exists(cls, token):
         return False
 
     def create_token(self):

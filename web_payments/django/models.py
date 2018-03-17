@@ -54,8 +54,9 @@ class BasePayment(models.Model, BasePaymentLogic):
     def signal_status_change(self):
         status_changed.send(sender=type(self), instance=self)
 
-    def check_token_exists(self, token):
-        return self.__class__._default_manager.filter(token=token).exists()
+    @classmethod
+    def check_token_exists(cls, token):
+        return cls._default_manager.filter(token=token).exists()
 
     def save(self, **kwargs):
         self.create_token()
