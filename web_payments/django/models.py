@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-from .utils import add_prefixed_address, getter_prefixed_address
+from . import add_prefixed_address, getter_prefixed_address
 from .. import FraudStatus, PaymentStatus
 from ..logic import BasePaymentLogic
 
