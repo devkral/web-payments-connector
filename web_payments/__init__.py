@@ -1,15 +1,11 @@
 from collections import namedtuple
-try:
-    from django.db.models import get_model
-except ImportError:
-    from django.apps import apps
-    get_model = apps.get_model
-from django.conf import settings
-from django.core.exceptions import ImproperlyConfigured
 from django.utils.translation import pgettext_lazy
 
 PurchasedItem = namedtuple('PurchasedItem',
                            'name, quantity, price, currency, sku')
+
+# For django (maybe):
+#default_app_config = 'web_payments.django.apps.'
 
 
 class PaymentStatus:
@@ -58,21 +54,3 @@ class PaymentError(Exception):
 
 class ExternalPostNeeded(Exception):
     pass
-
-
-def get_payment_model():
-    '''
-    Return the Payment model that is active in this project
-    '''
-    try:
-        app_label, model_name = settings.PAYMENT_MODEL.split('.')
-    except (ValueError, AttributeError):
-        raise ImproperlyConfigured('PAYMENT_MODEL must be of the form '
-                                   '"app_label.model_name"')
-    payment_model = get_model(app_label, model_name)
-    if payment_model is None:
-        msg = (
-            'PAYMENT_MODEL refers to model "%s" that has not been installed' %
-            settings.PAYMENT_MODEL)
-        raise ImproperlyConfigured(msg)
-    return payment_model

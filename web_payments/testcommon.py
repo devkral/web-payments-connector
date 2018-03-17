@@ -1,6 +1,6 @@
 
 from decimal import Decimal
-from .models import BasePaymentLogic
+from .logic import BasePaymentLogic
 from . import PaymentStatus, PurchasedItem
 from .utils import getter_prefixed_address
 from datetime import datetime
