@@ -144,3 +144,66 @@ class BasePaymentLogic(object):
     @property
     def attrs(self):
         return PaymentAttributeProxy(self)
+
+class BasicProvider(object):
+    '''
+    This class defines the provider API. It should not be instantiated
+    directly. Use factory instead.
+    '''
+    _method = 'post'
+
+    def get_action(self, payment):
+        return self.get_return_url(payment)
+
+    def __init__(self, capture=True):
+        self._capture = capture
+
+    def get_hidden_fields(self, payment):
+        '''
+        Converts a payment into a dict containing transaction data. Use
+        get_form instead to get a form suitable for templates.
+
+        When implementing a new payment provider, overload this method to
+        transfer provider-specific data.
+        '''
+        raise NotImplementedError()
+
+    def get_form(self, payment, data=None):
+        '''
+        Converts *payment* into a form suitable for Django templates.
+        '''
+        from .forms import PaymentForm
+        return PaymentForm(self.get_hidden_fields(payment),
+                           self.get_action(payment), self._method)
+
+    def process_data(self, payment, request):
+        '''
+        Process callback request from a payment provider.
+        '''
+        raise NotImplementedError()
+
+    def get_token_from_request(self, payment, request):
+        '''
+        Return payment token from provider request.
+        '''
+        raise NotImplementedError()
+
+    def get_return_url(self, payment, extra_data=None):
+        payment_link = payment.get_process_url()
+        url = urljoin(get_base_url(), payment_link)
+        if extra_data:
+            qs = urlencode(extra_data)
+            return url + '?' + qs
+        return url
+
+    def capture(self, payment, amount=None, final=True):
+        ''' Capture a fraction of the total amount of a payment. Return amount captured or None '''
+        raise NotImplementedError()
+
+    def release(self, payment):
+        ''' Annilates captured payment '''
+        raise NotImplementedError()
+
+    def refund(self, payment, amount=None):
+        ''' Refund payment, return amount which was refunded '''
+        raise NotImplementedError()

@@ -1,12 +1,19 @@
+from urllib.parse import urljoin, urlencode
+
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-from django.utils.translation import ugettext_lazy as _
-from django.db import models
 try:
     from django.db.models import get_model
 except ImportError:
     from django.apps import apps
     get_model = apps.get_model
+
+from .. import core
+
+is_not_initialized = True
+
+PAYMENT_HOST = None
+PAYMENT_USES_SSL = None
 
 def get_payment_model():
     '''
@@ -25,47 +32,46 @@ def get_payment_model():
         raise ImproperlyConfigured(msg)
     return payment_model
 
+def get_base_url(variant=None):
+    """
+    Returns host url according to project settings. Protocol is chosen by
+    checking PAYMENT_USES_SSL variable.
+    If PAYMENT_HOST is not specified, gets domain from Sites.
+    Otherwise checks if it's callable and returns it's result. If it's not a
+    callable treats it as domain.
+    """
+    protocol = 'https' if PAYMENT_USES_SSL else 'http'
+    if not PAYMENT_HOST:
+        current_site = Site.objects.get_current()
+        domain = current_site.domain
+    elif callable(PAYMENT_HOST):
+        domain = PAYMENT_HOST()
+    else:
+        domain = PAYMENT_HOST
+    return '%s://%s' % (protocol, domain)
 
-def getter_prefixed_address(prefix):
-    """ create getter for prefixed address format """
-    first_name = "{}_first_name".format(prefix)
-    last_name = "{}_last_name".format(prefix)
-    address_1 = "{}_address_1".format(prefix)
-    address_2 = "{}_address_2".format(prefix)
-    city = "{}_city".format(prefix)
-    postcode = "{}_postcode".format(prefix)
-    country_code = "{}_country_code".format(prefix)
-    country_area = "{}_country_area".format(prefix)
-    def _get_address(self):
-        return {
-            "first_name": getattr(self, first_name, None),
-            "last_name": getattr(self, last_name, None),
-            "address_1": getattr(self, address_1, None),
-            "address_2": getattr(self, address_2, None),
-            "city": getattr(self, city, None),
-            "postcode": getattr(self, postcode, None),
-            "country_code": getattr(self, country_code, None),
-            "country_area": getattr(self, country_area, None)}
-    return _get_address
 
-def add_prefixed_address(prefix):
-    """ add address with prefix to class """
-    first_name = "{}_first_name".format(prefix)
-    last_name = "{}_last_name".format(prefix)
-    address_1 = "{}_address_1".format(prefix)
-    address_2 = "{}_address_2".format(prefix)
-    city = "{}_city".format(prefix)
-    postcode = "{}_postcode".format(prefix)
-    country_code = "{}_country_code".format(prefix)
-    country_area = "{}_country_area".format(prefix)
-    def class_to_customize(dclass):
-        setattr(dclass, first_name, models.CharField(max_length=256, blank=True))
-        setattr(dclass, last_name, models.CharField(max_length=256, blank=True))
-        setattr(dclass, address_1, models.CharField(max_length=256, blank=True))
-        setattr(dclass, address_2, models.CharField(max_length=256, blank=True))
-        setattr(dclass, city, models.CharField(max_length=256, blank=True))
-        setattr(dclass, postcode, models.CharField(max_length=256, blank=True))
-        setattr(dclass, country_code, models.CharField(max_length=2, blank=True))
-        setattr(dclass, country_area, models.CharField(max_length=256, blank=True))
-        return dclass
-    return class_to_customize
+
+def load_settings(initialize=is_not_initialized):
+    ''' loads settings and sets functions, required for initialization '''
+    global is_not_initialized
+    global PAYMENT_HOST
+    global PAYMENT_USES_SSL
+    if "PAYMENT_VARIANTS_API" in setting:
+        core.PAYMENT_VARIANTS_API = settings['PAYMENT_VARIANTS_API']
+
+
+    PAYMENT_HOST = getattr(settings, 'PAYMENT_HOST', None)
+    if not PAYMENT_HOST:
+        if 'django.contrib.sites' not in settings.INSTALLED_APPS:
+            raise ImproperlyConfigured('The PAYMENT_HOST setting without '
+                                       'the sites app must not be empty.')
+        from django.contrib.sites.models import Site
+
+    PAYMENT_USES_SSL = getattr(settings, 'PAYMENT_USES_SSL', not settings.DEBUG)
+
+
+    if initialize:
+        core.get_payment_model = get_payment_model
+        core.get_base_url = get_base_url
+        is_not_initialized = False

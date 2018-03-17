@@ -11,7 +11,7 @@ from django.http import HttpResponseRedirect
 
 from .forms import DummyForm
 from web_payments import PaymentError, PaymentStatus, RedirectNeeded
-from web_payments.core import BasicProvider
+from web_payments.logic import BasicProvider
 
 
 class DummyProvider(BasicProvider):

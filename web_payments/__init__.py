@@ -43,6 +43,9 @@ class FraudStatus:
 class RedirectNeeded(Exception):
     pass
 
+class NotInitialized(NotImplementedError):
+    pass
+
 
 class PaymentError(Exception):
 
