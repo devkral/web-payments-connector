@@ -1,6 +1,7 @@
 import json
 
-from .. import FraudStatus, PaymentStatus
+from . import FraudStatus, PaymentStatus
+from .core import provider_factory
 
 class PaymentAttributeProxy(object):
 
@@ -36,7 +37,7 @@ class BasePaymentLogic(object):
         self.status = status
         self.message = message
         self.save()
-        self.signal_status_change(self)
+        self.signal_status_change()
 
     def signal_status_change(self):
         """ needs to be overwritten to be useful """

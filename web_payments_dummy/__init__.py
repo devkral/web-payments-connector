@@ -10,7 +10,7 @@ except ImportError:
 from django.http import HttpResponseRedirect
 
 from .forms import DummyForm
-from web_payments. import PaymentError, PaymentStatus, RedirectNeeded
+from web_payments import PaymentError, PaymentStatus, RedirectNeeded
 from web_payments.core import BasicProvider
 
 

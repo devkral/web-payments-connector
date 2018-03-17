@@ -7,6 +7,7 @@ from django.conf import settings
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+
 try:
     from django.url import reverse
 except ImportError:
@@ -15,6 +16,7 @@ except ImportError:
 from . import add_prefixed_address, getter_prefixed_address
 from .. import FraudStatus, PaymentStatus
 from ..logic import BasePaymentLogic
+from .signals import status_changed
 
 class BasePayment(models.Model, BasePaymentLogic):
     '''

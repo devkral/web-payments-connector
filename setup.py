@@ -9,28 +9,10 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'test_settings')
 PACKAGES = [
     'web_payments',
     'web_payments_externalpayments',
-    'web_payments_dummy',
-    # slowly put them into own packages
-    'web_payments.authorizenet',
-    'web_payments.braintree',
-    'web_payments.coinbase',
-    'web_payments.cybersource',
-    'web_payments.dotpay',
-    'web_payments.paypal',
-    'web_payments.sagepay',
-    'web_payments.sofort',
-    'web_payments.stripe',
-    'web_payments.wallet']
+    'web_payments_dummy']
 
 REQUIREMENTS = [
-    'braintree>=3.14.0',
-    'Django>=1.11',
-    'cryptography>=1.1.0',
-    'PyJWT>=1.3.0',
-    'requests>=1.2.0',
-    'stripe>=1.9.8',
-    'suds-jurko>=0.6',
-    'xmltodict>=0.9.2']
+    'Django>=1.11',]
 
 TEST_REQUIREMENTS = [
     'pytest',
