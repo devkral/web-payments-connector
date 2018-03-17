@@ -6,7 +6,7 @@ try:
 except ImportError:
     from mock import  patch, NonCallableMock
 
-from payments import core
+from . import core
 from .forms import CreditCardPaymentFormWithName, PaymentForm
 from .django.models import BasePayment
 from . import PaymentStatus

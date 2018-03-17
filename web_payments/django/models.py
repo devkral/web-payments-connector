@@ -4,9 +4,13 @@ from uuid import uuid4
 from decimal import Decimal
 
 from django.conf import settings
-from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
+
+try:
+    from django.url import reverse
+except ImportError:
+    from django.core.urlresolvers import reverse
 
 from . import add_prefixed_address, getter_prefixed_address
 from .. import FraudStatus, PaymentStatus
@@ -33,19 +37,24 @@ class BasePayment(models.Model, BasePaymentLogic):
     transaction_id = models.CharField(max_length=255, blank=True)
     #: Currency code (may be provider-specific)
     currency = models.CharField(max_length=10)
-    #: Total amount (gross)
-    total = models.DecimalField(max_digits=9, decimal_places=2, default=Decimal('0.0'))
-    delivery = models.DecimalField(
-        max_digits=9, decimal_places=2, default=Decimal('0.0'))
-    tax = models.DecimalField(max_digits=9, decimal_places=2, default=Decimal('0.0'))
+
     description = models.TextField(blank=True, default='')
     billing_email = models.EmailField(blank=True)
     customer_ip_address = models.GenericIPAddressField(blank=True, null=True)
     extra_data = models.TextField(blank=True, default='')
     message = models.TextField(blank=True, default='')
     token = models.CharField(max_length=36, blank=True, default='')
+
+    #: Total amount (gross)
+    total = models.DecimalField(max_digits=20, decimal_places=8, default=Decimal('0.0'))
+    #: Delivery costs
+    delivery = models.DecimalField(
+        max_digits=20, decimal_places=8, default=Decimal('0.0'))
+    #: Tax
+    tax = models.DecimalField(max_digits=20, decimal_places=8, default=Decimal('0.0'))
+    #: captured = current captured amount
     captured_amount = models.DecimalField(
-        max_digits=9, decimal_places=2, default=Decimal('0.0'))
+        max_digits=20, decimal_places=8, default=Decimal('0.0'))
 
     class Meta:
         abstract = True
@@ -57,6 +66,9 @@ class BasePayment(models.Model, BasePaymentLogic):
     @classmethod
     def check_token_exists(cls, token):
         return cls._default_manager.filter(token=token).exists()
+
+    def get_process_url(self):
+        return reverse('process_payment', kwargs={'token': self.token})
 
     def save(self, **kwargs):
         self.create_token()

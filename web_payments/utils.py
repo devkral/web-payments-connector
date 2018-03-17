@@ -1,6 +1,7 @@
 from datetime import date
 import re
 
+from django.utils.translation import ugettext_lazy as _
 
 def get_month_choices():
     month_choices = [(str(x), '%02d' % (x,)) for x in range(1, 13)]

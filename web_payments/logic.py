@@ -81,7 +81,7 @@ class BasePaymentLogic(object):
         raise NotImplementedError()
 
     def get_process_url(self):
-        return reverse('process_payment', kwargs={'token': self.token})
+        raise NotImplementedError()
 
     def capture(self, amount=None, final=True):
         ''' Capture a fraction of the total amount of a payment. Return amount captured or None '''
