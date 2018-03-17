@@ -8,7 +8,7 @@ except ImportError:
 
 from payments import core
 from .forms import CreditCardPaymentFormWithName, PaymentForm
-from .models import BasePayment
+from .django.models import BasePayment
 from . import PaymentStatus
 
 
@@ -63,7 +63,7 @@ class TestBasePayment(TestCase):
             self.assertEqual(payment.captured_amount, amount)
         self.assertEqual(mocked_capture_method.call_count, 1)
 
-    @patch('payments.dummy.DummyProvider.capture')
+    @patch('web_payments_dummy.DummyProvider.capture')
     def test_capture_preauth_without_amount(self, mocked_capture_method):
         amount = None
         with patch.object(BasePayment, 'save') as mocked_save_method:
@@ -84,7 +84,7 @@ class TestBasePayment(TestCase):
         payment = BasePayment(variant='default', status=PaymentStatus.WAITING)
         self.assertRaises(ValueError, payment.release)
 
-    @patch('payments.dummy.DummyProvider.release')
+    @patch('web_payments_dummy.DummyProvider.release')
     def test_release_preauth_successfully(self, mocked_release_method):
         with patch.object(BasePayment, 'save') as mocked_save_method:
             mocked_save_method.return_value = None
@@ -103,7 +103,7 @@ class TestBasePayment(TestCase):
                               captured_amount=Decimal('100'))
         self.assertRaises(ValueError, payment.refund, Decimal('200'))
 
-    @patch('payments.dummy.DummyProvider.refund')
+    @patch('web_payments_dummy.DummyProvider.refund')
     def test_refund_without_amount(self, mocked_refund_method):
         refund_amount = None
         with patch.object(BasePayment, 'save') as mocked_save_method:
@@ -119,7 +119,7 @@ class TestBasePayment(TestCase):
             self.assertEqual(payment.captured_amount, captured_amount)
         self.assertEqual(mocked_refund_method.call_count, 1)
 
-    @patch('payments.dummy.DummyProvider.refund')
+    @patch('web_payments_dummy.DummyProvider.refund')
     def test_refund_partial_success(self, mocked_refund_method):
         refund_amount = Decimal('100')
         captured_amount = Decimal('200')
@@ -135,7 +135,7 @@ class TestBasePayment(TestCase):
             self.assertEqual(payment.captured_amount, Decimal('100'))
         self.assertEqual(mocked_refund_method.call_count, 1)
 
-    @patch('payments.dummy.DummyProvider.refund')
+    @patch('web_payments_dummy.DummyProvider.refund')
     def test_refund_fully_success(self, mocked_refund_method):
         refund_amount = Decimal('200')
         captured_amount = Decimal('200')
