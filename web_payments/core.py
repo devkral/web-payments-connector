@@ -1,5 +1,7 @@
 import re
 
+from . import NotInitialized
+
 is_initialized = False
 
 PROVIDER_CACHE = {}
