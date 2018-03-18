@@ -1,7 +1,6 @@
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.apps import apps
-from django.contrib.sites.models import Site
 
 from .. import core
 
@@ -35,6 +34,7 @@ def get_base_url(variant=None):
     Otherwise checks if it's callable and returns it's result. If it's not a
     callable treats it as domain.
     """
+    from django.contrib.sites.models import Site
     protocol = 'https' if PAYMENT_USES_SSL else 'http'
     if not PAYMENT_HOST:
         current_site = Site.objects.get_current()
