@@ -40,15 +40,16 @@ class PyTest(TestCommand):
 
 
 setup(
-    name='web-payments-connector',
-    author='Alexander Kaftan',
-    author_email='devkral@web.de',
-    description='Universal payment handling for Web Frameworks',
-    version='0.12.0',
-    url='http://github.com/devkral/web-payments-connector',
-    packages=PACKAGES,
-    include_package_data=True,
-    classifiers=[
+      name='web-payments-connector',,
+      license="MIT",
+      author='Alexander Kaftan',
+      author_email='devkral@web.de',
+      description='Universal payment handling for Web Frameworks',
+      version='1.0.0',
+      url='http://github.com/devkral/web-payments-connector',
+      packages=PACKAGES,
+      include_package_data=True,
+      classifiers=[
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
@@ -60,8 +61,8 @@ setup(
         'Framework :: Django',
         'Topic :: Software Development :: Libraries :: Application Frameworks',
         'Topic :: Software Development :: Libraries :: Python Modules'],
-    install_requires=REQUIREMENTS,
-    cmdclass={
+      install_requires=REQUIREMENTS,
+      cmdclass={
         'test': PyTest},
-    tests_require=TEST_REQUIREMENTS,
-    zip_safe=False)
+      tests_require=TEST_REQUIREMENTS,
+      zip_safe=False)
