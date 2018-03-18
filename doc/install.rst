@@ -10,7 +10,7 @@ Installation
 #. (Django) Add the callback processor to your URL router::
 
       # urls.py
-      from django.conf.urls import include, url
+      from django.urls import include, url
 
       urlpatterns = [
           url('^payments/', include('payments.urls'))]
@@ -84,7 +84,7 @@ Installation
       PAYMENT_USES_SSL = False
       PAYMENT_MODEL = 'mypaymentapp.Payment'
       PAYMENT_VARIANTS_API = {
-          'default': ('payments.dummy.DummyProvider', {})}
+          'default': ('web_payments_dummy.DummyProvider', {})}
 
    Variants are named pairs of payment providers and their configuration.
 
