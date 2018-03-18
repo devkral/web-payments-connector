@@ -10,8 +10,10 @@ Goals:
 * configurable address stuff
 * migrate from payments name (this name clashes easily)
 * unify testmocks
+* (maybe) convert rst to md for setup like mastodon
 * remove support for python2 (it should die)
-* maybe someday integration of none django frameworks like webalchemy
+* integration of none django frameworks like webalchemy (>2)
   * move to WTForms
+  * localization: don't use django translation framework (only if used with django)
 
 I hope I can get some help.

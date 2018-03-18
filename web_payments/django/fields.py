@@ -10,6 +10,7 @@ from django.utils.translation import ugettext_lazy as _
 from ..utils import get_month_choices, get_year_choices, get_credit_card_issuer
 from .widgets import CreditCardExpiryWidget, CreditCardNumberWidget
 
+# DEPRECATED (but currently the only way)!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
 class CreditCardNumberField(forms.CharField):
 

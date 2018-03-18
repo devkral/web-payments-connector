@@ -3,6 +3,8 @@ import re
 from django.forms.widgets import TextInput, MultiWidget, Select
 
 
+# DEPRECATED (but currently the only way)!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 class CreditCardNumberWidget(TextInput):
 
     def render(self, name, value, attrs=None):

@@ -5,7 +5,7 @@ Refunding a payment
 
 If you need to refund a payment, you can do this by calling the ``refund()`` method on your :class:`Payment` instance::
 
-      >>> from payments import get_payment_model
+      >>> from web_payments.core import get_payment_model
       >>> Payment = get_payment_model()
       >>> payment = Payment.objects.get()
       >>> payment.refund()

@@ -7,14 +7,14 @@ Some gateways offer a two-step payment method known as Authorization & Capture, 
 
       # settings.py
       PAYMENT_VARIANTS_API = {
-          'default': ('payments.dummy.DummyProvider', {'capture': False})}
+          'default': ('web_payments_dummy.DummyProvider', {'capture': False})}
 
 
 Capturing the payment
 ---------------------
 To capture the payment from the buyer, call the ``capture()`` method on the :class:`Payment` instance::
 
-      >>> from payments import get_payment_model
+      >>> from web_payments_dummy.core import get_payment_model
       >>> Payment = get_payment_model()
       >>> payment = Payment.objects.get()
       >>> payment.capture()
@@ -33,11 +33,11 @@ Releasing the payment
 ---------------------
 To release the payment to the buyer, call the ``release()`` method on your :class:`Payment` instance::
 
-      >>> from payments import get_payment_model
+      >>> from web_payments.core import get_payment_model
       >>> Payment = get_payment_model()
       >>> payment = Payment.objects.get()
       >>> payment.release()
 
 .. note::
 
-  Only payments with the ``preauth`` status can be released.
+  Only payments with the ``preauth`` status can be released (voiding transaction).

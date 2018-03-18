@@ -5,9 +5,9 @@ Installation
 
    .. code-block:: bash
 
-      $ pip install django-payments
+      $ pip install web-payments-connector
 
-#. Add the callback processor to your URL router::
+#. (Django) Add the callback processor to your URL router::
 
       # urls.py
       from django.conf.urls import include, url
@@ -43,8 +43,9 @@ Installation
       # mypaymentapp/views.py
       from django.shortcuts import get_object_or_404, redirect
       from django.template.response import TemplateResponse
-      from payments import get_payment_model, RedirectNeeded
-   
+      from web_payments import RedirectNeeded
+      from web_payments.core import get_payment_model
+
       def payment_details(request, payment_id):
           payment = get_object_or_404(get_payment_model(), id=payment_id)
           try:
@@ -74,7 +75,10 @@ Installation
       # settings.py
       INSTALLED_APPS = [
           # ...
-          'payments']
+          'web_payments',
+          # or
+          'web_payments.django',
+          ]
 
       PAYMENT_HOST = 'localhost:8000'
       PAYMENT_USES_SSL = False
