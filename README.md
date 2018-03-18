@@ -1,21 +1,24 @@
 web-payments-connector
 ===============
 
-This project is a fork from django-payments because I could not get my patches upstream and had
-some projects and providers depending on it.
-I hope I can create a successful fork and clean some ugly parts up.
+This project is a fork from django-payments because my changes break the whole api and structure.
+
+Features:
+* small (later django independent) connector
+* configurable address stuff
+* migrate from payments name (this name clashes too easily)
+* unified testmocks
+* can hold bitcoins and weak currencies
 
 Goals:
-* small connector (this is why I have connector in the name)
-* configurable address stuff
-* migrate from payments name (this name clashes easily)
-* unify testmocks
 * (maybe) convert rst to md for documentation like mastodon
-* remove support for python2 (it should die)
-* integration of none django frameworks like webalchemy (>2)
-  * move to WTForms
-  * localization: don't use django translation framework (only if used with django)
+* remove python2 cruft
+* move from django to be framework agnostic (>2)
+  * move to WTForms (or similar)
+  * localization: use django translation framework only with django (or switch from it)
 
-I hope I can get some help.
+Note: I use semantic versioning.
 
-Note: I use semantic versioning
+Please test and lock to a version before integrating. Reaching the goals will require some api breaks.
+
+Please create issues and pull requests. I could really use some help and may break an important feature accidentally.
