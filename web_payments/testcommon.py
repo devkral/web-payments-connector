@@ -1,13 +1,10 @@
 
 from decimal import Decimal
-from .models import BasePaymentLogic
+from .logic import BasePaymentLogic
 from . import PaymentStatus, PurchasedItem
 from .utils import getter_prefixed_address
 from datetime import datetime
-try:
-    from unittest.mock import Mock
-except ImportError:
-    from mock import Mock
+from unittest.mock import Mock
 
 def create_test_payment(**_kwargs):
     class TestPayment(Mock, BasePaymentLogic):

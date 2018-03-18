@@ -1,17 +1,7 @@
-from __future__ import unicode_literals
 import json
-from uuid import uuid4
-from decimal import Decimal
 
-from django.conf import settings
-from django.core.urlresolvers import reverse
-from django.db import models
-from django.utils.translation import ugettext_lazy as _
-
-from .core import provider_factory
-from .utils import add_prefixed_address, getter_prefixed_address
 from . import FraudStatus, PaymentStatus
-
+from .core import provider_factory
 
 class PaymentAttributeProxy(object):
 
@@ -44,11 +34,14 @@ class BasePaymentLogic(object):
         '''
         Updates the Payment status and sends the status_changed signal.
         '''
-        from .signals import status_changed
         self.status = status
         self.message = message
         self.save()
-        status_changed.send(sender=type(self), instance=self)
+        self.signal_status_change()
+
+    def signal_status_change(self):
+        """ needs to be overwritten to be useful """
+        pass
 
     def change_fraud_status(self, status, message='', commit=True):
         available_statuses = [choice[0] for choice in FraudStatus.CHOICES]
@@ -89,7 +82,7 @@ class BasePaymentLogic(object):
         raise NotImplementedError()
 
     def get_process_url(self):
-        return reverse('process_payment', kwargs={'token': self.token})
+        raise NotImplementedError()
 
     def capture(self, amount=None, final=True):
         ''' Capture a fraction of the total amount of a payment. Return amount captured or None '''
@@ -131,6 +124,10 @@ class BasePaymentLogic(object):
             self.save()
         return amount
 
+    @classmethod
+    def check_token_exists(cls, token):
+        return False
+
     def create_token(self):
         if not self.token:
             tries = {}  # Stores a set of tried values
@@ -139,7 +136,7 @@ class BasePaymentLogic(object):
                 if token in tries and len(tries) >= 100:  # After 100 tries we are impliying an infinite loop
                     raise SystemExit('A possible infinite loop was detected')
                 else:
-                    if not self.__class__._default_manager.filter(token=token).exists():
+                    if not self.check_token_exists(token):
                         self.token = token
                         break
                 tries.add(token)
@@ -148,53 +145,65 @@ class BasePaymentLogic(object):
     def attrs(self):
         return PaymentAttributeProxy(self)
 
-class BasePayment(models.Model, BasePaymentLogic):
+class BasicProvider(object):
     '''
-    Represents a single transaction. Each instance has one or more PaymentItem.
+    This class defines the provider API. It should not be instantiated
+    directly. Use factory instead.
     '''
-    variant = models.CharField(max_length=255)
-    #: Transaction status
-    status = models.CharField(
-        max_length=10, choices=PaymentStatus.CHOICES,
-        default=PaymentStatus.WAITING)
-    fraud_status = models.CharField(
-        _('fraud check'), max_length=10, choices=FraudStatus.CHOICES,
-        default=FraudStatus.UNKNOWN)
-    fraud_message = models.TextField(blank=True, default='')
-    #: Creation date and time
-    created = models.DateTimeField(auto_now_add=True)
-    #: Date and time of last modification
-    modified = models.DateTimeField(auto_now=True)
-    #: Transaction ID (if applicable)
-    transaction_id = models.CharField(max_length=255, blank=True)
-    #: Currency code (may be provider-specific)
-    currency = models.CharField(max_length=10)
-    #: Total amount (gross)
-    total = models.DecimalField(max_digits=9, decimal_places=2, default=Decimal('0.0'))
-    delivery = models.DecimalField(
-        max_digits=9, decimal_places=2, default=Decimal('0.0'))
-    tax = models.DecimalField(max_digits=9, decimal_places=2, default=Decimal('0.0'))
-    description = models.TextField(blank=True, default='')
-    billing_email = models.EmailField(blank=True)
-    customer_ip_address = models.GenericIPAddressField(blank=True, null=True)
-    extra_data = models.TextField(blank=True, default='')
-    message = models.TextField(blank=True, default='')
-    token = models.CharField(max_length=36, blank=True, default='')
-    captured_amount = models.DecimalField(
-        max_digits=9, decimal_places=2, default=Decimal('0.0'))
+    _method = 'post'
 
-    class Meta:
-        abstract = True
+    def get_action(self, payment):
+        return self.get_return_url(payment)
 
-    def save(self, **kwargs):
-        self.create_token()
-        return super(BasePayment, self).save(**kwargs)
+    def __init__(self, capture=True):
+        self._capture = capture
 
-@add_prefixed_address("billing")
-class BasePaymentWithAddress(BasePayment):
-    """ Has real billing address + shippingaddress alias on billing address (alias for backward compatibility) """
-    get_billing_address = getter_prefixed_address("billing")
-    get_shipping_address = get_billing_address
+    def get_hidden_fields(self, payment):
+        '''
+        Converts a payment into a dict containing transaction data. Use
+        get_form instead to get a form suitable for templates.
 
-    class Meta:
-        abstract = True
+        When implementing a new payment provider, overload this method to
+        transfer provider-specific data.
+        '''
+        raise NotImplementedError()
+
+    def get_form(self, payment, data=None):
+        '''
+        Converts *payment* into a form suitable for Django templates.
+        '''
+        from .forms import PaymentForm
+        return PaymentForm(self.get_hidden_fields(payment),
+                           self.get_action(payment), self._method)
+
+    def process_data(self, payment, request):
+        '''
+        Process callback request from a payment provider.
+        '''
+        raise NotImplementedError()
+
+    def get_token_from_request(self, payment, request):
+        '''
+        Return payment token from provider request.
+        '''
+        raise NotImplementedError()
+
+    def get_return_url(self, payment, extra_data=None):
+        payment_link = payment.get_process_url()
+        url = urljoin(get_base_url(), payment_link)
+        if extra_data:
+            qs = urlencode(extra_data)
+            return url + '?' + qs
+        return url
+
+    def capture(self, payment, amount=None, final=True):
+        ''' Capture a fraction of the total amount of a payment. Return amount captured or None '''
+        raise NotImplementedError()
+
+    def release(self, payment):
+        ''' Annilates captured payment '''
+        raise NotImplementedError()
+
+    def refund(self, payment, amount=None):
+        ''' Refund payment, return amount which was refunded '''
+        raise NotImplementedError()

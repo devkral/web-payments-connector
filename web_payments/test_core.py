@@ -1,27 +1,28 @@
-from __future__ import unicode_literals
 from decimal import Decimal
 from unittest import TestCase
-try:
-    from unittest.mock import patch, NonCallableMock
-except ImportError:
-    from mock import  patch, NonCallableMock
+from unittest.mock import patch, NonCallableMock
 
-from payments import core
-from .forms import CreditCardPaymentFormWithName, PaymentForm
+from . import core
+from . import django
+from .django.forms import CreditCardPaymentFormWithName, PaymentForm
 from .django.models import BasePayment
 from . import PaymentStatus
 
 
 class TestHelpers(TestCase):
-    @patch('payments.core.PAYMENT_HOST', new_callable=NonCallableMock)
-    def test_text_get_base_url(self, host):
+    @patch('web_payments.django.PAYMENT_USES_SSL', new_callable=NonCallableMock)
+    @patch('web_payments.django.PAYMENT_HOST', new_callable=NonCallableMock)
+    def test_text_get_base_url(self, host, use_ssl):
         host.__str__ = lambda x: "example.com/string"
-        self.assertEqual(core.get_base_url(), "https://example.com/string")
+        use_ssl = False
+        self.assertEqual(django.get_base_url(), "https://example.com/string")
 
-    @patch('payments.core.PAYMENT_HOST')
-    def test_callable_get_base_url(self, host):
+    @patch('web_payments.django.PAYMENT_USES_SSL', new_callable=NonCallableMock)
+    @patch('web_payments.django.PAYMENT_HOST')
+    def test_callable_get_base_url(self, host, use_ssl):
         host.return_value = "example.com/callable"
-        self.assertEqual(core.get_base_url(), "https://example.com/callable")
+        use_ssl = False
+        self.assertEqual(django.get_base_url(), "https://example.com/callable")
 
 
 class TestProviderFactory(TestCase):
@@ -47,7 +48,7 @@ class TestBasePayment(TestCase):
         payment = BasePayment(variant='default', status=PaymentStatus.WAITING)
         self.assertRaises(ValueError, payment.capture)
 
-    @patch('payments.dummy.DummyProvider.capture')
+    @patch('web_payments_dummy.DummyProvider.capture')
     def test_capture_preauth_successfully(self, mocked_capture_method):
         amount = Decimal('20')
         with patch.object(BasePayment, 'save') as mocked_save_method:

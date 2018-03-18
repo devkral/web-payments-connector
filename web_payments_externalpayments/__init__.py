@@ -1,4 +1,3 @@
-from __future__ import unicode_literals
 
 from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse
 from django.conf import settings
@@ -6,7 +5,7 @@ from django.core.exceptions import ImproperlyConfigured
 
 from .forms import OrderIdForm, IBANBankingForm
 from web_payments import PaymentError, PaymentStatus, RedirectNeeded
-from web_payments.core import BasicProvider
+from web_payments.logic import BasicProvider
 
 class DirectPaymentProvider(BasicProvider):
     '''

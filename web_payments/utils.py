@@ -2,8 +2,6 @@ from datetime import date
 import re
 
 from django.utils.translation import ugettext_lazy as _
-from django.db import models
-
 
 def get_month_choices():
     month_choices = [(str(x), '%02d' % (x,)) for x in range(1, 13)]
@@ -45,24 +43,19 @@ def getter_prefixed_address(prefix):
             "country_area": getattr(self, country_area, None)}
     return _get_address
 
-def add_prefixed_address(prefix):
-    """ add address with prefix to class """
-    first_name = "{}_first_name".format(prefix)
-    last_name = "{}_last_name".format(prefix)
-    address_1 = "{}_address_1".format(prefix)
-    address_2 = "{}_address_2".format(prefix)
-    city = "{}_city".format(prefix)
-    postcode = "{}_postcode".format(prefix)
-    country_code = "{}_country_code".format(prefix)
-    country_area = "{}_country_area".format(prefix)
-    def class_to_customize(dclass):
-        setattr(dclass, first_name, models.CharField(max_length=256, blank=True))
-        setattr(dclass, last_name, models.CharField(max_length=256, blank=True))
-        setattr(dclass, address_1, models.CharField(max_length=256, blank=True))
-        setattr(dclass, address_2, models.CharField(max_length=256, blank=True))
-        setattr(dclass, city, models.CharField(max_length=256, blank=True))
-        setattr(dclass, postcode, models.CharField(max_length=256, blank=True))
-        setattr(dclass, country_code, models.CharField(max_length=2, blank=True))
-        setattr(dclass, country_area, models.CharField(max_length=256, blank=True))
-        return dclass
-    return class_to_customize
+
+CARD_TYPES = [
+    (r'^4[0-9]{12}(?:[0-9]{3})?$', 'visa', 'VISA'),
+    (r'^5[1-5][0-9]{14}$', 'mastercard', 'MasterCard'),
+    (r'^6(?:011|5[0-9]{2})[0-9]{12}$', 'discover', 'Discover'),
+    (r'^3[47][0-9]{13}$', 'amex', 'American Express'),
+    (r'^(?:(?:2131|1800|35\d{3})\d{11})$', 'jcb', 'JCB'),
+    (r'^(?:3(?:0[0-5]|[68][0-9])[0-9]{11})$', 'diners', 'Diners Club'),
+    (r'^(?:5[0678]\d\d|6304|6390|67\d\d)\d{8,15}$', 'maestro', 'Maestro')]
+
+
+def get_credit_card_issuer(number):
+    for regexp, card_type, name in CARD_TYPES:
+        if re.match(regexp, number):
+            return card_type, name
+    return None, None

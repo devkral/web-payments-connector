@@ -12,6 +12,8 @@ from .fields import (CreditCardNumberField, CreditCardExpiryField,
                      CreditCardVerificationField, CreditCardNameField)
 
 
+# DEPRECATED (but currently the only way)!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
 class PaymentForm(forms.Form):
     '''
     Payment form, suitable for Django templates.

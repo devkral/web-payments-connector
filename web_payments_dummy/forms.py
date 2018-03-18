@@ -1,8 +1,8 @@
 from __future__ import unicode_literals
 from django import forms
 
-from web_payments.forms import PaymentForm
-from web_payments. import FraudStatus, PaymentStatus
+from web_payments.django.forms import PaymentForm
+from web_payments import FraudStatus, PaymentStatus
 
 
 class DummyForm(PaymentForm):

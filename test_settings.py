@@ -10,4 +10,4 @@ TEMPLATES = [{
 SECRET_KEY = 'NOTREALLY'
 PAYMENT_HOST = 'example.com'
 
-INSTALLED_APPS = ['web_payments', 'django.contrib.sites']
+INSTALLED_APPS = ['web_payments', "web_payments_dummy", "web_payments_externalpayments", 'django.contrib.sites']

@@ -9,35 +9,15 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'test_settings')
 PACKAGES = [
     'web_payments',
     'web_payments_externalpayments',
-    'web_payments_dummy',
-    # slowly put them into own packages
-    'web_payments.authorizenet',
-    'web_payments.braintree',
-    'web_payments.coinbase',
-    'web_payments.cybersource',
-    'web_payments.dotpay',
-    'web_payments.paypal',
-    'web_payments.sagepay',
-    'web_payments.sofort',
-    'web_payments.stripe',
-    'web_payments.wallet']
+    'web_payments_dummy']
 
 REQUIREMENTS = [
-    'braintree>=3.14.0',
-    'Django>=1.11',
-    'cryptography>=1.1.0',
-    'PyJWT>=1.3.0',
-    'requests>=1.2.0',
-    'stripe>=1.9.8',
-    'suds-jurko>=0.6',
-    'xmltodict>=0.9.2']
+    'Django>=1.11']
 
 TEST_REQUIREMENTS = [
     'pytest',
     'pytest-django'
 ]
-if sys.version_info.major < 3:
-    TEST_REQUIREMENTS.append('mock')
 
 class PyTest(TestCommand):
     user_options = [('pytest-args=', 'a', "Arguments to pass to py.test")]
@@ -60,15 +40,16 @@ class PyTest(TestCommand):
 
 
 setup(
-    name='web-payments-connector',
-    author='Alexander Kaftan',
-    author_email='devkral@web.de',
-    description='Universal payment handling for Web Frameworks',
-    version='0.12.0',
-    url='http://github.com/devkral/web-payments-connector',
-    packages=PACKAGES,
-    include_package_data=True,
-    classifiers=[
+      name='web-payments-connector',,
+      license="MIT",
+      author='Alexander Kaftan',
+      author_email='devkral@web.de',
+      description='Universal payment handling for Web Frameworks',
+      version='1.0.0',
+      url='http://github.com/devkral/web-payments-connector',
+      packages=PACKAGES,
+      include_package_data=True,
+      classifiers=[
         'Environment :: Web Environment',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
@@ -80,8 +61,8 @@ setup(
         'Framework :: Django',
         'Topic :: Software Development :: Libraries :: Application Frameworks',
         'Topic :: Software Development :: Libraries :: Python Modules'],
-    install_requires=REQUIREMENTS,
-    cmdclass={
+      install_requires=REQUIREMENTS,
+      cmdclass={
         'test': PyTest},
-    tests_require=TEST_REQUIREMENTS,
-    zip_safe=False)
+      tests_require=TEST_REQUIREMENTS,
+      zip_safe=False)
