@@ -5,10 +5,11 @@ This project is a fork from django-payments because my changes break the whole a
 
 Features:
 * small (later django independent) connector
-* configurable address stuff
+* shipping and billing address plus better customizable
 * migrate from payments name (this name clashes too easily)
 * unified testmocks
 * can hold bitcoins and weak currencies
+* more flexible
 
 Goals:
 * (maybe) convert rst to md for documentation like mastodon
