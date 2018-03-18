@@ -1,7 +1,9 @@
 import json
+from uuid import uuid4
+from urllib.parse import urlencode, urljoin
 
 from . import FraudStatus, PaymentStatus
-from .core import provider_factory
+from .core import provider_factory, get_base_url
 
 class PaymentAttributeProxy(object):
 
@@ -55,9 +57,6 @@ class BasePaymentLogic(object):
             self.save()
 
     def __str__(self):
-        return self.variant
-
-    def __unicode__(self):
         return self.variant
 
     def get_form(self, data=None):
@@ -130,7 +129,7 @@ class BasePaymentLogic(object):
 
     def create_token(self):
         if not self.token:
-            tries = {}  # Stores a set of tried values
+            tries = set()  # Stores a set of tried values
             while True:
                 token = str(uuid4())
                 if token in tries and len(tries) >= 100:  # After 100 tries we are impliying an infinite loop
@@ -172,7 +171,7 @@ class BasicProvider(object):
         '''
         Converts *payment* into a form suitable for Django templates.
         '''
-        from .forms import PaymentForm
+        from .django.forms import PaymentForm
         return PaymentForm(self.get_hidden_fields(payment),
                            self.get_action(payment), self._method)
 

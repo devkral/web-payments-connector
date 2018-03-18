@@ -15,7 +15,7 @@ except ImportError:
         return func
 
 from . import get_payment_model
-from .core import provider_factory
+from ..core import provider_factory
 
 
 @csrf_exempt

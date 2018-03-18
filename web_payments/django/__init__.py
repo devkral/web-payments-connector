@@ -1,8 +1,7 @@
-from urllib.parse import urljoin, urlencode
-
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.apps import apps
+from django.contrib.sites.models import Site
 
 from .. import core
 
