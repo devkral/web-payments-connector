@@ -10,4 +10,13 @@ TEMPLATES = [{
 SECRET_KEY = 'NOTREALLY'
 PAYMENT_HOST = 'example.com'
 
+PAYMENT_VARIANTS_API = {
+    'default': ('web_payments_dummy.DummyProvider', {}),
+    'direct': ('web_payments_externalpayments.DirectPaymentProvider', {}),
+    'iban': ('web_payments_externalpayments.BankTransferProvider', {
+        "iban": "GL5604449876543210",
+        "bic": "DABAIE2D"}
+        ),
+    }
+
 INSTALLED_APPS = ['django.contrib.sites', 'web_payments', "web_payments_dummy", "web_payments_externalpayments"]
