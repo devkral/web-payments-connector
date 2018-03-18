@@ -40,7 +40,7 @@ class PyTest(TestCommand):
 
 
 setup(
-      name='web-payments-connector',,
+      name='web-payments-connector',
       license="MIT",
       author='Alexander Kaftan',
       author_email='devkral@web.de',
@@ -54,11 +54,15 @@ setup(
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Operating System :: OS Independent',
+        'Development Status :: 4 - Beta',
         'Programming Language :: Python',
+        'Programming Language :: Python :: 3 :: Only',
         'Programming Language :: Python :: 3.4',
         'Programming Language :: Python :: 3.5',
         'Programming Language :: Python :: 3.6',
         'Framework :: Django',
+        'Framework :: Django :: 1.11',
+        'Framework :: Django :: 2.0',
         'Topic :: Software Development :: Libraries :: Application Frameworks',
         'Topic :: Software Development :: Libraries :: Python Modules'],
       install_requires=REQUIREMENTS,
