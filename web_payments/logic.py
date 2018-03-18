@@ -189,7 +189,7 @@ class BasicProvider(object):
 
     def get_return_url(self, payment, extra_data=None):
         payment_link = payment.get_process_url()
-        url = urljoin(get_base_url(), payment_link)
+        url = urljoin(get_base_url(payment.variant), payment_link)
         if extra_data:
             qs = urlencode(extra_data)
             return url + '?' + qs
