@@ -4,8 +4,7 @@ from django.utils.translation import pgettext_lazy
 PurchasedItem = namedtuple('PurchasedItem',
                            'name, quantity, price, currency, sku')
 
-# For django (maybe):
-#default_app_config = 'web_payments.django.apps.'
+default_app_config = 'web_payments.django.apps.WebPaymentsConfig'
 
 
 class PaymentStatus:

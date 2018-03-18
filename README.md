@@ -12,5 +12,6 @@ Goals:
 * unify testmocks
 * remove support for python2 (it should die)
 * maybe someday integration of none django frameworks like webalchemy
+  * move to WTForms
 
 I hope I can get some help.

@@ -23,7 +23,7 @@ class CreditCardNumberWidget(TextInput):
 class CreditCardExpiryWidget(MultiWidget):
     """MultiWidget for representing credit card expiry date."""
 
-    template_name = 'payments/credit_card_expiry_widget.html'
+    template_name = 'web_payments/credit_card_expiry_widget.html'
 
     def decompress(self, value):
         if value:
@@ -33,8 +33,8 @@ class CreditCardExpiryWidget(MultiWidget):
 
 
 class SensitiveTextInput(TextInput):
-    template_name = 'payments/sensitive_text_input.html'
+    template_name = 'web_payments/sensitive_text_input.html'
 
 
 class SensitiveSelect(Select):
-    template_name = 'payments/sensitive_select.html'
+    template_name = 'web_payments/sensitive_select.html'

@@ -1,4 +1,3 @@
-from __future__ import unicode_literals
 
 from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse
 from django.conf import settings

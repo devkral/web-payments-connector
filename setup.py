@@ -12,14 +12,12 @@ PACKAGES = [
     'web_payments_dummy']
 
 REQUIREMENTS = [
-    'Django>=1.11',]
+    'Django>=1.11']
 
 TEST_REQUIREMENTS = [
     'pytest',
     'pytest-django'
 ]
-if sys.version_info.major < 3:
-    TEST_REQUIREMENTS.append('mock')
 
 class PyTest(TestCommand):
     user_options = [('pytest-args=', 'a', "Arguments to pass to py.test")]

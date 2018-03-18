@@ -1,5 +1,6 @@
 import re
 
+is_initialized = False
 
 PROVIDER_CACHE = {}
 

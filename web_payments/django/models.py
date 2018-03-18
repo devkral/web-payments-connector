@@ -16,7 +16,8 @@ except ImportError:
 from .. import FraudStatus, PaymentStatus
 from ..logic import BasePaymentLogic
 from .signals import status_changed
-from .utils import add_prefixed_address, getter_prefixed_address
+from .utils import add_prefixed_address
+from ..utils import getter_prefixed_address
 
 class BasePayment(models.Model, BasePaymentLogic):
     '''

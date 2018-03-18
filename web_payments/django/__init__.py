@@ -2,18 +2,14 @@ from urllib.parse import urljoin, urlencode
 
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-try:
-    from django.db.models import get_model
-except ImportError:
-    from django.apps import apps
-    get_model = apps.get_model
+from django.apps import apps
 
 from .. import core
 
-is_not_initialized = True
-
 PAYMENT_HOST = None
 PAYMENT_USES_SSL = None
+
+default_app_config = 'web_payments.django.apps.WebPaymentsConfig'
 
 def get_payment_model():
     '''
@@ -24,7 +20,7 @@ def get_payment_model():
     except (ValueError, AttributeError):
         raise ImproperlyConfigured('PAYMENT_MODEL must be of the form '
                                    '"app_label.model_name"')
-    payment_model = get_model(app_label, model_name)
+    payment_model = apps.get_model(app_label, model_name)
     if payment_model is None:
         msg = (
             'PAYMENT_MODEL refers to model "%s" that has not been installed' %
@@ -52,13 +48,18 @@ def get_base_url(variant=None):
 
 
 
-def load_settings(initialize=is_not_initialized):
-    ''' loads settings and sets functions, required for initialization '''
-    global is_not_initialized
+def load_settings(initialize=None):
+    ''' loads settings and sets functions, required for initialization
+        default: initialize only if not initialized
+     '''
     global PAYMENT_HOST
     global PAYMENT_USES_SSL
-    if "PAYMENT_VARIANTS_API" in setting:
-        core.PAYMENT_VARIANTS_API = settings['PAYMENT_VARIANTS_API']
+
+    if initialize is None:
+        initialize = not core.is_initialized
+
+    if getattr(settings, "PAYMENT_VARIANTS_API", None):
+        core.PAYMENT_VARIANTS_API = settings.PAYMENT_VARIANTS_API
 
 
     PAYMENT_HOST = getattr(settings, 'PAYMENT_HOST', None)
@@ -74,4 +75,4 @@ def load_settings(initialize=is_not_initialized):
     if initialize:
         core.get_payment_model = get_payment_model
         core.get_base_url = get_base_url
-        is_not_initialized = False
+        core.is_initialized = True
