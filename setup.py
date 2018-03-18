@@ -45,7 +45,7 @@ setup(
       author='Alexander Kaftan',
       author_email='devkral@web.de',
       description='Universal payment handling for Web Frameworks',
-      version='1.0.0',
+      version='1.0.1',
       url='http://github.com/devkral/web-payments-connector',
       packages=PACKAGES,
       include_package_data=True,
