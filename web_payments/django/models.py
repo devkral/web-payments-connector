@@ -9,7 +9,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 try:
-    from django.url import reverse
+    from django.urls import reverse
 except ImportError:
     from django.core.urlresolvers import reverse
 
