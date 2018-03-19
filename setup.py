@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from setuptools import setup
 from setuptools.command.test import test as TestCommand
+from setuptools_scm import get_version
 import os
 import sys
 
@@ -18,6 +19,12 @@ TEST_REQUIREMENTS = [
     'pytest',
     'pytest-django'
 ]
+
+VERSIONING = {
+    'root': '.',
+    'version_scheme': 'post-release',
+    'local_scheme': 'dirty-tag',
+}
 
 class PyTest(TestCommand):
     user_options = [('pytest-args=', 'a', "Arguments to pass to py.test")]
@@ -45,7 +52,8 @@ setup(
       author='Alexander Kaftan',
       author_email='devkral@web.de',
       description='Universal payment handling for Web Frameworks',
-      version='1.0.3',
+      use_scm_version=VERSIONING,
+      setup_requires=['setuptools_scm'],
       url='http://github.com/devkral/web-payments-connector',
       packages=PACKAGES,
       include_package_data=True,
