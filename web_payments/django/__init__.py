@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
-from django.apps import apps
+# apps clash with 'apps' of module so import as django_apps
+from django.apps import apps as django_apps
 
 from .. import core
 
@@ -18,7 +19,7 @@ def get_payment_model():
     except (ValueError, AttributeError):
         raise ImproperlyConfigured('PAYMENT_MODEL must be of the form '
                                    '"app_label.model_name"')
-    payment_model = apps.get_model(app_label, model_name)
+    payment_model = django_apps.get_model(app_label, model_name)
     if payment_model is None:
         msg = (
             'PAYMENT_MODEL refers to model "%s" that has not been installed' %
