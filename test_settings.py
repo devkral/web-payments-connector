@@ -19,4 +19,4 @@ PAYMENT_VARIANTS_API = {
         ),
     }
 
-INSTALLED_APPS = ['django.contrib.sites', 'web_payments', "web_payments_dummy", "web_payments_externalpayments"]
+INSTALLED_APPS = ['django.contrib.sites', 'web_payments']
