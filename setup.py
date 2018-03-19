@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 from setuptools import setup
 from setuptools.command.test import test as TestCommand
-from setuptools_scm import get_version
 import os
 import sys
 

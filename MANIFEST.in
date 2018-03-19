@@ -1,2 +1,3 @@
 include LICENSE README.md
-recursive-include web_payments *.html *.js *.mo *.po *.wsdl *.xsd *.xml
+recursive-include web_payments/django *.html *.js
+recursive-include web_payments/locale/ *.po *.mo
