@@ -9,6 +9,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'test_settings')
 
 PACKAGES = [
     'web_payments',
+    'web_payments.django',
     'web_payments_externalpayments',
     'web_payments_dummy']
 
