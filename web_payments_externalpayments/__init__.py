@@ -1,6 +1,4 @@
 
-from django.http import HttpResponseRedirect, HttpResponseForbidden, HttpResponse
-from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 
 from .forms import OrderIdForm, IBANBankingForm
