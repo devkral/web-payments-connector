@@ -1,4 +1,4 @@
-Copyright (c) 2010-2017, Alexander Kaftan, Mirumee Software
+Copyright (c) 2018, Alexander Kaftan
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -11,9 +11,6 @@ modification, are permitted provided that the following conditions are met:
    notice, this list of conditions and the following disclaimer in the
    documentation and/or other materials provided with the distribution.
 
-3. Neither the name of the Mirumee Software nor the names of its
-   contributors may be used to endorse or promote products derived from
-   this software without specific prior written permission.
 
 THIS SOFTWARE IS PROVIDED BY MIRUMEE SOFTWARE ''AS IS'' AND ANY
 EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
