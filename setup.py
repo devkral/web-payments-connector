@@ -13,7 +13,9 @@ PACKAGES = [
     'web_payments_dummy']
 
 REQUIREMENTS = [
-    'Django>=1.11']
+    'Django>=1.11',
+    'simplejson>=3.0.0'
+]
 
 TEST_REQUIREMENTS = [
     'pytest',

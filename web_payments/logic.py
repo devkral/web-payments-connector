@@ -1,6 +1,7 @@
-import json
 from uuid import uuid4
 from urllib.parse import urlencode, urljoin
+
+import simplejson as json
 
 from . import FraudStatus, PaymentStatus
 from .core import provider_factory, get_base_url
@@ -22,11 +23,11 @@ class PaymentAttributeProxy(object):
         if key == '_payment':
             return super(PaymentAttributeProxy, self).__setattr__(key, value)
         try:
-            data = json.loads(self._payment.extra_data)
+            data = json.loads(self._payment.extra_data, use_decimal=True)
         except ValueError:
             data = {}
         data[key] = value
-        self._payment.extra_data = json.dumps(data)
+        self._payment.extra_data = json.dumps(data, use_decimal=True)
 
 
 class BasePaymentLogic(object):
