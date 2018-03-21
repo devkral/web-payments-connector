@@ -39,18 +39,6 @@ def create_test_payment(**_kwargs):
         get_billing_address = getter_prefixed_address("billing")
         get_shipping_address = get_billing_address
 
-        def capture(self, amount=None):
-            amount = amount or self.total
-            self.captured_amount = amount
-            self.change_status(PaymentStatus.CONFIRMED)
-
-        def change_status(self, status, message=''):
-            '''
-            Updates the Payment status and sends the status_changed signal.
-            '''
-            self.status = status
-            self.message = message
-
         def get_purchased_items(self):
             return [
                 PurchasedItem(
