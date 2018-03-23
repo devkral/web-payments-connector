@@ -1,10 +1,38 @@
-from wtforms import form
-from .fields import (CreditCardNumberField, CreditCardExpiryField,
-                     CreditCardVerificationField, CreditCardNameField)
+
+from wtforms import Form, validators, ValidationError
+from wtforms import StringField, DateField
 
 from .translation import gettext as _
 
-class PaymentForm(form.Form):
+from .utils import get_credit_card_issuer
+
+class CreditCardCalc(object):
+    def __init__(self, message=None):
+        if not message:
+            message = _('Please enter a valid card number')
+        self.message = message
+
+    def __call__(self, form, field):
+        if not self.cart_number_checksum_validation(field.data):
+            raise ValidationError(self.message)
+
+    @staticmethod
+    def cart_number_checksum_validation(number):
+        digits = []
+        even = False
+        if not number.isdigit():
+            return False
+        for digit in reversed(number):
+            digit = ord(digit) - ord('0')
+            if even:
+                digit *= 2
+                if digit >= 10:
+                    digit = digit % 10 + digit // 10
+            digits.append(digit)
+            even = not even
+        return sum(digits) % 10 == 0 if digits else False
+
+class PaymentForm(Form):
     '''
     Payment form
 
@@ -18,25 +46,19 @@ class PaymentForm(form.Form):
         self.payment = payment
 
 class CreditCardPaymentForm(PaymentForm):
-
-    number = CreditCardNumberField(label=_('Card Number'), max_length=32,
-                                   required=True)
-    expiration = CreditCardExpiryField()
-    cvv2 = CreditCardVerificationField(
-        label=_('CVV2 Security Number'), required=False, help_text=_(
+    number = StringField(_('Card Number'), validators=[validators.Length(max=32),
+                validators.InputRequired(), CreditCardCalc()])
+    expiration = DateField(format='%Y-%m')
+    cvv2 = StringField(
+        _('CVV2 Security Number'), validators=[validators.InputRequired(_('Enter a valid security number.')), validators.Regexp('^[0-9]{3,4}$', _('Enter a valid security number.'))],description=_(
             'Last three digits located on the back of your card.'
             ' For American Express the four digits found on the front side.'))
 
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args,  **kwargs)
-        if hasattr(self, 'VALID_TYPES'):
-            self.fields['number'].valid_types = self.VALID_TYPES
+    def validate_number(self, form, field):
+        if get_credit_card_issuer(field.data)[0] not in self.VALID_TYPES:
+            raise ValidationError(
+                _('We accept only %(valid_types)s') % {"valid_types": ", ".join(self.VALID_TYPES)})
 
 
 class CreditCardPaymentFormWithName(CreditCardPaymentForm):
-
-    name = CreditCardNameField(label=_('Name on Credit Card'), max_length=128)
-
-    #def __init__(self, *args, **kwargs):
-    #    super().__init__(*args, **kwargs)
-    #    self._fields.move_to_end(, last=False)
+    name = StringField(label=_('Name on Credit Card'), validators=[validators.Length(max=128)])
