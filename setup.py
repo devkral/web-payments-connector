@@ -14,7 +14,8 @@ PACKAGES = [
 
 REQUIREMENTS = [
     'Django>=1.11',
-    'simplejson>=3.0.0'
+    'simplejson>=3.0.0',
+    'wtforms<3.0.0'
 ]
 
 TEST_REQUIREMENTS = [

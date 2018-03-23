@@ -1,5 +1,6 @@
 from collections import namedtuple
-from .translation import wpgettext_lazy as _
+from .translation import translation
+_ = translation.gettext_lazy
 
 PurchasedItem = namedtuple('PurchasedItem',
                            'name, quantity, price, currency, sku')

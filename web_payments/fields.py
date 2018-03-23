@@ -1,19 +1,13 @@
-from __future__ import unicode_literals
 from calendar import monthrange
 from datetime import date
 import re
 
-from django import forms
-from django.core import validators
-from django.utils.translation import ugettext_lazy as _
+from wtforms import fields
+from wtforms.widgets import html_params, HTMLString
 
-from ..utils import get_credit_card_issuer
-from .widgets import CreditCardExpiryWidget, CreditCardNumberWidget
-
-# DEPRECATED (but currently the only way)!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-
-from .translation import wpgettext_lazy as _
+from .utils import get_credit_card_issuer
+from .translation import translation
+_ = translation.gettext_lazy
 
 def get_month_choices():
     month_choices = [(str(x), '%02d' % (x,)) for x in range(1, 13)]
@@ -24,6 +18,33 @@ def get_year_choices():
     year_choices = [(str(x), str(x)) for x in range(
         date.today().year, date.today().year + 15)]
     return [('', _('Year'))] + year_choices
+
+
+class TextWidget(object):
+    """
+    """
+    html_params = staticmethod(html_params)
+
+
+    def __call__(self, field, **kwargs):
+        kwargs.setdefault('id', field.id)
+        kwargs.setdefault('type', self.input_type)
+        if 'value' not in kwargs:
+            kwargs['value'] = field._value()
+        if 'required' not in kwargs and 'required' in getattr(field, 'flags', []):
+            kwargs['required'] = True
+        return HTMLString('<input %s>' % self.html_params(name=field.name, **kwargs))
+
+class MyTextInput(TextInput):
+    def __init__(self, error_class=u'has_errors'):
+        super(MyTextInput, self).__init__()
+        self.error_class = error_class
+
+    def __call__(self, field, **kwargs):
+        if field.errors:
+            c = kwargs.pop('class', '') or kwargs.pop('class_', '')
+            kwargs['class'] = u'%s %s' % (self.error_class, c)
+        return super(MyTextInput, self).__call__(field, **kwargs)
 
 
 class CreditCardNumberField(forms.CharField):
@@ -139,13 +160,6 @@ class CreditCardVerificationField(forms.CharField):
     def __init__(self, *args, **kwargs):
         kwargs['max_length'] = kwargs.pop('max_length', 4)
         super(CreditCardVerificationField, self).__init__(*args, **kwargs)
-
-    def validate(self, value):
-        if value in validators.EMPTY_VALUES and self.required:
-            raise forms.ValidationError(self.error_messages['required'])
-        if value and not re.match('^[0-9]{3,4}$', value):
-            raise forms.ValidationError(self.error_messages['invalid'])
-
 
 class CreditCardNameField(forms.CharField):
 

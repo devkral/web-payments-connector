@@ -8,6 +8,8 @@ PROVIDER_CACHE = {}
 PAYMENT_VARIANTS_API = {
     'default': ('web_payments_dummy.DummyProvider', {})}
 
+def get_language():
+    raise NotInitialized()
 
 def get_base_url(variant=None):
     raise NotInitialized()

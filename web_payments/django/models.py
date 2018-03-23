@@ -29,7 +29,7 @@ class BasePayment(models.Model, BasePaymentLogic):
         max_length=10, choices=PaymentStatus.CHOICES,
         default=PaymentStatus.WAITING)
     fraud_status = models.CharField(
-        _('fraud check'), max_length=10, choices=FraudStatus.CHOICES,
+        max_length=10, choices=FraudStatus.CHOICES,
         default=FraudStatus.UNKNOWN)
     fraud_message = models.TextField(blank=True, default='')
     #: Creation date and time
