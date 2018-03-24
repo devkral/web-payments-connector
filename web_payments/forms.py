@@ -1,4 +1,6 @@
 
+import datetime
+
 from wtforms import Form, validators, ValidationError
 from wtforms import StringField, DateField
 
@@ -6,7 +8,16 @@ from .translation import gettext as _
 
 from .utils import get_credit_card_issuer
 
-class CreditCardCalc(object):
+class DateValidator(object):
+    def __init__(self, message=None):
+        if not message:
+            message = _('Please enter a valid date.')
+        self.message = message
+    def __call__(self, form, field):
+        if field.data < datetime.date.today():
+            raise ValidationError(self.message)
+
+class CreditCardNumberValidator(object):
     def __init__(self, message=None):
         if not message:
             message = _('Please enter a valid card number')
@@ -46,13 +57,23 @@ class PaymentForm(Form):
         self.payment = payment
 
 class CreditCardPaymentForm(PaymentForm):
-    number = StringField(_('Card Number'), validators=[validators.Length(max=32),
-                validators.InputRequired(), CreditCardCalc()])
-    expiration = DateField(format='%Y-%m')
+
+    number = StringField(_('Card Number'),
+        validators=[validators.Length(max=32),
+                    validators.InputRequired(), CreditCardNumberValidator()],
+        render_kw={'autocomplete': 'cc-number'})
+
+    expiration = DateField(_('Expiration date (YYYY-MM):'),
+        validators=[DateValidator()]
+        format='%Y-%m',
+        render_kw={'autocomplete': 'cc-exp'})
+
     cvv2 = StringField(
-        _('CVV2 Security Number'), validators=[validators.InputRequired(_('Enter a valid security number.')), validators.Regexp('^[0-9]{3,4}$', _('Enter a valid security number.'))],description=_(
+        _('CVV2 Security Number'), validators=[validators.InputRequired(_('Enter a valid security number.')), validators.Regexp('^[0-9]{3,4}$', _('Enter a valid security number.'))],
+        description=_(
             'Last three digits located on the back of your card.'
-            ' For American Express the four digits found on the front side.'))
+            ' For American Express the four digits found on the front side.'),
+        render_kw={'autocomplete': 'cc-csc'})
 
     def validate_number(self, form, field):
         if get_credit_card_issuer(field.data)[0] not in self.VALID_TYPES:
@@ -61,4 +82,5 @@ class CreditCardPaymentForm(PaymentForm):
 
 
 class CreditCardPaymentFormWithName(CreditCardPaymentForm):
-    name = StringField(label=_('Name on Credit Card'), validators=[validators.Length(max=128)])
+    name = StringField(label=_('Name on Credit Card'),
+        validators=[validators.Length(max=128)])
