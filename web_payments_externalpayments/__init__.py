@@ -42,10 +42,9 @@ class DirectPaymentProvider(BasicProvider):
             payment.save()
         if not self.skipform:
             if not data or not data.get("order", None):
-                return OrderIdForm({"order": payment.transaction_id},
+                return OrderIdForm(data={"order": payment.transaction_id},
                                    payment=payment,
-                                   provider=self,
-                                   hidden_inputs=False)
+                                   provider=self)
         if self.confirm:
             payment.change_status(PaymentStatus.CONFIRMED)
         else:
@@ -86,7 +85,7 @@ class BankTransferProvider(BasicProvider):
             raise NotSupported(
                 'Advance Payment does not support pre-authorization.')
 
-    def get_hidden_fields(self, payment):
+    def get_fields(self, payment):
         return {
             'iban': self.iban,
             'bic': self.bic,
@@ -100,7 +99,7 @@ class BankTransferProvider(BasicProvider):
             payment.transaction_id = "{}{}".format(self.prefix, payment.id)
             payment.save()
         if not data or not data.get("order", None):
-            return IBANBankingForm(self.get_hidden_fields(payment), payment=payment, provider=self, hidden_inputs=False)
+            return IBANBankingForm(data=self.get_fields(payment), payment=payment, provider=self)
         if self.confirm:
             payment.change_status(PaymentStatus.CONFIRMED)
         else:

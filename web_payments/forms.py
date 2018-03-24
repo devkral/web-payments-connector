@@ -7,7 +7,7 @@ from wtforms import StringField, DateField
 from .translation import translation
 _ = translation.gettext_lazy
 
-from .utils import get_credit_card_issuer
+from .utils import get_credit_card_issuer, add_getlist
 
 class DateValidator(object):
     def __init__(self, message=None):
@@ -15,7 +15,10 @@ class DateValidator(object):
             message = _('Please enter a valid date.')
         self.message = message
     def __call__(self, form, field):
-        if field.data < datetime.date.today():
+        data = field.data
+        if isinstance(data, str):
+            data = datetime.datetime.strptime(data, '%Y-%m').date()
+        if data < datetime.date.today():
             raise ValidationError(self.message)
 
 class CreditCardNumberValidator(object):
@@ -51,15 +54,20 @@ class PaymentForm(Form):
     When displaying the form remember to use *action* and *method*.
     '''
     method = 'post'
-    action = None
+    action = ''
     provider = None
     payment = None
 
-    def __init__(self, *args, provider=None, payment=None, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, *, provider=None, payment=None, **kwargs):
+        if "data" not in kwargs:
+            kwargs["obj"] = payment
+        else:
+            add_getlist(kwargs["data"])
+        super().__init__(**kwargs)
         self.provider = provider
         self.payment = payment
-        self.action = provider.get_action(payment)
+        if provider and payment:
+            self.action = provider.get_action(payment)
 
 class CreditCardPaymentForm(PaymentForm):
 

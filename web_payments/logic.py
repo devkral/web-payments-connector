@@ -3,6 +3,7 @@ from urllib.parse import urlencode, urljoin
 
 import simplejson as json
 
+from . import NotSupported
 from .status import FraudStatus, PaymentStatus
 from .core import provider_factory, get_base_url
 
@@ -164,7 +165,7 @@ class BasicProvider(object):
         Converts *payment* into a form
         '''
         if not self.form_class:
-            raise Exception("No form class specified")
+            raise NotSupported("No form class specified")
         return self.form_class(data=data, provider=self, payment=payment, **kwargs)
 
     def process_data(self, payment, request):
@@ -197,4 +198,8 @@ class BasicProvider(object):
 
     def refund(self, payment, amount=None):
         ''' Refund payment, return amount which was refunded '''
+        raise NotImplementedError()
+
+    def save(self, **kwargs):
+        ''' save model implementation dependant '''
         raise NotImplementedError()

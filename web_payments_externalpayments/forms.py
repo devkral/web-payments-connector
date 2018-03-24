@@ -1,17 +1,18 @@
-from django.utils.translation import ugettext_lazy as _
-from django import forms
 
-from web_payments.django.forms import PaymentForm
+
+from wtforms import StringField, ValidationError
+from web_payments.fields import TextField
+from web_payments.forms import PaymentForm
+from .translation import translation
+_ = translation.gettext_lazy
 
 class OrderIdForm(PaymentForm):
     # only shown, return is ignored
-    order = forms.CharField(widget=forms.TextInput(attrs={'readonly':'readonly'}),\
-                            label=_("Please supply as reference"))
+    order = TextField(label=_("Please supply as reference"))
 
 
 class IBANBankingForm(PaymentForm):
     # only shown, return is ignored
-    iban = forms.CharField(widget=forms.TextInput(attrs={'readonly':'readonly'}), label="IBAN")
-    bic = forms.CharField(widget=forms.TextInput(attrs={'readonly':'readonly'}), label="BIC")
-    order = forms.CharField(widget=forms.TextInput(attrs={'readonly':'readonly'}),\
-                                                   label=_("Please supply as reference"))
+    iban = TextField(label="IBAN")
+    bic = TextField(label="BIC")
+    order = TextField(label=_("Please supply as reference"))

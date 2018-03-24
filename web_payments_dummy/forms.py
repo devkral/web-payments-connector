@@ -1,4 +1,5 @@
-from django import forms
+
+from wtforms import SelectField, ValidationError, validators
 
 from web_payments.forms import PaymentForm
 from web_payments.status import FraudStatus, PaymentStatus
@@ -11,17 +12,14 @@ class DummyForm(PaymentForm):
         ('failure', 'Gateway connection error'),
         ('payment-error', 'Gateway returned unsupported response')
     )
-    status = forms.ChoiceField(choices=PaymentStatus.CHOICES)
-    fraud_status = forms.ChoiceField(choices=FraudStatus.CHOICES)
-    gateway_response = forms.ChoiceField(choices=RESPONSE_CHOICES)
-    verification_result = forms.ChoiceField(choices=PaymentStatus.CHOICES,
-                                            required=False)
+    status = SelectField(choices=PaymentStatus.CHOICES, validators=[validators.InputRequired()])
+    fraud_status = SelectField(choices=FraudStatus.CHOICES, validators=[validators.InputRequired()])
+    gateway_response = SelectField(choices=RESPONSE_CHOICES, validators=[validators.InputRequired()])
+    verification_result = SelectField(choices=PaymentStatus.CHOICES)
 
-    def clean(self):
-        cleaned_data = super(DummyForm, self).clean()
-        gateway_response = cleaned_data.get('gateway_response')
-        verification_result = cleaned_data.get('verification_result')
+    def validate(self):
+        gateway_response = self.gateway_response.data
+        verification_result = self.verification_result.data
         if gateway_response == '3ds-redirect' and not verification_result:
-            raise forms.ValidationError(
-                'When 3DS is enabled you must set post validation status')
-        return cleaned_data
+            self.errors["gateway_response"] = ['When 3DS is enabled you must set post validation status']
+        return super().validate()

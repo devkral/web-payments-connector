@@ -5,16 +5,12 @@ data (asynchronous transaction updates).
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
+from django.db.transaction import atomic
+
 try:
     from django.urls import url
 except ImportError:
     from django.conf.urls import url
-try:
-    from django.db.transaction import atomic
-except ImportError:
-    def atomic(func):
-        return func
-
 from . import get_payment_model
 from ..core import provider_factory
 

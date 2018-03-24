@@ -1,5 +1,12 @@
-from datetime import date
 import re
+import types
+
+def add_getlist(obj):
+    #if not hasattr(obj, "getlist"):
+    #    def _getlist(key, default=None):
+    #        return [obj.get(key, default)]
+#        setattr(obj, "getlist", types.MethodType(_getlist, obj))
+    return obj
 
 _extract_streetnr = re.compile(r"([0-9]+)\s*$")
 def split_streetnr(address, fallback=None):

@@ -21,11 +21,10 @@ class TestDirectProvider(TestCase):
     def test_confirm_noskip(self):
         provider = DirectPaymentProvider(skipform=False, confirm=True)
         form = provider.get_form(self.payment)
-        form.is_valid()
-        form.clean()
+        self.assertTrue(form.validate())
         self.assertEqual(self.payment.status, PaymentStatus.WAITING)
         with self.assertRaises(RedirectNeeded):
-            provider.get_form(self.payment, form.cleaned_data)
+            provider.get_form(self.payment, form.data)
         self.assertEqual(self.payment.status, PaymentStatus.CONFIRMED)
 
     def test_noconfirm_skip(self):
@@ -38,11 +37,10 @@ class TestDirectProvider(TestCase):
     def test_noconfirm_noskip(self):
         provider = DirectPaymentProvider(skipform=False)
         form = provider.get_form(self.payment)
-        form.is_valid()
-        form.clean()
+        self.assertTrue(form.validate())
         self.assertEqual(self.payment.status, PaymentStatus.WAITING)
         with self.assertRaises(RedirectNeeded):
-            provider.get_form(self.payment, form.cleaned_data)
+            provider.get_form(self.payment, form.data)
         self.assertEqual(self.payment.status, PaymentStatus.WAITING)
 
 class TestBankTransferProvider(TestCase):
@@ -52,19 +50,17 @@ class TestBankTransferProvider(TestCase):
     def test_bank_transfer_confirms(self):
         provider = BankTransferProvider(iban="GL5604449876543210", bic="DABAIE2D", confirm=True)
         form = provider.get_form(self.payment)
-        form.is_valid()
-        form.clean()
+        self.assertTrue(form.validate())
         self.assertEqual(self.payment.status, PaymentStatus.WAITING)
         with self.assertRaises(RedirectNeeded):
-            provider.get_form(self.payment, form.cleaned_data)
+            provider.get_form(self.payment, form.data)
         self.assertEqual(self.payment.status, PaymentStatus.CONFIRMED)
 
     def test_bank_transfer_confirms_not(self):
         provider = BankTransferProvider("GL5604449876543210", "DABAIE2D", confirm=False)
         form = provider.get_form(self.payment)
-        form.is_valid()
-        form.clean()
+        self.assertTrue(form.validate())
         self.assertEqual(self.payment.status, PaymentStatus.WAITING)
         with self.assertRaises(RedirectNeeded):
-            provider.get_form(self.payment, form.cleaned_data)
+            provider.get_form(self.payment, form.data)
         self.assertEqual(self.payment.status, PaymentStatus.WAITING)

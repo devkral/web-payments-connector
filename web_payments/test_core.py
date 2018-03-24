@@ -138,28 +138,29 @@ class TestBasePayment(TestCase):
 
 class TestCreditCardPaymentForm(TestCase):
 
-    credit_data = {
-            'name': 'John Doe',
-            'number': '4716124728800975',
-            'expiration': '2020-05',
-            'cvv2': '123'}
+    def setUp(self):
+        self.credit_data = {
+                'name': 'John Doe',
+                'number': '4716124728800975',
+                'expiration': '2020-05',
+                'cvv2': '123'}
 
     def test_form_verifies_card_number(self):
-        form = CreditCardPaymentFormWithName(data=self.data)
-        self.assertTrue(form.is_valid())
+        form = CreditCardPaymentFormWithName(data=self.credit_data)
+        self.assertTrue(form.validate())
 
     def test_form_raises_error_for_invalid_card_number(self):
         data = dict(self.credit_data)
         data.update({'number': '1112223334445556'})
         form = CreditCardPaymentFormWithName(data=data)
-        self.assertFalse(form.is_valid())
+        self.assertFalse(form.validate())
         self.assertIn('number', form.errors)
 
     def test_form_raises_error_for_invalid_cvv2(self):
         data = dict(self.credit_data)
         data.update({'cvv2': '12345'})
         form = CreditCardPaymentFormWithName(data=data)
-        self.assertFalse(form.is_valid())
+        self.assertFalse(form.validate())
         self.assertIn('cvv2', form.errors)
 
 """

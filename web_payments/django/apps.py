@@ -6,4 +6,4 @@ class WebPaymentsConfig(AppConfig):
     def ready(self):
         if not core.is_initialized:
             from . import load_settings
-            load_settings(True)
+            load_settings()

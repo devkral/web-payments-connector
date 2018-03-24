@@ -2,6 +2,7 @@ from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 # apps clash with 'apps' of module so import as django_apps
 from django.apps import apps as django_apps
+from django.utils.translation import get_language
 
 from .. import core
 
@@ -75,4 +76,5 @@ def load_settings(initialize=None):
     if initialize:
         core.get_payment_model = get_payment_model
         core.get_base_url = get_base_url
+        core.get_language = get_language
         core.is_initialized = True

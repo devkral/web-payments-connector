@@ -1,6 +1,5 @@
 from django.db import models
 
-
 def add_prefixed_address(prefix):
     """ add address with prefix to class """
     first_name = "{}_first_name".format(prefix)

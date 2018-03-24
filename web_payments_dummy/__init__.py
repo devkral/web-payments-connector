@@ -8,7 +8,6 @@ from web_payments import PaymentError, RedirectNeeded
 from web_payments.status import PaymentStatus
 from web_payments.logic import BasicProvider
 
-
 class DummyProvider(BasicProvider):
     '''
     Dummy payment provider
@@ -17,9 +16,9 @@ class DummyProvider(BasicProvider):
     def get_form(self, payment, data=None):
         if payment.status == PaymentStatus.WAITING:
             payment.change_status(PaymentStatus.INPUT)
-        form = DummyForm(data=data, hidden_inputs=False, provider=self,
+        form = DummyForm(data=data, provider=self,
                          payment=payment)
-        if form.is_valid():
+        if form.validate():
             new_status = form.cleaned_data['status']
             payment.change_status(new_status)
             new_fraud_status = form.cleaned_data['fraud_status']

@@ -1,11 +1,11 @@
-from __future__ import unicode_literals
+
 import json
 from uuid import uuid4
 from decimal import Decimal
 
 from django.conf import settings
 from django.db import models
-from ...translation import translation
+from ..translation import translation
 _ = translation.gettext_lazy
 
 
@@ -76,7 +76,7 @@ class BasePayment(models.Model, BasePaymentLogic):
 
     def save(self, **kwargs):
         self.create_token()
-        return super(BasePayment, self).save(**kwargs)
+        return models.Model.save(self, **kwargs)
 
 @add_prefixed_address("billing")
 class BasePaymentWithAddress(BasePayment):

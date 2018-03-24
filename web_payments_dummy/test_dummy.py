@@ -66,7 +66,7 @@ class TestDummy3DSProvider(TestCase):
             'gateway_response': '3ds-redirect'}
 
         form = provider.get_form(self.payment, data)
-        self.assertFalse(form.is_valid())
+        self.assertFalse(form.validate())
 
     def test_provider_supports_3ds_redirect(self):
         provider = DummyProvider()
