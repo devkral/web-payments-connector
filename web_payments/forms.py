@@ -7,7 +7,7 @@ from wtforms import StringField, DateField
 from .translation import translation
 _ = translation.gettext_lazy
 
-from .utils import get_credit_card_issuer, add_getlist
+from .utils import get_credit_card_issuer
 
 class DateValidator(object):
     def __init__(self, message=None):
@@ -61,8 +61,6 @@ class PaymentForm(Form):
     def __init__(self, *, provider=None, payment=None, **kwargs):
         if "data" not in kwargs:
             kwargs["obj"] = payment
-        else:
-            add_getlist(kwargs["data"])
         super().__init__(**kwargs)
         self.provider = provider
         self.payment = payment
