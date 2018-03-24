@@ -12,9 +12,9 @@ class DummyForm(PaymentForm):
         ('failure', 'Gateway connection error'),
         ('payment-error', 'Gateway returned unsupported response')
     )
-    status = SelectField(choices=PaymentStatus.CHOICES, validators=[validators.InputRequired()])
-    fraud_status = SelectField(choices=FraudStatus.CHOICES, validators=[validators.InputRequired()])
-    gateway_response = SelectField(choices=RESPONSE_CHOICES, validators=[validators.InputRequired()])
+    status = SelectField(choices=PaymentStatus.CHOICES, validators=[validators.Required()])
+    fraud_status = SelectField(choices=FraudStatus.CHOICES, validators=[validators.Required()])
+    gateway_response = SelectField(choices=RESPONSE_CHOICES, validators=[validators.Required()])
     verification_result = SelectField(choices=PaymentStatus.CHOICES)
 
     def validate(self):
