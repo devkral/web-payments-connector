@@ -18,16 +18,14 @@ class DummyProvider(BasicProvider):
             payment.change_status(PaymentStatus.INPUT)
         form = DummyForm(data=data, provider=self,
                          payment=payment)
-        #import pdb;
-        #pdb.set_trace()
         if form.validate():
-            new_status = form.data['status']
+            new_status = form.status.data
             payment.change_status(new_status)
-            new_fraud_status = form.cleaned_data['fraud_status']
+            new_fraud_status = form.fraud_status.data
             payment.change_fraud_status(new_fraud_status)
 
-            gateway_response = form.data['gateway_response']
-            verification_result = form.data['verification_result']
+            gateway_response = form.gateway_response.data
+            verification_result = form.verification_result.data
             if gateway_response or verification_result:
                 if gateway_response == '3ds-disabled':
                     # Standard request without 3DSecure
