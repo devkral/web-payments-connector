@@ -3,7 +3,7 @@ from urllib.parse import urlencode, urljoin
 
 import simplejson as json
 
-from . import FraudStatus, PaymentStatus
+from .status import FraudStatus, PaymentStatus
 from .core import provider_factory, get_base_url
 
 class PaymentAttributeProxy(object):
@@ -60,9 +60,9 @@ class BasePaymentLogic(object):
     def __str__(self):
         return self.variant
 
-    def get_form(self, data=None):
+    def get_form(self, data=None, **kwargs):
         provider = provider_factory(self.variant)
-        return provider.get_form(self, data=data)
+        return provider.get_form(self, data=data, **kwargs)
 
     def get_purchased_items(self):
         return []
@@ -151,30 +151,21 @@ class BasicProvider(object):
     directly. Use factory instead.
     '''
     _method = 'post'
-
-    def get_action(self, payment):
-        return self.get_return_url(payment)
+    form_class = None
 
     def __init__(self, capture=True):
         self._capture = capture
 
-    def get_hidden_fields(self, payment):
-        '''
-        Converts a payment into a dict containing transaction data. Use
-        get_form instead to get a form suitable for templates.
+    def get_action(self, payment):
+        return self.get_return_url(payment)
 
-        When implementing a new payment provider, overload this method to
-        transfer provider-specific data.
+    def get_form(self, payment, data=None, **kwargs):
         '''
-        raise NotImplementedError()
-
-    def get_form(self, payment, data=None):
+        Converts *payment* into a form
         '''
-        Converts *payment* into a form suitable for Django templates.
-        '''
-        from .django.forms import PaymentForm
-        return PaymentForm(self.get_hidden_fields(payment),
-                           self.get_action(payment), self._method)
+        if not self.form_class:
+            raise Exception("No form class specified")
+        return self.form_class(data=data, provider=self, payment=payment, **kwargs)
 
     def process_data(self, payment, request):
         '''

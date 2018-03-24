@@ -1,19 +1,17 @@
-from __future__ import unicode_literals
 from calendar import monthrange
 from datetime import date
 import re
 
 from django import forms
 from django.core import validators
-from django.utils.translation import ugettext_lazy as _
+from ..translation import translation
+_ = translation.gettext_lazy
 
 from ..utils import get_credit_card_issuer
 from .widgets import CreditCardExpiryWidget, CreditCardNumberWidget
 
 # DEPRECATED (but currently the only way)!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
-
-from .translation import wpgettext_lazy as _
 
 def get_month_choices():
     month_choices = [(str(x), '%02d' % (x,)) for x in range(1, 13)]

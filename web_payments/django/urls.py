@@ -2,12 +2,13 @@
 This module is responsible for automatic processing of provider callback
 data (asynchronous transaction updates).
 '''
-from __future__ import unicode_literals
-
-from django.conf.urls import url
 from django.http import Http404
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
+try:
+    from django.urls import url
+except ImportError:
+    from django.conf.urls import url
 try:
     from django.db.transaction import atomic
 except ImportError:

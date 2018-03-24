@@ -50,27 +50,31 @@ class PaymentForm(Form):
 
     When displaying the form remember to use *action* and *method*.
     '''
-    def __init__(self, *args, provider=None, payment=None, action='', method='post', **kwargs):
-        super().__init__(**kwargs)
-        self.action = action
-        self.method = method
+    method = 'post'
+    action = None
+    provider = None
+    payment = None
+
+    def __init__(self, *args, provider=None, payment=None, **kwargs):
+        super().__init__(*args, **kwargs)
         self.provider = provider
         self.payment = payment
+        self.action = provider.get_action(payment)
 
 class CreditCardPaymentForm(PaymentForm):
 
-    number = StringField(_('Card Number'),
+    number = StringField(label=_('Card Number'),
         validators=[validators.Length(max=32),
                     validators.InputRequired(), CreditCardNumberValidator()],
         render_kw={'autocomplete': 'cc-number'})
 
-    expiration = DateField(_('Expiration date (YYYY-MM):'),
+    expiration = DateField(label=_('Expiration date (YYYY-MM):'),
         validators=[DateValidator()],
         format='%Y-%m',
         render_kw={'autocomplete': 'cc-exp'})
 
     cvv2 = StringField(
-        _('CVV2 Security Number'), validators=[validators.InputRequired(_('Enter a valid security number.')), validators.Regexp('^[0-9]{3,4}$', _('Enter a valid security number.'))],
+        label=_('CVV2 Security Number'), validators=[validators.InputRequired(_('Enter a valid security number.')), validators.Regexp('^[0-9]{3,4}$', message=_('Enter a valid security number.'))],
         description=_(
             'Last three digits located on the back of your card.'
             ' For American Express the four digits found on the front side.'),

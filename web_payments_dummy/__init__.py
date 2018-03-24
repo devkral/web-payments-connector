@@ -4,7 +4,8 @@ from urllib.parse import urlencode
 from django.http import HttpResponseRedirect
 
 from .forms import DummyForm
-from web_payments import PaymentError, PaymentStatus, RedirectNeeded
+from web_payments import PaymentError, RedirectNeeded
+from web_payments.status import PaymentStatus
 from web_payments.logic import BasicProvider
 
 

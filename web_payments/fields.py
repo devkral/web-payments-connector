@@ -1,6 +1,5 @@
 
 import html
-
 from wtforms import widgets, Field
 
 

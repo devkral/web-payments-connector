@@ -1,9 +1,10 @@
 
+from datetime import datetime
 from decimal import Decimal
 from .logic import BasePaymentLogic
-from . import PaymentStatus, PurchasedItem
+from .status import PaymentStatus
+from . import PurchasedItem
 from .utils import getter_prefixed_address
-from datetime import datetime
 from unittest.mock import Mock
 
 def create_test_payment(**_kwargs):
