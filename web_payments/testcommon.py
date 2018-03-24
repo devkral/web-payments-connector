@@ -56,7 +56,7 @@ def create_test_payment(**_kwargs):
             return 'http://success.com'
 
         def save(self):
-            return self
+            pass
     # workaround limitation in python
     for key, val in _kwargs.items():
         setattr(TestPayment, key, val)

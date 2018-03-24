@@ -70,10 +70,12 @@ class PaymentForm(Form):
             self.action = provider.get_action(payment)
 
 class CreditCardPaymentForm(PaymentForm):
+    # which credit card types are accepted?
+    VALID_TYPES = None
 
     number = StringField(label=_('Card Number'),
         validators=[validators.Length(max=32),
-                    validators.InputRequired(), CreditCardNumberValidator()],
+                    validators.Required(), CreditCardNumberValidator()],
         render_kw={'autocomplete': 'cc-number'})
 
     expiration = DateField(label=_('Expiration date (YYYY-MM):'),
@@ -82,14 +84,18 @@ class CreditCardPaymentForm(PaymentForm):
         render_kw={'autocomplete': 'cc-exp'})
 
     cvv2 = StringField(
-        label=_('CVV2 Security Number'), validators=[validators.InputRequired(_('Enter a valid security number.')), validators.Regexp('^[0-9]{3,4}$', message=_('Enter a valid security number.'))],
+        label=_('CVV2 Security Number'), validators=[validators.Required(_('Enter a valid security number.')), validators.Regexp('^[0-9]{3,4}$', message=_('Enter a valid security number.'))],
         description=_(
             'Last three digits located on the back of your card.'
             ' For American Express the four digits found on the front side.'),
         render_kw={'autocomplete': 'cc-csc'})
 
-    def validate_number(self, form, field):
-        if get_credit_card_issuer(field.data)[0] not in self.VALID_TYPES:
+    def __init__(self, *, valid_types=None, **kwargs):
+        self.VALID_TYPES = valid_types
+        super().__init__(**kwargs)
+
+    def validate_number(self, field):
+        if self.VALID_TYPES and get_credit_card_issuer(field.data)[0] not in self.VALID_TYPES:
             raise ValidationError(
                 _('We accept only %(valid_types)s') % {"valid_types": ", ".join(self.VALID_TYPES)})
 

@@ -6,6 +6,8 @@ import sys
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'test_settings')
 
+DJANGO_VERSIONS="django>=1.11<2.1a"
+
 PACKAGES = [
     'web_payments',
     'web_payments.django',
@@ -13,12 +15,12 @@ PACKAGES = [
     'web_payments_dummy']
 
 REQUIREMENTS = [
-    'Django>=1.11',
     'simplejson>=3.0.0',
     'wtforms<3.0.0'
 ]
 
 TEST_REQUIREMENTS = [
+    DJANGO_VERSIONS,
     'pytest',
     'pytest-django'
 ]
@@ -27,6 +29,10 @@ VERSIONING = {
     'root': '.',
     'version_scheme': 'post-release',
     'local_scheme': 'dirty-tag',
+}
+
+EXTRAS={
+    'django':  [DJANGO_VERSIONS]
 }
 
 class PyTest(TestCommand):
@@ -59,6 +65,7 @@ setup(
       setup_requires=['setuptools_scm'],
       url='http://github.com/devkral/web-payments-connector',
       packages=PACKAGES,
+      extras_require=EXTRAS,
       include_package_data=True,
       classifiers=[
         'Environment :: Web Environment',
