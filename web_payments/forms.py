@@ -4,7 +4,8 @@ import datetime
 from wtforms import Form, validators, ValidationError
 from wtforms import StringField, DateField
 
-from .translation import gettext as _
+from .translation import translation
+_ = translation.gettext_lazy
 
 from .utils import get_credit_card_issuer
 
@@ -64,7 +65,7 @@ class CreditCardPaymentForm(PaymentForm):
         render_kw={'autocomplete': 'cc-number'})
 
     expiration = DateField(_('Expiration date (YYYY-MM):'),
-        validators=[DateValidator()]
+        validators=[DateValidator()],
         format='%Y-%m',
         render_kw={'autocomplete': 'cc-exp'})
 
