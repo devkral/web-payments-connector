@@ -49,9 +49,8 @@ class DummyProvider(BasicProvider):
             raise RedirectNeeded(payment.get_failure_url())
         return form
 
-    def process_data(self, payment, request_parsed):
-        GET, POST = request_parsed
-        verification_result = GET.get('verification_result')
+    def process_data(self, payment, request):
+        verification_result = request.GET.get('verification_result')
         if verification_result:
             payment.change_status(verification_result)
         if payment.status in [PaymentStatus.CONFIRMED, PaymentStatus.PREAUTH]:

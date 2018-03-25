@@ -3,19 +3,22 @@ This module is responsible for automatic processing of provider callback
 data (asynchronous transaction updates).
 '''
 import logging
+
+import simplejson as json
+import xmltodict
+
 from django.http import Http404, HttpResponseRedirect, HttpResponseServerError
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.db.transaction import atomic
-
-import simplejson as json
-
 try:
     from django.urls import url
 except ImportError:
     from django.conf.urls import url
+
 from . import get_payment_model
 from ..core import provider_factory
+from .. import HttpRequest
 
 
 @csrf_exempt
@@ -35,19 +38,23 @@ def process_data(request, token, provider=None):
             raise Http404('No such payment')
     try:
         # request should have some abstraction
-        # tuple (GET dict, POST content)
-        # content is tuple (content, content type) in case of xml or other
-        # content is dict in case of json or www data
+        # redefine django request as namedtuple
+        # parse most used content types correct
         if request.method == "GET":
-            reqparsed = (request.GET, None)
+            content = None
+        elif request.content_type == "application/json":
+            content = json.loads(request.content, use_decimal=True)
+        elif request.content_type == "application/x-www-form-urlencoded":
+            content = request.POST
+        # XML is really a catastrophe
+        elif request.content_type in ('application/xml', 'text/xml'):
+            # I cannot allow people to handle xml themselves
+            # You need good security know-how to handle it
+            # Why people ban explosives and use xml?
+            content = xmltodict.parse(response.content)
         else:
-            if request.content_type == "application/json":
-                content = json.loads(request.content, use_decimal=True)
-            elif request.content_type == "application/x-www-form-urlencoded":
-                content = request.POST
-            else:
-                content = (request.content, request.content_type)
-            reqparsed = (request.GET, content)
+            content = request.content
+        reqparsed = HttpRequest(request.method, request.GET, content, request.content_type)
         ret = provider.process_data(payment, reqparsed)
         if ret in (True, False, None):
             status = 200

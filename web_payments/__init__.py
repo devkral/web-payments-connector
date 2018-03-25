@@ -1,7 +1,10 @@
 from collections import namedtuple
 
 PurchasedItem = namedtuple('PurchasedItem',
-                           'name, quantity, price, currency, sku')
+                           ['name, quantity, price, currency, sku'])
+
+HttpRequest = namedtuple('HttpRequest',
+                         ['method', 'GET', 'POST', 'content_type'])
 
 default_app_config = 'web_payments.django.apps.WebPaymentsConfig'
 

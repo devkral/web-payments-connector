@@ -16,7 +16,11 @@ PACKAGES = [
 
 REQUIREMENTS = [
     'simplejson>=3.0.0',
-    'wtforms<3.0.0'
+    'wtforms<3.0.0',
+    # before some people open security holes by handling xml wrong, implement it here and give them only a dict
+    # required for xmltodict, if not given it uses the vulnerable implementation as fallback
+    'defusedxml>=0.4.1',
+    'xmltodict>=0.10.2'
 ]
 
 TEST_REQUIREMENTS = [
