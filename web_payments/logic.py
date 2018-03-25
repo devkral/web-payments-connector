@@ -162,7 +162,7 @@ class BasicProvider(object):
         self._capture = capture
 
     def get_action(self, payment):
-        return self.get_process_url(payment)
+        return payment.get_process_url()
 
     def get_form(self, payment, data=None, **kwargs):
         '''
@@ -183,9 +183,6 @@ class BasicProvider(object):
         Return payment token from provider request.
         '''
         raise NotImplementedError()
-
-    def get_process_url(self, payment, extra_data=None):
-        return payment.get_process_url(extra_data)
 
     def capture(self, payment, amount=None, final=True):
         ''' Capture a fraction of the total amount of a payment. Return amount captured or None '''
