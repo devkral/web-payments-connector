@@ -7,7 +7,7 @@ import logging
 import simplejson as json
 import xmltodict
 
-from django.http import Http404, HttpResponseRedirect, HttpResponseServerError
+from django.http import Http404, HttpResponseRedirect, HttpResponseServerError, HttpResponse
 from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.db.transaction import atomic
@@ -18,7 +18,7 @@ except ImportError:
 
 from . import get_payment_model
 from ..core import provider_factory
-from .. import HttpRequest
+from .. import HttpRequest, RedirectNeeded
 
 
 @csrf_exempt
@@ -51,7 +51,7 @@ def process_data(request, token, provider=None):
             # I cannot allow people to handle xml themselves
             # You need good security know-how to handle it
             # Why people ban explosives and use xml?
-            content = xmltodict.parse(response.content)
+            content = xmltodict.parse(request.content)
         else:
             content = request.content
         reqparsed = HttpRequest(request.method, request.GET, content, request.content_type)
@@ -69,11 +69,12 @@ def process_data(request, token, provider=None):
             return HttpResponse(content, type)
     except RedirectNeeded as exc:
         return HttpResponseRedirect(exc)
-    except Exception as exc: so just log
+    except Exception as exc:
         # for some providers this faces to the banking solution
         # log here for beeing visible
         logging.exception(exc)
         # could contain sensitive data so don't return any information
+        # so just log
         return HttpResponseServerError()
 
 @csrf_exempt
