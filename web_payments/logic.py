@@ -74,8 +74,12 @@ class BasePaymentLogic(object):
     def get_success_url(self):
         raise NotImplementedError()
 
-    def get_process_url(self):
-        raise NotImplementedError()
+    def get_process_url(self, extra_data=None):
+        url = get_base_url(self.variant)
+        if extra_data:
+            qs = urlencode(extra_data)
+            return url + '?' + qs
+        return url
 
     # needs to be implemented, see BasePaymentWithAddress for an example
     def get_shipping_address(self):
@@ -158,7 +162,7 @@ class BasicProvider(object):
         self._capture = capture
 
     def get_action(self, payment):
-        return self.get_return_url(payment)
+        return self.get_process_url(payment)
 
     def get_form(self, payment, data=None, **kwargs):
         '''
@@ -180,13 +184,8 @@ class BasicProvider(object):
         '''
         raise NotImplementedError()
 
-    def get_return_url(self, payment, extra_data=None):
-        payment_link = payment.get_process_url()
-        url = urljoin(get_base_url(payment.variant), payment_link)
-        if extra_data:
-            qs = urlencode(extra_data)
-            return url + '?' + qs
-        return url
+    def get_process_url(self, payment, extra_data=None):
+        return payment.get_process_url(extra_data)
 
     def capture(self, payment, amount=None, final=True):
         ''' Capture a fraction of the total amount of a payment. Return amount captured or None '''

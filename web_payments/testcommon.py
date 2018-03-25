@@ -49,7 +49,7 @@ def create_test_payment(**_kwargs):
         def get_failure_url(self):
             return 'http://cancel.com'
 
-        def get_process_url(self):
+        def get_process_url(self, extra_data=None):
             return 'http://example.com'
 
         def get_success_url(self):
