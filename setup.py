@@ -31,7 +31,7 @@ TEST_REQUIREMENTS = [
 
 VERSIONING = {
     'root': '.',
-    'version_scheme': 'post-release',
+    'version_scheme': 'guess-next-dev',
     'local_scheme': 'dirty-tag',
 }
 
