@@ -74,15 +74,15 @@ class BasePaymentLogic(object):
     def get_success_url(self):
         raise NotImplementedError()
 
+    def get_process_url(self):
+        raise NotImplementedError()
+
     # needs to be implemented, see BasePaymentWithAddress for an example
     def get_shipping_address(self):
         raise NotImplementedError()
 
     # needs to be implemented, see BasePaymentWithAddress for an example
     def get_billing_address(self):
-        raise NotImplementedError()
-
-    def get_process_url(self):
         raise NotImplementedError()
 
     def capture(self, amount=None, final=True):
