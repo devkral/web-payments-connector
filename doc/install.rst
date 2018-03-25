@@ -13,9 +13,9 @@ Installation
       from django.urls import include, url
 
       urlpatterns = [
-          url('^payments/', include('payments.urls'))]
+          url('^payments/', include('web_payments.urls'))]
 
-#. Define a :class:`Payment` model by subclassing :class:`payments.models.BasePayment`::
+#. Define a :class:`Payment` model by subclassing :class:`web_payments.django.models.BasePayment`::
 
       # mypaymentapp/models.py
       from decimal import Decimal
@@ -81,7 +81,7 @@ Installation
           ]
 
       PAYMENT_HOST = 'localhost:8000'
-      PAYMENT_USES_SSL = False
+      PAYMENT_PROTOCOL = "https"
       PAYMENT_MODEL = 'mypaymentapp.Payment'
       PAYMENT_VARIANTS_API = {
           'default': ('web_payments_dummy.DummyProvider', {})}

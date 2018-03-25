@@ -14,7 +14,7 @@ Capturing the payment
 ---------------------
 To capture the payment from the buyer, call the ``capture()`` method on the :class:`Payment` instance::
 
-      >>> from web_payments_dummy.core import get_payment_model
+      >>> from web_payments.core import get_payment_model
       >>> Payment = get_payment_model()
       >>> payment = Payment.objects.get()
       >>> payment.capture()

@@ -1,4 +1,4 @@
-django-payments
+web-payments-connector
 ===============
 
 Contents:

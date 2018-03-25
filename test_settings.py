@@ -9,6 +9,7 @@ TEMPLATES = [{
 
 SECRET_KEY = 'NOTREALLY'
 PAYMENT_HOST = 'example.com'
+PAYMENT_PROTOCOL = 'https'
 
 PAYMENT_VARIANTS_API = {
     'default': ('web_payments_dummy.DummyProvider', {}),
