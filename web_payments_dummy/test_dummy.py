@@ -25,26 +25,28 @@ class TestDummy3DSProvider(TestCase):
         verification_status = PaymentStatus.CONFIRMED
         request = MagicMock()
         request.GET = {'verification_result': verification_status}
-        response = provider.process_data(self.payment, request)
-        self.assertEqual(self.payment.status, verification_status)
-        self.assertEqual(response.status_code, 302)
-        self.assertEqual(response['location'], self.payment.get_success_url())
+        with self.assertRaises(RedirectNeeded) as exc:
+            provider.process_data(self.payment, request)
+            self.assertEqual(self.payment.status, verification_status)
+            self.assertEqual(exc.args[0], self.payment.get_success_url())
 
     def test_process_data_redirects_to_success_on_payment_success(self):
         self.payment.status = PaymentStatus.PREAUTH
         provider = DummyProvider()
         request = MagicMock()
         request.GET = {}
-        response = provider.process_data(self.payment, request)
-        self.assertEqual(response['location'], self.payment.get_success_url())
+        with self.assertRaises(RedirectNeeded) as exc:
+            provider.process_data(self.payment, request)
+            self.assertEqual(exc.args[0], self.payment.get_success_url())
 
     def test_process_data_redirects_to_failure_on_payment_failure(self):
         self.payment.status = PaymentStatus.REJECTED
         provider = DummyProvider()
         request = MagicMock()
         request.GET = {}
-        response = provider.process_data(self.payment, request)
-        self.assertEqual(response['location'], self.payment.get_failure_url())
+        with self.assertRaises(RedirectNeeded) as exc:
+            provider.process_data(self.payment, request)
+            self.assertEqual(exc.args[0], self.payment.get_failure_url())
 
     def test_provider_supports_non_3ds_transactions(self):
         provider = DummyProvider()
