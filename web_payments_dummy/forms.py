@@ -15,7 +15,7 @@ class DummyForm(PaymentForm):
     status = SelectField(choices=PaymentStatus.CHOICES, validators=[validators.Required()])
     fraud_status = SelectField(choices=FraudStatus.CHOICES, validators=[validators.Required()])
     gateway_response = SelectField(choices=RESPONSE_CHOICES, validators=[validators.Required()])
-    verification_result = SelectField(choices=PaymentStatus.CHOICES)
+    verification_result = SelectField(choices=PaymentStatus.CHOICES+[("", "")])
 
     def validate(self):
         if self.gateway_response.data == '3ds-redirect' and not self.verification_result.data:

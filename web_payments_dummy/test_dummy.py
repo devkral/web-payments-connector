@@ -65,7 +65,8 @@ class TestDummy3DSProvider(TestCase):
         data = {
             'status': PaymentStatus.WAITING,
             'fraud_status': FraudStatus.UNKNOWN,
-            'gateway_response': '3ds-redirect'}
+            'gateway_response': '3ds-redirect'
+        }
 
         form = provider.get_form(self.payment, data)
         self.assertFalse(form.validate())
@@ -94,6 +95,7 @@ class TestDummy3DSProvider(TestCase):
             'gateway_response': 'failure',
             'verification_result': ''
         }
+
         with self.assertRaises(URLError):
             provider.get_form(self.payment, data)
 
@@ -105,6 +107,7 @@ class TestDummy3DSProvider(TestCase):
             'gateway_response': '3ds-disabled',
             'verification_result': ''
         }
+
         with self.assertRaises(RedirectNeeded) as exc:
             provider.get_form(self.payment, data)
             self.assertEqual(exc.args[0], self.payment.get_success_url())
@@ -117,6 +120,7 @@ class TestDummy3DSProvider(TestCase):
             'gateway_response': '3ds-disabled',
             'verification_result': ''
         }
+
         with self.assertRaises(RedirectNeeded) as exc:
             provider.get_form(self.payment, data)
             self.assertEqual(exc.args[0], self.payment.get_failure_url())
@@ -129,6 +133,7 @@ class TestDummy3DSProvider(TestCase):
             'gateway_response': 'payment-error',
             'verification_result': ''
         }
+
         with self.assertRaises(PaymentError):
             provider.get_form(self.payment, data)
 
