@@ -8,6 +8,8 @@ from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.db.transaction import atomic
 
+import simplejson as json
+
 try:
     from django.urls import url
 except ImportError:
@@ -33,11 +35,19 @@ def process_data(request, token, provider=None):
             raise Http404('No such payment')
     try:
         # request should have some abstraction
-        # tuple (GET dict, content, content type)
+        # tuple (GET dict, POST content)
+        # content is tuple (content, content type) in case of xml or other
+        # content is dict in case of json or www data
         if request.method == "GET":
-            reqparsed = (request.GET, None, None)
+            reqparsed = (request.GET, None)
         else:
-            reqparsed = (request.GET, request.content, request.content_type)
+            if request.content_type == "application/json":
+                content = json.loads(request.content, use_decimal=True)
+            elif request.content_type == "application/x-www-form-urlencoded":
+                content = request.POST
+            else:
+                content = (request.content, request.content_type)
+            reqparsed = (request.GET, content)
         ret = provider.process_data(payment, reqparsed)
         if ret in (True, False, None):
             status = 200

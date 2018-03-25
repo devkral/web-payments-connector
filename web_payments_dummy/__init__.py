@@ -50,7 +50,7 @@ class DummyProvider(BasicProvider):
         return form
 
     def process_data(self, payment, request_parsed):
-        GET = request_parsed[0]
+        GET, POST = request_parsed
         verification_result = GET.get('verification_result')
         if verification_result:
             payment.change_status(verification_result)
