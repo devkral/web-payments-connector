@@ -5,7 +5,6 @@ from .core import get_language
 
 web_payments_translation_path = os.path.join(os.path.dirname(__file__), "locale")
 
-@functools.total_ordering
 class _lazy_constant(object):
     def __init__(self, func, *args, **kwargs):
         self.func = functools.partial(func, *args, **kwargs)
@@ -13,10 +12,22 @@ class _lazy_constant(object):
         functools.update_wrapper(self, func)
 
     def __eq__(self, obj):
-        return self.func() == obj
+        return self.func().__eq__(obj)
+
+    def __ne__(self, obj):
+        return self.func().__ne__(obj)
 
     def __lt__(self, obj):
-        return self.func() < obj
+        return self.func().__lt__(obj)
+
+    def __le__(self, obj):
+        return self.func().__le__(obj)
+
+    def __gt__(self, obj):
+        return self.func().__gt__(obj)
+
+    def __ge__(self, obj):
+        return self.func().__ge__(obj)
 
     def __str__(self):
         return self.func()
