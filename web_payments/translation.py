@@ -1,9 +1,31 @@
 import os
 import gettext
 import functools
-from .core import get_language
+import threading
 
 web_payments_translation_path = os.path.join(os.path.dirname(__file__), "locale")
+
+
+tlocal = threading.local()
+tlocal.current_language = "en"
+
+def set_language(lang):
+    '''
+    Set language. Default implementation
+    Note: if get_language is overwritten this method should be also overwritten
+    or not used
+    Note: loading with django overwrites this method if not initialized
+    '''
+    tlocal.current_language = lang
+
+def get_language():
+    '''
+    Get language. For translations.
+    Default implementation can be overwritten.
+    Note: if set_language is overwritten this method should be also overwritten
+    Note: loading with django overwrites this method if not initialized
+    '''
+    return tlocal.current_language
 
 class _lazy_constant(object):
     def __init__(self, func, *args, **kwargs):

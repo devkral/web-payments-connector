@@ -4,7 +4,7 @@ from urllib.parse import urlencode, urljoin
 import simplejson as json
 
 from . import NotSupported
-from .status import FraudStatus, PaymentStatus
+from . import FraudStatus, PaymentStatus
 from .core import provider_factory, get_base_url
 
 class PaymentAttributeProxy(object):

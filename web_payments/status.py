@@ -1,6 +1,8 @@
 from .translation import translation
 _ = translation.gettext_lazy
 
+#may better include from web_payments
+__all__ = []
 
 class PaymentStatus:
     WAITING = 'waiting'

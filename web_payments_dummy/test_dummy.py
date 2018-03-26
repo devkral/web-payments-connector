@@ -6,7 +6,7 @@ from unittest.mock import MagicMock
 
 from . import DummyProvider
 from web_payments import PaymentError, RedirectNeeded
-from web_payments.status import FraudStatus, PaymentStatus
+from web_payments import FraudStatus, PaymentStatus
 from web_payments.testcommon import create_test_payment
 
 VARIANT = 'dummy-3ds'

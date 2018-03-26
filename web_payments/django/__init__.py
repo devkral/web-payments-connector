@@ -2,9 +2,9 @@ from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 # apps clash with 'apps' of module so import as django_apps
 from django.apps import apps as django_apps
-from django.utils import translation
+from django.utils import translation as django_translation
 
-from .. import core
+from .. import core, translation
 
 default_app_config = 'web_payments.django.apps.WebPaymentsConfig'
 
@@ -70,6 +70,6 @@ def load_settings(initialize=None):
     if initialize:
         core.get_payment_model = get_payment_model
         core.get_base_url = get_base_url
-        core.get_language = translation.get_language
-        core.set_language = translation.activate
+        translation.get_language = django_translation.get_language
+        translation.set_language = django_translation.activate
         core.is_initialized = True

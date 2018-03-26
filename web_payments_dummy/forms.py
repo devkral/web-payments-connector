@@ -2,7 +2,7 @@
 from wtforms import SelectField, ValidationError, validators
 
 from web_payments.forms import PaymentForm
-from web_payments.status import FraudStatus, PaymentStatus
+from web_payments import FraudStatus, PaymentStatus
 
 
 class DummyForm(PaymentForm):
