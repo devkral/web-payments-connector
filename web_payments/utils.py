@@ -2,13 +2,16 @@ import re
 
 __all__ = ["split_streetnr", "getter_prefixed_address", "CARD_TYPES", "get_credit_card_issuer"]
 
-_extract_streetnr = re.compile(r"([0-9]+)\s*$")
+_extract_streetnr = re.compile(r"([0-9]+)$")
 def split_streetnr(address, fallback=None):
+    address = address.strip()
+    # to prevent regex attacks, limit to 15 chars
     ret = _extract_streetnr.search(address[-15:])
     if ret:
-        return address[:(ret.start()-15)].strip(), ret.group(0)
+        # use rstrip because left side is stripped already
+        return address[:(ret.start()-15)].rstrip(), ret.group(0)
     else:
-        return address.strip(), fallback
+        return address, fallback
 
 def getter_prefixed_address(prefix):
     """ create getter for prefixed address format """
