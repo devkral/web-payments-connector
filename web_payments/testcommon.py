@@ -1,14 +1,16 @@
 
 from datetime import datetime
 from decimal import Decimal
-from .logic import BasePaymentLogic
+from .logic import BasicPayment
 from . import PaymentStatus
 from . import PurchasedItem
 from .utils import getter_prefixed_address
 from unittest.mock import Mock
 
+__all__ = ["create_test_payment"]
+
 def create_test_payment(**_kwargs):
-    class TestPayment(Mock, BasePaymentLogic):
+    class TestPayment(Mock, BasicPayment):
         id = 523
         pk = id
         description = 'payment'

@@ -7,6 +7,8 @@ from . import NotSupported
 from . import FraudStatus, PaymentStatus
 from .core import provider_factory, get_base_url
 
+__all__ = ["BasicPayment", "BasicProvider"]
+
 class PaymentAttributeProxy(object):
 
     def __init__(self, payment):
@@ -30,8 +32,7 @@ class PaymentAttributeProxy(object):
         data[key] = value
         self._payment.extra_data = json.dumps(data, use_decimal=True)
 
-
-class BasePaymentLogic(object):
+class BasicPayment(object):
     """ Logic of a Payment object, e.g. for tests """
 
     def change_status(self, status, message=''):
@@ -149,6 +150,9 @@ class BasePaymentLogic(object):
     @property
     def attrs(self):
         return PaymentAttributeProxy(self)
+
+BasePaymentLogic = BasicPayment
+
 
 class BasicProvider(object):
     '''

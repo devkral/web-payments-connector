@@ -32,7 +32,7 @@ class TestProviderFactory(TestCase):
         self.assertRaises(ValueError, core.provider_factory, 'fake_provider')
 
 
-class TestBasePayment(TestCase):
+class TestBasicPayment(TestCase):
 
     def test_payment_attributes(self):
         payment = BasePayment(

@@ -1,5 +1,6 @@
-import re
 from . import NotInitialized
+
+__all__ = ["PAYMENT_VARIANTS_API", "get_base_url", "get_payment_model", "provider_factory"]
 
 is_initialized = False
 
@@ -9,11 +10,18 @@ PAYMENT_VARIANTS_API = {
     'default': ('web_payments_dummy.DummyProvider', {})}
 
 def get_base_url(variant=None):
+    '''
+    """
+    Returns host url according to project settings.
+    Overwrite if not using django or overwrite get_process_url in Payment
+    """
+    '''
     raise NotInitialized()
 
 def get_payment_model():
     '''
     Return the Payment model of default backend
+    Overwrite if not using django
     '''
     raise NotInitialized()
 

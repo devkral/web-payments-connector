@@ -2,6 +2,7 @@
 import html
 from wtforms import widgets, Field
 
+__all__ = ["TextField"]
 
 class PlainTextWidget(object):
     """
