@@ -1,5 +1,5 @@
 from uuid import uuid4
-from urllib.parse import urlencode, urljoin
+from urllib.parse import urlencode
 
 import simplejson as json
 
@@ -8,6 +8,7 @@ from . import FraudStatus, PaymentStatus
 from .core import provider_factory, get_base_url
 
 __all__ = ["BasicPayment", "BasicProvider"]
+
 
 class PaymentAttributeProxy(object):
 
@@ -150,6 +151,7 @@ class BasicPayment(object):
     @property
     def attrs(self):
         return PaymentAttributeProxy(self)
+
 
 BasePaymentLogic = BasicPayment
 
