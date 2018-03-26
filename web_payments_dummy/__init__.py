@@ -1,12 +1,13 @@
 
 from urllib.error import URLError
 from urllib.parse import urlencode
-from django.http import HttpResponseRedirect
 
 from .forms import DummyForm
 from web_payments import PaymentError, RedirectNeeded
 from web_payments import PaymentStatus
 from web_payments.logic import BasicProvider
+
+__all__ = ["DummyProvider"]
 
 class DummyProvider(BasicProvider):
     '''

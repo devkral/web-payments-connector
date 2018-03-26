@@ -5,9 +5,6 @@ from decimal import Decimal
 
 from django.conf import settings
 from django.db import models
-from ..translation import translation
-_ = translation.gettext_lazy
-
 
 try:
     from django.urls import reverse
@@ -19,6 +16,10 @@ from ..logic import BasicPayment
 from .signals import status_changed
 from .utils import add_prefixed_address
 from ..utils import getter_prefixed_address
+from ..translation import translation
+_ = translation.gettext_lazy
+
+__all__ = ["BasePayment", "BasePaymentWithAddress"]
 
 class BasePayment(models.Model, BasicPayment):
     '''

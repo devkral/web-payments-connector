@@ -1,8 +1,9 @@
-
 from .forms import OrderIdForm, IBANBankingForm
 from web_payments import RedirectNeeded, NotSupported
 from web_payments.status import PaymentStatus
 from web_payments.logic import BasicProvider
+
+__all__ = ["DirectPaymentProvider", "BankTransferProvider"]
 
 class DirectPaymentProvider(BasicProvider):
     '''

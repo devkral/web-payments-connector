@@ -1,10 +1,10 @@
-
-
 from wtforms import StringField, ValidationError
 from web_payments.fields import TextField
 from web_payments.forms import PaymentForm
 from .translation import translation
 _ = translation.gettext_lazy
+
+__all__ = ["OrderIdForm", "IBANBankingForm"]
 
 class OrderIdForm(PaymentForm):
     # only shown, return is ignored
