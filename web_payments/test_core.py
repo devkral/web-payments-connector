@@ -3,11 +3,25 @@ from unittest import TestCase
 from unittest.mock import patch, NonCallableMock
 
 from . import core
-from .status import PaymentStatus
+from .status import PaymentStatus, FraudStatus
 from .forms import CreditCardPaymentFormWithName, PaymentForm
+from .translation import translation
 from .testcommon import create_test_payment
 
 BasePayment = create_test_payment()
+
+class TestTranslation(TestCase):
+    CHOICES_PaymentStatus = ['Waiting for confirmation', 'Pre-authorized','Confirmed', 'Rejected','Refunded','Error','Input']
+
+    def test_translation(self):
+        old_lang = core.get_language()
+        for i in ["en", "ru", "it"]:
+            core.set_language(i)
+            self.assertEqual(core.get_language(), i)
+            for count, val in enumerate(PaymentStatus.CHOICES):
+                self.assertEqual(val[1], translation.gettext(self.CHOICES_PaymentStatus[count]))
+        core.set_language(old_lang)
+
 
 class TestProviderFactory(TestCase):
 

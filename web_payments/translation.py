@@ -1,10 +1,25 @@
 import os
 import gettext
-from functools import partial, lru_cache
+import functools
 from .core import get_language
 
 web_payments_translation_path = os.path.join(os.path.dirname(__file__), "locale")
 
+@functools.total_ordering
+class _lazy_constant(object):
+    def __init__(self, func, *args, **kwargs):
+        self.func = functools.partial(func, *args, **kwargs)
+        # skip partial, provide func
+        functools.update_wrapper(self, func)
+
+    def __eq__(self, obj):
+        return self.func() == obj
+
+    def __lt__(self, obj):
+        return self.func() < obj
+
+    def __str__(self):
+        return self.func()
 
 class Translation(object):
     _fallback = None
@@ -18,7 +33,7 @@ class Translation(object):
         else:
             self._fallback = []
 
-    @lru_cache(typed=True)
+    @functools.lru_cache(typed=True)
     def _trans(self, lang):
         return gettext.translation("web_payments", self.translation_path, [lang]+self._fallback, fallback=True)
 
@@ -34,9 +49,9 @@ class Translation(object):
         return self.trans(cur_lang).ngettext(msg, msgplural, n)
 
     def gettext_lazy(self, msg, cur_lang=None):
-        return partial(self.gettext, msg, cur_lang)
+        return _lazy_constant(self.gettext, msg, cur_lang)
 
     def ngettext_lazy(self, msg, msgplural, n, cur_lang=None):
-        return partial(self.ngettext, msg, msgplural, n, cur_lang)
+        return _lazy_constant(self.ngettext, msg, msgplural, n, cur_lang)
 
 translation = Translation(web_payments_translation_path, domain="web_payments")
