@@ -43,11 +43,15 @@ class BasePayment(models.Model, BasicPayment):
     #: Currency code (may be provider-specific)
     currency = models.CharField(max_length=10)
 
+    #: description of transaction
     description = models.TextField(blank=True, default='')
-    billing_email = models.EmailField(blank=True)
-    customer_ip_address = models.GenericIPAddressField(blank=True, null=True)
-    extra_data = models.TextField(blank=True, default='')
+    #: message for customer
     message = models.TextField(blank=True, default='')
+    #ip address of customer, Note: removed (against privacy law (at least in EU))
+    ###customer_ip_address = models.GenericIPAddressField(blank=True, null=True)
+    #: for attrs pseudo dict
+    extra_data = models.TextField(blank=True, default='')
+    #: secret token (for get_process_url)
     token = models.CharField(max_length=36, blank=True, default='')
 
     #: Total amount (gross)

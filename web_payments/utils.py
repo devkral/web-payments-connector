@@ -16,6 +16,7 @@ def getter_prefixed_address(prefix):
     last_name = "{}_last_name".format(prefix)
     address_1 = "{}_address_1".format(prefix)
     address_2 = "{}_address_2".format(prefix)
+    email = "{}_email".format(prefix)
     city = "{}_city".format(prefix)
     postcode = "{}_postcode".format(prefix)
     country_code = "{}_country_code".format(prefix)
@@ -26,10 +27,12 @@ def getter_prefixed_address(prefix):
             "last_name": getattr(self, last_name, None),
             "address_1": getattr(self, address_1, None),
             "address_2": getattr(self, address_2, None),
+            "email": getattr(self, email, None),
             "city": getattr(self, city, None),
             "postcode": getattr(self, postcode, None),
             "country_code": getattr(self, country_code, None),
-            "country_area": getattr(self, country_area, None)}
+            "country_area": getattr(self, country_area, None)
+        }
     return _get_address
 
 
