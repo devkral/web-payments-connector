@@ -29,6 +29,7 @@ def get_payment_model():
         raise ImproperlyConfigured(msg)
     return payment_model
 
+
 def get_base_url(variant=None):
     """
     Returns host url according to project settings. Protocol is chosen by
@@ -50,7 +51,6 @@ def get_base_url(variant=None):
     return '%s://%s' % (protocol, domain)
 
 
-
 def load_settings(initialize=None):
     ''' loads settings and sets functions, required for initialization
         default: initialize only if not initialized
@@ -62,14 +62,11 @@ def load_settings(initialize=None):
     if getattr(settings, "PAYMENT_VARIANTS_API", None):
         core.PAYMENT_VARIANTS_API = settings.PAYMENT_VARIANTS_API
 
-
     PAYMENT_HOST = getattr(settings, 'PAYMENT_HOST', None)
     if not PAYMENT_HOST:
         if 'django.contrib.sites' not in settings.INSTALLED_APPS:
             raise ImproperlyConfigured('The PAYMENT_HOST setting without '
                                        'the sites app must not be empty.')
-        # if import not possible, crash here
-        from django.contrib.sites.models import Site
 
     if initialize:
         core.get_payment_model = get_payment_model
