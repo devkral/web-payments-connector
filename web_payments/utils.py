@@ -37,17 +37,17 @@ def getter_prefixed_address(prefix):
 
 
 CARD_TYPES = [
-    (r'^4[0-9]{12}(?:[0-9]{3})?$', 'visa', 'VISA'),
-    (r'^5[1-5][0-9]{14}$', 'mastercard', 'MasterCard'),
-    (r'^6(?:011|5[0-9]{2})[0-9]{12}$', 'discover', 'Discover'),
-    (r'^3[47][0-9]{13}$', 'amex', 'American Express'),
-    (r'^(?:(?:2131|1800|35\d{3})\d{11})$', 'jcb', 'JCB'),
-    (r'^(?:3(?:0[0-5]|[68][0-9])[0-9]{11})$', 'diners', 'Diners Club'),
-    (r'^(?:5[0678]\d\d|6304|6390|67\d\d)\d{8,15}$', 'maestro', 'Maestro')]
+    (re.compile(r'^4[0-9]{12}(?:[0-9]{3})?$'), 'visa', 'VISA'),
+    (re.compile(r'^5[1-5][0-9]{14}$'), 'mastercard', 'MasterCard'),
+    (re.compile(r'^6(?:011|5[0-9]{2})[0-9]{12}$'), 'discover', 'Discover'),
+    (re.compile(r'^3[47][0-9]{13}$'), 'amex', 'American Express'),
+    (re.compile(r'^(?:(?:2131|1800|35\d{3})\d{11})$'), 'jcb', 'JCB'),
+    (re.compile(r'^(?:3(?:0[0-5]|[68][0-9])[0-9]{11})$'), 'diners', 'Diners Club'),
+    (re.compile(r'^(?:5[0678]\d\d|6304|6390|67\d\d)\d{8,15}$'), 'maestro', 'Maestro')]
 
 
 def get_credit_card_issuer(number):
-    for regexp, card_type, name in CARD_TYPES:
-        if re.match(regexp, number):
+    for reg, card_type, name in CARD_TYPES:
+        if reg.match(number):
             return card_type, name
     return None, None
