@@ -37,7 +37,6 @@ def create_test_payment(**_kwargs):
         billing_country_code = "US"
         billing_country_area = "Tennessee"
         billing_email = "example@example.com"
-        customer_ip_address = "192.78.6.6"
 
         get_billing_address = getter_prefixed_address("billing")
         get_shipping_address = get_billing_address
