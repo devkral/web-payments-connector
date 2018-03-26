@@ -77,6 +77,7 @@ def process_data(request, token, provider=None):
         # so just log
         return HttpResponseServerError()
 
+
 @csrf_exempt
 @atomic
 def static_callback(request, variant):

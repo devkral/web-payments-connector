@@ -1,9 +1,6 @@
 
-import json
-from uuid import uuid4
 from decimal import Decimal
 
-from django.conf import settings
 from django.db import models
 
 try:
@@ -20,6 +17,7 @@ from ..translation import translation
 _ = translation.gettext_lazy
 
 __all__ = ["BasePayment", "BasePaymentWithAddress"]
+
 
 class BasePayment(models.Model, BasicPayment):
     '''
@@ -68,7 +66,6 @@ class BasePayment(models.Model, BasicPayment):
     class Meta:
         abstract = True
 
-
     def signal_status_change(self):
         status_changed.send(sender=type(self), instance=self)
 
@@ -82,6 +79,7 @@ class BasePayment(models.Model, BasicPayment):
     def save(self, **kwargs):
         self.create_token()
         return models.Model.save(self, **kwargs)
+
 
 @add_prefixed_address("billing")
 class BasePaymentWithAddress(BasePayment):
