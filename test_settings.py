@@ -12,11 +12,11 @@ PAYMENT_HOST = 'example.com'
 PAYMENT_PROTOCOL = 'https'
 
 PAYMENT_VARIANTS_API = {
-    'default': ('web_payments_dummy.DummyProvider', {}),
-    'direct': ('web_payments_externalpayments.DirectPaymentProvider', {}),
+    'default': ('web_payments_dummy.DummyProvider', {}, {}),
+    'direct': ('web_payments_externalpayments.DirectPaymentProvider', {}, {}),
     'iban': ('web_payments_externalpayments.BankTransferProvider', {
         "iban": "GL5604449876543210",
-        "bic": "DABAIE2D"}
+        "bic": "DABAIE2D"}, {}
         ),
     }
 

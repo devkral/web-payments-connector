@@ -1,9 +1,10 @@
 from django.apps import AppConfig
-from .. import core
+from django.conf import settings
 
 class WebPaymentsConfig(AppConfig):
     name = 'web_payments'
     def ready(self):
-        if not core.is_initialized:
-            from . import load_settings
-            load_settings()
+        from . import initialize, get_payment_model
+        initialize()
+        if getattr(settings, "DEBUG", False):
+            get_payment_model().load_providers()

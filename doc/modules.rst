@@ -12,4 +12,4 @@ Dummy
 Example::
 
       PAYMENT_VARIANTS_API = {
-          'dummy': ('web_payments_dummy.DummyProvider', {})}
+          'dummy': ('web_payments_dummy.DummyProvider', {}, {})}

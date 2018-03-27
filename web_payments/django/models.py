@@ -1,14 +1,16 @@
 
 from decimal import Decimal
+from urllib.parse import urlencode, urljoin
 
 from django.db import models
+from django.conf import settings
 
 try:
     from django.urls import reverse
 except ImportError:
     from django.core.urlresolvers import reverse
 
-from .. import FraudStatus, PaymentStatus
+from .. import FraudStatus, PaymentStatus, ProviderVariant
 from ..logic import BasicPayment
 from .signals import status_changed
 from .utils import add_prefixed_address
@@ -69,12 +71,29 @@ class BasePayment(models.Model, BasicPayment):
     def signal_status_change(self):
         status_changed.send(sender=type(self), instance=self)
 
+    def get_process_url(self, extra_data=None):
+        url = reverse('process_payment', kwargs={'token': self.token})
+        url = urljoin(get_base_url(self.provider), url)
+        if extra_data:
+            qs = urlencode(extra_data)
+            return url + '?' + qs
+        return url
+
+    @classmethod
+    def list_providers(cls, **_kwargs):
+        """ returns an iterable with ProviderVariants """
+        def _helper(item):
+            return ProviderVariant(item[1][0], item[1][1], {"name": item[0]}.update(item[1][2]))
+        return map(_helper, settings.PAYMENT_VARIANTS_API.items())
+
+    def get_provider_variant(self):
+        t = settings.PAYMENT_VARIANTS_API[self.variant]
+        variant = ProviderVariant(t[0], t[1], {"name": self.variant}.update(t[2]))
+        return variant
+
     @classmethod
     def check_token_exists(cls, token):
         return cls._default_manager.filter(token=token).exists()
-
-    def get_process_url(self):
-        return reverse('process_payment', kwargs={'token': self.token})
 
     def save(self, **kwargs):
         self.create_token()

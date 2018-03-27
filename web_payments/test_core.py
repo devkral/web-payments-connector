@@ -2,7 +2,7 @@ from decimal import Decimal
 from unittest import TestCase
 from unittest.mock import patch, NonCallableMock
 
-from . import core
+from . import provider_factory
 from . import PaymentStatus, FraudStatus
 from .forms import CreditCardPaymentFormWithName, PaymentForm
 from . import translation
@@ -26,10 +26,15 @@ class TestTranslation(TestCase):
 class TestProviderFactory(TestCase):
 
     def test_provider_factory(self):
-        core.provider_factory('default')
+        payment = BasePayment(variant="DummyProvider")
+        self.assertEqual(payment.provider, provider_factory(payment.get_provider_variant()))
+        payment = BasePayment(variant="iban")
+        self.assertEqual(payment.provider, provider_factory(payment.get_provider_variant()))
 
     def test_provider_does_not_exist(self):
-        self.assertRaises(ValueError, core.provider_factory, 'fake_provider')
+        payment = BasePayment(variant="fake_provider")
+        with self.assertRaises(ValueError):
+            payment.provider
 
 
 class TestBasicPayment(TestCase):

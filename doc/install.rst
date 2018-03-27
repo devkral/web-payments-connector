@@ -84,7 +84,7 @@ Installation
       PAYMENT_PROTOCOL = "https"
       PAYMENT_MODEL = 'mypaymentapp.Payment'
       PAYMENT_VARIANTS_API = {
-          'default': ('web_payments_dummy.DummyProvider', {})}
+          'default': ('web_payments_dummy.DummyProvider', {}, {"name": "default", "icon": "ll"})}
 
    Variants are named pairs of payment providers and their configuration.
 

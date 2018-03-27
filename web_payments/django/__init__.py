@@ -4,10 +4,10 @@ from django.core.exceptions import ImproperlyConfigured
 from django.apps import apps as django_apps
 from django.utils import translation as django_translation
 
-from .. import core, translation
+from .. import translation
 
 
-__all__ = ["get_base_url", "get_payment_model", "load_settings"]
+__all__ = ["get_base_url", "get_payment_model", "initialize"]
 
 default_app_config = 'web_payments.django.apps.WebPaymentsConfig'
 
@@ -30,7 +30,7 @@ def get_payment_model():
     return payment_model
 
 
-def get_base_url(variant=None):
+def get_base_url(provider=None):
     """
     Returns host url according to project settings. Protocol is chosen by
     PAYMENT_PROTOCOL variable.
@@ -45,32 +45,13 @@ def get_base_url(variant=None):
         current_site = Site.objects.get_current()
         domain = current_site.domain
     elif callable(PAYMENT_HOST):
-        domain = PAYMENT_HOST(variant)
+        domain = PAYMENT_HOST(provider)
     else:
         domain = PAYMENT_HOST
     return '%s://%s' % (protocol, domain)
 
 
-def load_settings(initialize=None):
-    ''' loads settings and sets functions, required for initialization
-        default: initialize only if not initialized
-     '''
-
-    if initialize is None:
-        initialize = not core.is_initialized
-
-    if getattr(settings, "PAYMENT_VARIANTS_API", None):
-        core.PAYMENT_VARIANTS_API = settings.PAYMENT_VARIANTS_API
-
-    PAYMENT_HOST = getattr(settings, 'PAYMENT_HOST', None)
-    if not PAYMENT_HOST:
-        if 'django.contrib.sites' not in settings.INSTALLED_APPS:
-            raise ImproperlyConfigured('The PAYMENT_HOST setting without '
-                                       'the sites app must not be empty.')
-
-    if initialize:
-        core.get_payment_model = get_payment_model
-        core.get_base_url = get_base_url
-        translation.get_language = django_translation.get_language
-        translation.set_language = django_translation.activate
-        core.is_initialized = True
+def initialize():
+    ''' overwrites get/set language with django equivalents '''
+    translation.get_language = django_translation.get_language
+    translation.set_language = django_translation.activate

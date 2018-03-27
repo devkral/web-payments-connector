@@ -1,11 +1,8 @@
 from uuid import uuid4
-from urllib.parse import urlencode
 
 import simplejson as json
 
-from . import NotSupported
-from . import FraudStatus, PaymentStatus
-from .core import provider_factory, get_base_url
+from . import NotSupported, FraudStatus, PaymentStatus, ProviderVariant, provider_factory
 
 __all__ = ["BasicPayment", "BasicProvider"]
 
@@ -13,8 +10,10 @@ __all__ = ["BasicPayment", "BasicProvider"]
 class PaymentAttributeProxy(object):
 
     def __init__(self, payment):
+        super().__init__()
         self._payment = payment
-        super(PaymentAttributeProxy, self).__init__()
+        # replace
+        #payment.__dict__["attrs"] = self
 
     def __getattr__(self, item):
         data = json.loads(self._payment.extra_data or '{}')
@@ -25,7 +24,7 @@ class PaymentAttributeProxy(object):
 
     def __setattr__(self, key, value):
         if key == '_payment':
-            return super(PaymentAttributeProxy, self).__setattr__(key, value)
+            return super().__setattr__(key, value)
         try:
             data = json.loads(self._payment.extra_data, use_decimal=True)
         except ValueError:
@@ -34,7 +33,7 @@ class PaymentAttributeProxy(object):
         self._payment.extra_data = json.dumps(data, use_decimal=True)
 
 class BasicPayment(object):
-    """ Logic of a Payment object, e.g. for tests """
+    """ Logic of a Payment object, basis for implementations """
 
     def change_status(self, status, message=''):
         '''
@@ -64,24 +63,54 @@ class BasicPayment(object):
         return self.variant
 
     def get_form(self, data=None, **kwargs):
-        provider = provider_factory(self.variant)
-        return provider.get_form(self, data=data, **kwargs)
+        return self.provider.get_form(self, data=data, **kwargs)
 
     def get_purchased_items(self):
         return []
 
     def get_failure_url(self):
+        """
+            url where customer should be redirected if payment had an error
+        """
         raise NotImplementedError()
 
     def get_success_url(self):
+        """
+            url where customer should be redirected if payment was successful
+        """
         raise NotImplementedError()
 
     def get_process_url(self, extra_data=None):
-        url = get_base_url(self.variant)
-        if extra_data:
-            qs = urlencode(extra_data)
-            return url + '?' + qs
-        return url
+        """
+            returns a communication url, should kept secret
+            except if provider communication is with customer
+        """
+        raise NotImplementedError()
+
+    @classmethod
+    def list_providers(cls, **_kwargs):
+        """ returns an iterable with ProviderVariants """
+        raise NotImplementedError()
+
+    def get_provider_variant(self):
+        """ return ProviderVariant for this payment object """
+        raise NotImplementedError()
+
+    @property
+    def provider(self):
+        """ returns provider object """
+        try:
+            return provider_factory(self.get_provider_variant())
+        except (KeyError, AttributeError) as exc:
+            raise ValueError("Payment has invalid provider") from exc
+
+    @classmethod
+    def load_providers(cls):
+        """ Load all providers in cache
+            Also useful method to check if all providers are valid
+        """
+        for i in cls.list_providers():
+            provider_factory(i)
 
     # needs to be implemented, see BasePaymentWithAddress for an example
     def get_shipping_address(self):
@@ -96,8 +125,7 @@ class BasicPayment(object):
         if self.status != PaymentStatus.PREAUTH:
             raise ValueError(
                 'Only pre-authorized payments can be captured.')
-        provider = provider_factory(self.variant)
-        amount = provider.capture(self, amount, final)
+        amount = self.provider.capture(self, amount, final)
         if amount:
             self.captured_amount += amount
             if final:
@@ -109,8 +137,7 @@ class BasicPayment(object):
         if self.status != PaymentStatus.PREAUTH:
             raise ValueError(
                 'Only pre-authorized payments can be released.')
-        provider = provider_factory(self.variant)
-        provider.release(self)
+        self.provider.release(self)
         self.change_status(PaymentStatus.REFUNDED)
 
     def refund(self, amount=None):
@@ -122,8 +149,7 @@ class BasicPayment(object):
             if amount > self.captured_amount:
                 raise ValueError(
                     'Refund amount can not be greater then captured amount')
-        provider = provider_factory(self.variant)
-        amount = provider.refund(self, amount)
+        amount = self.provider.refund(self, amount)
         if amount:
             self.captured_amount -= amount
             if self.captured_amount == 0 and self.status != PaymentStatus.REFUNDED:
@@ -133,6 +159,7 @@ class BasicPayment(object):
 
     @classmethod
     def check_token_exists(cls, token):
+        ''' create token for process_url '''
         return False
 
     def create_token(self):
@@ -151,6 +178,10 @@ class BasicPayment(object):
     @property
     def attrs(self):
         return PaymentAttributeProxy(self)
+
+    def save(self, **kwargs):
+        ''' save model implementation dependant '''
+        raise NotImplementedError()
 
 
 BasePaymentLogic = BasicPayment
@@ -200,8 +231,4 @@ class BasicProvider(object):
 
     def refund(self, payment, amount=None):
         ''' Refund payment, return amount which was refunded '''
-        raise NotImplementedError()
-
-    def save(self, **kwargs):
-        ''' save model implementation dependant '''
         raise NotImplementedError()

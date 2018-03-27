@@ -2,15 +2,25 @@
 from datetime import datetime
 from decimal import Decimal
 from .logic import BasicPayment
-from . import PaymentStatus
-from . import PurchasedItem
+from . import PaymentStatus, PurchasedItem, ProviderVariant, provider_factory
 from .utils import getter_prefixed_address
-from unittest.mock import Mock
+from functools import partial
+from unittest import mock
 
 __all__ = ["create_test_payment"]
 
-def create_test_payment(**_kwargs):
-    class TestPayment(Mock, BasicPayment):
+PAYMENT_VARIANTS_API = {
+    'default': ('web_payments_dummy.DummyProvider', {}, {}),
+    'DummyProvider': ('web_payments_dummy.DummyProvider', {}, {}),
+    'DirectPaymentProvider': ('web_payments_externalpayments.DirectPaymentProvider', {}, {}),
+    'iban': ('web_payments_externalpayments.BankTransferProvider', {
+        "iban": "GL5604449876543210",
+        "bic": "DABAIE2D"}, {"name": "iban"}
+        ),
+    }
+
+def create_test_payment(PAYMENT_VARIANTS_API=PAYMENT_VARIANTS_API, **attributes):
+    class TestPayment(BasicPayment):
         id = 523
         pk = id
         description = 'payment'
@@ -41,11 +51,26 @@ def create_test_payment(**_kwargs):
         get_billing_address = getter_prefixed_address("billing")
         get_shipping_address = get_billing_address
 
+        def __init__(self, **kwargs):
+            for key, val in kwargs.items():
+                setattr(self, key, val)
+
         def get_purchased_items(self):
             return [
                 PurchasedItem(
                     name='foo', quantity=10, price=Decimal('20'),
                     currency='USD', sku='bar')]
+
+        @classmethod
+        def list_providers(cls, **_kwargs):
+            """ returns an iterable with ProviderVariants """
+            return map(lambda item: ProviderVariant(*item[1]), PAYMENT_VARIANTS_API.items())
+
+        def get_provider_variant(self):
+            variant_tup = PAYMENT_VARIANTS_API[self.variant]
+            variant = ProviderVariant(*variant_tup[:2], {"name": self.variant})
+            variant.extra.update(variant_tup[2])
+            return variant
 
         def get_failure_url(self):
             return 'http://cancel.com'
@@ -59,6 +84,6 @@ def create_test_payment(**_kwargs):
         def save(self):
             pass
     # workaround limitation in python
-    for key, val in _kwargs.items():
+    for key, val in attributes.items():
         setattr(TestPayment, key, val)
     return TestPayment

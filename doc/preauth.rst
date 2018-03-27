@@ -7,7 +7,7 @@ Some gateways offer a two-step payment method known as Authorization & Capture, 
 
       # settings.py
       PAYMENT_VARIANTS_API = {
-          'default': ('web_payments_dummy.DummyProvider', {'capture': False})}
+          'default': ('web_payments_dummy.DummyProvider', {'capture': False}, {})}
 
 
 Capturing the payment
