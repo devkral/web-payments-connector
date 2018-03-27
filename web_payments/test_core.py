@@ -30,6 +30,7 @@ class TestProviderFactory(TestCase):
         self.assertEqual(payment.provider, provider_factory(payment.get_provider_variant()))
         payment = BasePayment(variant="iban")
         self.assertEqual(payment.provider, provider_factory(payment.get_provider_variant()))
+        payment.load_providers()
 
     def test_provider_does_not_exist(self):
         payment = BasePayment(variant="fake_provider")

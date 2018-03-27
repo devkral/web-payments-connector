@@ -3,7 +3,7 @@ from unittest.mock import patch, NonCallableMock
 
 from . import get_base_url
 from .models import BasePayment
-from .. import ProviderVariant
+from .. import ProviderVariant, PROVIDER_CACHE
 
 class TestHelpers(TestCase):
     @patch('django.conf.settings.PAYMENT_HOST', new_callable=NonCallableMock)
@@ -22,4 +22,4 @@ class TestHelpers(TestCase):
         for i in BasePayment.list_providers():
             self.assertIsInstance(i, ProviderVariant)
             testp.variant = i.extra["name"]
-            self.assertIn(i, PROVIDER_CACHE)
+            self.assertIn(i.extra["name"], PROVIDER_CACHE)

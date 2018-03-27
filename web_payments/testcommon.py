@@ -64,7 +64,11 @@ def create_test_payment(PAYMENT_VARIANTS_API=PAYMENT_VARIANTS_API, **attributes)
         @classmethod
         def list_providers(cls, **_kwargs):
             """ returns an iterable with ProviderVariants """
-            return map(lambda item: ProviderVariant(*item[1]), PAYMENT_VARIANTS_API.items())
+            def _helper(item):
+                t={"name": item[0]}
+                t.update(item[1][2])
+                return ProviderVariant(item[1][0], item[1][1], t)
+            return map(_helper, PAYMENT_VARIANTS_API.items())
 
         def get_provider_variant(self):
             variant_tup = PAYMENT_VARIANTS_API[self.variant]

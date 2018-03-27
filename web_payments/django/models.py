@@ -83,12 +83,15 @@ class BasePayment(models.Model, BasicPayment):
     def list_providers(cls, **_kwargs):
         """ returns an iterable with ProviderVariants """
         def _helper(item):
-            return ProviderVariant(item[1][0], item[1][1], {"name": item[0]}.update(item[1][2]))
+            t = {"name": item[0]}
+            t.update(item[1][2])
+            return ProviderVariant(item[1][0], item[1][1], t)
         return map(_helper, settings.PAYMENT_VARIANTS_API.items())
 
     def get_provider_variant(self):
         t = settings.PAYMENT_VARIANTS_API[self.variant]
-        variant = ProviderVariant(t[0], t[1], {"name": self.variant}.update(t[2]))
+        variant = ProviderVariant(t[0], t[1], {"name": self.variant})
+        variant.extra.update(t[2])
         return variant
 
     @classmethod
