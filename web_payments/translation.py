@@ -58,20 +58,23 @@ class _lazy_constant(object):
         return self.func()
 
 class Translation(object):
-    _fallback = None
+    fallback = None
     domain = None
     translation_path = None
     def __init__(self, translation_path, domain="web_payments", fallback=None):
         self.translation_path = translation_path
         self.domain = domain
         if fallback:
-            self._fallback = fallback
+            self.fallback = fallback
         else:
-            self._fallback = []
+            self.fallback = []
 
     @functools.lru_cache(typed=True)
     def _trans(self, lang):
-        return gettext.translation("web_payments", self.translation_path, [lang]+self._fallback, fallback=True)
+        if lang:
+            return gettext.translation("web_payments", self.translation_path, [lang]+self.fallback, fallback=True)
+        else:
+            return gettext.translation("web_payments", self.translation_path, self.fallback, fallback=True)
 
     def trans(self, cur_lang=None):
         if not cur_lang:
