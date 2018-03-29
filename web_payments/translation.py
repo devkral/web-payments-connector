@@ -37,7 +37,7 @@ class _lazy_constant(object):
         functools.update_wrapper(self, func)
 
     def deconstruct(self):
-        return (".".join([self.__class__.__module__, self.__class__.__qualname__]), self.func.args, self.func.keywords)
+        return (".".join([self.__class__.__module__, self.__class__.__qualname__]), [self.func.func, *self.func.args], self.func.keywords)
 
     def __eq__(self, obj):
         return self.func().__eq__(obj)
