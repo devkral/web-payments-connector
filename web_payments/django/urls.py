@@ -17,8 +17,7 @@ except ImportError:
     from django.conf.urls import url
 
 from . import get_payment_model
-from ..core import provider_factory
-from .. import HttpRequest, RedirectNeeded
+from .. import HttpRequest, RedirectNeeded, provider_factory
 
 
 @csrf_exempt
