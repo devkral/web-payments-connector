@@ -15,8 +15,7 @@ from ..logic import BasicPayment
 from .signals import status_changed
 from .utils import add_prefixed_address
 from ..utils import getter_prefixed_address
-from ..translation import translation
-_ = translation.gettext_lazy
+from . import get_base_url
 
 __all__ = ["BasePayment", "BasePaymentWithAddress"]
 
