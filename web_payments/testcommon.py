@@ -72,7 +72,7 @@ def create_test_payment(PAYMENT_VARIANTS_API=PAYMENT_VARIANTS_API, **attributes)
 
         def get_provider_variant(self):
             variant_tup = PAYMENT_VARIANTS_API[self.variant]
-            variant = ProviderVariant(*variant_tup[:2], {"name": self.variant})
+            variant = ProviderVariant(variant_tup[0], variant_tup[1], {"name": self.variant})
             variant.extra.update(variant_tup[2])
             return variant
 
