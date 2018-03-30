@@ -47,8 +47,11 @@ class _lazy_constant(object):
 
     def deconstruct(self):
         selfname = ".".join([self.__class__.__module__, self.__class__.__qualname__])
-        funcname = (self.func.func.__self__.instance_path, self.func.func.__qualname__.split(".", 1)[1])
-        return (selfname, [funcname, *self.func.args], self.func.keywords)
+        args = [(self.func.func.__self__.instance_path, self.func.func.__qualname__.split(".", 1)[1])]
+        # python 3.4 compatibility
+        for arg in self.func.args:
+            args.append(arg)
+        return (selfname, args, self.func.keywords)
 
     def __eq__(self, obj):
         return self.func().__eq__(obj)
