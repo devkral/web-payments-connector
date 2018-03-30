@@ -24,45 +24,41 @@ class BasePayment(models.Model, BasicPayment):
     '''
     Represents a single transaction. Each instance has one or more PaymentItem.
     '''
+    # overwrite variant to remove field
+    #: select payment provider
     variant = models.CharField(max_length=255)
     #: Transaction status
     status = models.CharField(
         max_length=10, choices=PaymentStatus.CHOICES,
         default=PaymentStatus.WAITING)
+    #: Transaction status message
+    message = models.TextField(blank=True, default='')
+
+    #: fraud status
     fraud_status = models.CharField(
         max_length=10, choices=FraudStatus.CHOICES,
         default=FraudStatus.UNKNOWN)
+    #: fraud message
     fraud_message = models.TextField(blank=True, default='')
-    #: Creation date and time
-    created = models.DateTimeField(auto_now_add=True)
-    #: Date and time of last modification
-    modified = models.DateTimeField(auto_now=True)
-    #: Transaction ID (if applicable)
-    transaction_id = models.CharField(max_length=255, blank=True)
-    #: Currency code (may be provider-specific)
-    currency = models.CharField(max_length=10)
 
-    #: description of transaction
-    description = models.TextField(blank=True, default='')
-    #: message for customer
-    message = models.TextField(blank=True, default='')
-    #ip address of customer, Note: removed (against privacy law (at least in EU))
-    ###customer_ip_address = models.GenericIPAddressField(blank=True, null=True)
     #: for attrs pseudo dict
     extra_data = models.TextField(blank=True, default='')
     #: secret token (for get_process_url)
     token = models.CharField(max_length=36, blank=True, default='')
+    #: Transaction ID (if applicable)
+    transaction_id = models.CharField(max_length=255, blank=True)
 
+    #: Currency code (may be provider-specific)
+    currency = models.CharField(max_length=10)
     #: Total amount (gross)
     total = models.DecimalField(max_digits=20, decimal_places=8, default=Decimal('0.0'))
-    #: Delivery costs
-    delivery = models.DecimalField(
-        max_digits=20, decimal_places=8, default=Decimal('0.0'))
-    #: Tax
-    tax = models.DecimalField(max_digits=20, decimal_places=8, default=Decimal('0.0'))
     #: captured = current captured amount
     captured_amount = models.DecimalField(
         max_digits=20, decimal_places=8, default=Decimal('0.0'))
+
+    #: recommended for audit:
+    #created = models.DateTimeField(auto_now_add=True)
+    #modified = models.DateTimeField(auto_now=True)
 
     class Meta:
         abstract = True
@@ -104,7 +100,7 @@ class BasePayment(models.Model, BasicPayment):
 
 @add_prefixed_address("billing")
 class BasePaymentWithAddress(BasePayment):
-    """ Has real billing address + shippingaddress alias on billing address (alias for backward compatibility) """
+    """ Has real billing address + shippingaddress alias on billing address """
     get_billing_address = getter_prefixed_address("billing")
     get_shipping_address = get_billing_address
 

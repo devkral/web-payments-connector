@@ -1,4 +1,6 @@
 from uuid import uuid4
+from decimal import Decimal
+
 
 import simplejson as json
 
@@ -33,11 +35,11 @@ class PaymentAttributeProxy(object):
         self._payment.extra_data = json.dumps(data, use_decimal=True)
 
 class BasicPayment(object):
-    """ Logic of a Payment object, basis for implementations """
+    ''' Logic of a Payment object, basis for implementations '''
 
     def change_status(self, status, message=''):
         '''
-        Updates the Payment status and sends the status_changed signal.
+            Updates the Payment status and sends the status_changed signal.
         '''
         self.status = status
         self.message = message
@@ -45,7 +47,10 @@ class BasicPayment(object):
         self.signal_status_change()
 
     def signal_status_change(self):
-        """ needs to be overwritten to be useful """
+        '''
+            Called on status change. Should send signal (see django.models for example).
+            must to be overwritten to be useful
+        '''
         pass
 
     def change_fraud_status(self, status, message='', commit=True):
@@ -69,36 +74,36 @@ class BasicPayment(object):
         return []
 
     def get_failure_url(self):
-        """
+        '''
             url where customer should be redirected if payment had an error
-        """
+        '''
         raise NotImplementedError()
 
     def get_success_url(self):
-        """
+        '''
             url where customer should be redirected if payment was successful
-        """
+        '''
         raise NotImplementedError()
 
     def get_process_url(self, extra_data=None):
-        """
+        '''
             returns a communication url, should kept secret
             except if provider communication is with customer
-        """
+        '''
         raise NotImplementedError()
 
     @classmethod
     def list_providers(cls, **_kwargs):
-        """ returns an iterable with ProviderVariants """
+        ''' returns an iterable with ProviderVariants '''
         raise NotImplementedError()
 
     def get_provider_variant(self):
-        """ return ProviderVariant for this payment object """
+        ''' return ProviderVariant for this payment object '''
         raise NotImplementedError()
 
     @property
     def provider(self):
-        """ returns provider object """
+        ''' returns provider object '''
         try:
             return provider_factory(self.get_provider_variant())
         except (KeyError, AttributeError) as exc:
@@ -106,22 +111,45 @@ class BasicPayment(object):
 
     @classmethod
     def load_providers(cls):
-        """ Load all providers in cache
+        '''
+            Load all providers in cache
             Also useful method to check if all providers are valid
-        """
+        '''
         for i in cls.list_providers():
             provider_factory(i)
 
+    def get_payment_extra(self):
+        '''
+            extra costs like delivery or tax (required, Decimal), defaults to zero
+            Payment message, minimumage,... (not required, provider SHOULD not depend on it)
+            Overwrite or extend to be useful
+
+            universal types:
+            type: what type is the transaction (official, physical, ...),
+                    VALID value can be provider dependent
+            message: message for customer
+            minimumage: minimum age for customer
+        '''
+        return {
+            "tax": Decimal("0"),
+            "delivery": Decimal("0")
+        }
+
     # needs to be implemented, see BasePaymentWithAddress for an example
     def get_shipping_address(self):
+        ''' return shipping address '''
         raise NotImplementedError()
 
     # needs to be implemented, see BasePaymentWithAddress for an example
     def get_billing_address(self):
+        ''' return billing address '''
         raise NotImplementedError()
 
     def capture(self, amount=None, final=True):
-        ''' Capture a fraction of the total amount of a payment. Return amount captured or None '''
+        '''
+            Capture a fraction of the total amount of a payment.
+            Return amount captured or None
+        '''
         if self.status != PaymentStatus.PREAUTH:
             raise ValueError(
                 'Only pre-authorized payments can be captured.')
@@ -189,8 +217,8 @@ BasePaymentLogic = BasicPayment
 
 class BasicProvider(object):
     '''
-    This class defines the provider API. It should not be instantiated
-    directly. Use factory instead.
+        This class defines the provider API. It should not be instantiated
+        directly. Use factory instead.
     '''
     _method = 'post'
     form_class = None
@@ -203,7 +231,7 @@ class BasicProvider(object):
 
     def get_form(self, payment, data=None, **kwargs):
         '''
-        Converts *payment* into a form
+            Converts *payment* into a form
         '''
         if not self.form_class:
             raise NotSupported("No form class specified")
@@ -211,18 +239,21 @@ class BasicProvider(object):
 
     def process_data(self, payment, request):
         '''
-        Process callback request from a payment provider.
+            Process callback request from a payment provider.
         '''
         raise NotImplementedError()
 
     def get_token_from_request(self, payment, request):
         '''
-        Return payment token from provider request.
+            Return payment token from provider request.
         '''
         raise NotImplementedError()
 
     def capture(self, payment, amount=None, final=True):
-        ''' Capture a fraction of the total amount of a payment. Return amount captured or None '''
+        '''
+            Capture a fraction of the total amount of a payment.
+            Return amount captured or None
+        '''
         raise NotImplementedError()
 
     def release(self, payment):
