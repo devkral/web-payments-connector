@@ -1,0 +1,30 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE|default:"en-US" }}">
+  <head>
+      <title>{% block title %}Test web_payments{% endblock %}</title>
+      <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+      <meta name="viewport" content="{% block viewport %}width=device-width, initial-scale=1.0{% endblock %}">
+      <meta name="description" content="{% block description %}{% endblock %}" />
+
+      {# CSS for all pages #}
+      {% block base_styles %}{% endblock %}
+      {# CSS for page #}
+      {% block styles %}{% endblock %}
+      {# form scripts and foo #}
+      {% block extrahead %}{% endblock %}
+  </head>
+
+  <body class="{% block body_class %}{% endblock %}">
+    {% block messages %}
+        {% if messages %}
+        <ul class="">{% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message|capfirst }}</li>
+        {% endfor %}</ul>
+        {% endif %}
+    {% endblock messages %}
+    {# Deco content, e.g.base.html  #}
+    {% main %}
+    {% endblock main %}
+  </body>
+</html>
