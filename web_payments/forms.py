@@ -3,11 +3,12 @@ import datetime
 
 from wtforms import Form, validators, ValidationError
 from wtforms import StringField, DateField
+from wtforms.utils import WebobInputWrapper
 
 from .translation import translation
 _ = translation.gettext_lazy
 
-from .utils import get_credit_card_issuer
+from .utils import get_credit_card_issuer, DictInputWrapper
 
 __all__ = ["DateValidator", "CreditCardNumberValidator", "PaymentForm", "CreditCardPaymentForm", "CreditCardPaymentFormWithName"]
 
@@ -54,15 +55,28 @@ class PaymentForm(Form):
     Payment form
 
     When displaying the form remember to use *action* and *method*.
+    use always formdata except for defaults.
+    formdata of is different to Wtforms as it supports dicts
     '''
     method = 'post'
     action = ''
     provider = None
     payment = None
 
+    class Meta:
+        def wrap_formdata(self, form, formdata):
+            """ work around wtform implementation """
+            if formdata is not None and not hasattr(formdata, 'getlist'):
+                if hasattr(formdata, 'getall'):
+                    return WebobInputWrapper(formdata)
+                elif hasattr(formdata, '__getitem__'): # wtform lacks this
+                    return DictInputWrapper(formdata)
+                else:
+                    raise TypeError("formdata should be a (multi)dict-type wrapper that supports the 'getlist' method")
+            return formdata
+
     def __init__(self, *, provider=None, payment=None, **kwargs):
-        if "data" not in kwargs:
-            kwargs["obj"] = payment
+        kwargs["obj"] = payment
         super().__init__(**kwargs)
         self.provider = provider
         self.payment = payment
@@ -74,17 +88,17 @@ class CreditCardPaymentForm(PaymentForm):
     VALID_TYPES = None
 
     number = StringField(label=_('Card Number'),
-        validators=[validators.Length(max=32),
-                    validators.Required(), CreditCardNumberValidator()],
+        validators=[validators.InputRequired(), validators.Length(max=32),
+                    CreditCardNumberValidator()],
         render_kw={'autocomplete': 'cc-number'})
 
     expiration = DateField(label=_('Expiration date (YYYY-MM):'),
-        validators=[DateValidator()],
+        validators=[validators.InputRequired(_('Enter a valid expiration date.')), DateValidator()],
         format='%Y-%m',
         render_kw={'autocomplete': 'cc-exp'})
 
     cvv2 = StringField(
-        label=_('CVV2 Security Number'), validators=[validators.Required(_('Enter a valid security number.')), validators.Regexp('^[0-9]{3,4}$', message=_('Enter a valid security number.'))],
+        label=_('CVV2 Security Number'), validators=[validators.InputRequired(_('Enter a valid security number.')), validators.Regexp('^[0-9]{3,4}$', message=_('Enter a valid security number.'))],
         description=_(
             'Last three digits located on the back of your card.'
             ' For American Express the four digits found on the front side.'),

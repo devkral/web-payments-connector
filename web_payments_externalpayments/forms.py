@@ -1,5 +1,4 @@
 from wtforms import StringField, ValidationError
-from web_payments.fields import TextField
 from web_payments.forms import PaymentForm
 from .translation import translation
 _ = translation.gettext_lazy
@@ -8,11 +7,11 @@ __all__ = ["OrderIdForm", "IBANBankingForm"]
 
 class OrderIdForm(PaymentForm):
     # only shown, return is ignored
-    order = TextField(label=_("Please supply as reference"))
+    order = StringField(label=_("Please supply as reference"), render_kw={"readonly": True})
 
 
 class IBANBankingForm(PaymentForm):
     # only shown, return is ignored
-    iban = TextField(label="IBAN")
-    bic = TextField(label="BIC")
-    order = TextField(label=_("Please supply as reference"))
+    iban = StringField(label="IBAN", render_kw={"readonly": True})
+    bic = StringField(label="BIC", render_kw={"readonly": True})
+    order = StringField(label=_("Please supply as reference"), render_kw={"readonly": True})

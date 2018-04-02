@@ -54,3 +54,27 @@ def get_credit_card_issuer(number):
         if reg.match(number):
             return card_type, name
     return None, None
+
+
+class DictInputWrapper(object):
+    """
+    Allows dicts to be provided as formdict
+    """
+
+    def __init__(self, _dict):
+        self._wrapped = _dict
+
+    def __iter__(self):
+        return iter(self._wrapped)
+
+    def __len__(self):
+        return len(self._wrapped)
+
+    def __contains__(self, name):
+        return (name in self._wrapped)
+
+    def getlist(self, name, default=None):
+        if name in self._wrapped:
+            return [self._wrapped[name]]
+        else:
+            return default
