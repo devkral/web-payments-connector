@@ -2,15 +2,14 @@
 {% load i18n %}
 
 {% block main %}
-<form action="{{ form.action }}" class="form-stacked" method="{{ form.method }}">
-  {% url 'payment-form' as crfsformurl %}
-  {% if paymentform.action == "" or paymentform.action == crfsformurl %}
+<form action="{{ form.action }}" method="{{ form.method }}">
+  {% if form.action in safe_urls %}
     {# form doesn't leak token in these cases #}
     {% csrf_token %}
   {% endif %}
 
   {% if not form.validate %}
-  <div class="alert alert-danger">
+  <div class="w3-red">
       <strong>{% trans "Oops! We found some errors" %}</strong> - {% trans "please check the error messages below and try again" %}
   </div>
   {% endif %}

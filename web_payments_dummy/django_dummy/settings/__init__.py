@@ -13,7 +13,7 @@ https://docs.djangoproject.com/en/2.0/ref/settings/
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
@@ -70,7 +70,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'web_payments_dummy.wsgi.application'
+WSGI_APPLICATION = 'web_payments_dummy.django_dummy.wsgi.application'
 
 
 # Database
@@ -116,6 +116,10 @@ USE_L10N = True
 
 USE_TZ = True
 
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "web_payments_dummy", "django_dummy", "static"),
+]
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
