@@ -1,10 +1,10 @@
 
 from django.urls import reverse_lazy
 from django.views.generic import FormView
-from django.forms import Form
+from django import forms
 from .models import QPayment
 
-def PaymentView(FormView):
+class PaymentView(FormView):
     template_name = "form.html"
     def get_form(form_class=None):
         return self.request.session.payment.provider.get_form(self.get_form_kwargs())
@@ -20,14 +20,14 @@ def PaymentView(FormView):
         else:
             return self.form_invalid(form)
 
-class SelectPaymentForm(Form):
-    variant = forms.ChoiceField(required=True, label=_("Payment Method"))
+class SelectPaymentForm(forms.Form):
+    variant = forms.ChoiceField(required=True, label="Payment Method")
 
     def __init__(self, *args, **kwargs):
        super(SelectPaymentForm, self).__init__(*args, **kwargs)
        self.fields['variant'].choices = map(lambda x: (x, _(x)), QPayment.list_providers())
 
-def SelectView(FormView):
+class SelectView(FormView):
     template_name = "form.html"
     success_url = reverse_lazy("payment-form")
     def get_form(self, form_class=None):
