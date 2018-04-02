@@ -35,11 +35,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'web_payments',
-    'web_payments_dummy.django_dummy.apps.DummyPaymentsConfig'
+    'web_payments_dummy.django_dummy',
+    'web_payments'
 ]
 
-PAYMENT_MODEL = 'web_payments_dummy.QPayment'
+PAYMENT_MODEL = 'django_dummy.QPayment'
 PAYMENT_HOST = 'localhost:8000'
 
 MIDDLEWARE = [
@@ -121,3 +121,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+PAYMENT_VARIANTS_API = {
+    'default': ('web_payments_dummy.DummyProvider', {}, {}),
+    'DummyProvider': ('web_payments_dummy.DummyProvider', {}, {}),
+    'DirectPaymentProvider': ('web_payments_externalpayments.DirectPaymentProvider', {}, {}),
+    'iban': ('web_payments_externalpayments.BankTransferProvider', {
+        "iban": "GL5604449876543210",
+        "bic": "DABAIE2D"}, {"name": "iban"}
+        ),
+    }

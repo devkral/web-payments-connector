@@ -14,41 +14,9 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, reverse_lazy
-from django.views.generic import FormView
-from django.forms import Form
-from web_payments.django import urls, get_payment_model
-
-def PaymentView(FormView):
-    template_name = "form.html"
-    def get_form(form_class=None):
-        return self.request.session.payment.provider.get_form(self.get_form_kwargs())
-
-    def post(self, request, *args, **kwargs):
-        """
-        Handles POST requests, instantiating a form instance with the passed
-        POST variables and then checked for validity.
-        """
-        form = self.get_form()
-        if form.is_valid():
-            return self.form_valid(form)
-        else:
-            return self.form_invalid(form)
-
-class SelectPaymentForm(Form):
-    variant = forms.ChoiceField(choices=map(lambda x: (x, _(x)), variants), required=True, label=_("Payment Method"))
-
-    def __init__(self, *args, choices=None, **kwargs):
-       super(SelectPaymentForm, self).__init__(*args, **kwargs)
-       if choices:
-           self.fields['variant'].choices = map(lambda x: (x, x), filter(lambda x: x in choices, SelectPaymentForm.variants))
-
-def SelectView(FormView):
-    template_name = "form.html"
-    success_url = reverse_lazy("payment-form")
-    def get_form(self, form_class=None):
-        return SelectPaymentForm(**self.get_form_kwargs())
-
+from django.urls import path
+from web_payments.django import urls
+from .views import PaymentView, SelectView
 
 
 urlpatterns = [
