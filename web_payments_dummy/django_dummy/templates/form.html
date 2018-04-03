@@ -1,15 +1,14 @@
-{% include "base.html" %}
+{% extends 'base.html' %}
 {% load i18n %}
 
 {% block main %}
-<form action="{{ form.action }}" method="{{ form.method }}">
+<form class="" action="{{ form.action }}" method="{{ form.method }}">
   {% if form.action in safe_urls %}
-    {# form doesn't leak token in these cases #}
     {% csrf_token %}
   {% endif %}
 
   {% if not form.validate %}
-  <div class="w3-red">
+  <div class="w3-red w3-padding">
       <strong>{% trans "Oops! We found some errors" %}</strong> - {% trans "please check the error messages below and try again" %}
   </div>
   {% endif %}
@@ -18,17 +17,21 @@
       {% if field.is_hidden %}
           {{ field }}
       {% else %}
-          <span class="form-group {% if field.errors %}error{% endif %}">
+          <div class="w3-cell-row w3-gray w3-margin {% if field.errors %}error{% endif %}">
+            <div class="w3-cell w3-half">
               {{ field.label }}
               {{ field }}
+            </div>
+            <div class="w3-cell w3-half">
               {% for error in field.errors %}
                   <ul class="error-block">
                       <li>{{ error }}</li>
                   </ul>
               {% endfor %}
-          </span>
+            </div>
+          </div>
       {% endif %}
   {% endfor %}
-  <button type="submit" class="btn btn-primary btn-large">{% trans "Proceed" %}</button>
+  <button type="submit" style="margin-top: 20px" class="btn btn-primary btn-large">{% trans "Proceed" %}</button>
 </form>
 {% endblock %}

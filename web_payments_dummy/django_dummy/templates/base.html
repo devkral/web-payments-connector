@@ -1,12 +1,12 @@
 {% load i18n static %}
 <!DOCTYPE html>
-<html lang="{{ LANGUAGE_CODE|default:"en-US" }}">
+<html lang="{{ LANGUAGE_CODE|default:'en-US' }}">
   <head>
       <title>{{mytitle}}</title>
       <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
       <meta name="viewport" content="{% block viewport %}width=device-width, initial-scale=1.0{% endblock %}">
       <meta name="description" content="{% block description %}{% endblock %}" />
-      <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static "w3.css" %}{% endblock %}" />
+      <link rel="stylesheet" type="text/css" href="{% block stylesheet %}{% static 'w3.css' %}{% endblock %}" />
 
       {# CSS for all pages #}
       {% block base_styles %}{% endblock %}
@@ -17,7 +17,7 @@
   </head>
 
   <body class="{% block body_class %}{% endblock %}">
-    <main class="w3-center" "w3-content">
+    <main class="w3-center w3-content">
       {% block fhead%}
         <h1>{{mytitle}}</h1>
       {% endblock %}
@@ -30,6 +30,6 @@
       {% endblock messages %}
       {# Main, e.g.base.html  #}
       {% block main %}{% endblock main %}
-    </main
+    </main>
   </body>
 </html>
