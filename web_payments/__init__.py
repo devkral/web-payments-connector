@@ -19,10 +19,6 @@ HttpRequest = namedtuple('HttpRequest',
 ProviderVariant = namedtuple('ProviderVariant',
                              ['path', 'config', 'extra'])
 
-# for django
-default_app_config = 'web_payments.django.apps.WebPaymentsConfig'
-
-
 PROVIDER_CACHE = {}
 
 def provider_factory(variant):

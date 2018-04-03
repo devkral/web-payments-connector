@@ -18,8 +18,8 @@ class DummyProvider(BasicProvider):
         if payment.status == PaymentStatus.WAITING:
             payment.change_status(PaymentStatus.INPUT)
         form = DummyForm(formdata=data, provider=self,
-                         payment=payment)
-        if form.validate():
+                         payment=payment, data={})
+        if data and form.validate():
             new_status = form.status.data
             payment.change_status(new_status)
             new_fraud_status = form.fraud_status.data

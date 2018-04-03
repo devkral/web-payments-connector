@@ -43,7 +43,7 @@ class DirectPaymentProvider(BasicProvider):
             payment.save()
         if not self.skipform:
             if not data or not data.get("order", None):
-                return OrderIdForm(formdata={"order": payment.transaction_id},
+                return OrderIdForm(data={"order": payment.transaction_id},
                                    payment=payment,
                                    provider=self)
         if self.confirm:
@@ -100,7 +100,7 @@ class BankTransferProvider(BasicProvider):
             payment.transaction_id = "{}{}".format(self.prefix, payment.id)
             payment.save()
         if not data or not data.get("order", None):
-            return IBANBankingForm(formdata=self.get_fields(payment), payment=payment, provider=self)
+            return IBANBankingForm(data=self.get_fields(payment), payment=payment, provider=self)
         if self.confirm:
             payment.change_status(PaymentStatus.CONFIRMED)
         else:

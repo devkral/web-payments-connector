@@ -15,18 +15,19 @@ Including another URLconf
 """
 from django.contrib import admin
 try:
-    from django.urls import path, include
+    from django.urls import include
+    from django.urls import path_re as url
 except ImportError:
-    from django.conf.urls import url as path
+    from django.conf.urls import url
     from django.conf.urls import include
 
-from web_payments.django import urls
+from web_payments.django import urls as web_payment_urls
 from .views import PaymentView, SelectView
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('payment/', include(urls)),
-    path('form/', PaymentView.as_view(), name="payment-form"),
-    path('', SelectView.as_view(), name="select-form"),
+    url('^admin/', admin.site.urls),
+    url('^payment/', include(web_payment_urls)),
+    url('^form/$', PaymentView.as_view(), name="payment-form"),
+    url('^$', SelectView.as_view(), name="select-form"),
 ]

@@ -9,9 +9,12 @@ __all__ = ["web_payments_translation_path", "set_language", "get_language", "Tra
 
 web_payments_translation_path = os.path.join(os.path.dirname(__file__), "locale")
 
+class _TLocal(threading.local):
+    def __init__(self, **kwargs):
+        for key, val in kwargs.items():
+            setattr(self, key, val)
 
-_tlocal = threading.local()
-_tlocal.current_language = "en"
+_tlocal = _TLocal(current_language="en")
 
 def set_language(lang):
     '''

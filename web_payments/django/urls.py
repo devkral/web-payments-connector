@@ -12,7 +12,7 @@ from django.shortcuts import get_object_or_404
 from django.views.decorators.csrf import csrf_exempt
 from django.db.transaction import atomic
 try:
-    from django.urls import url
+    from django.urls import re_path as url
 except ImportError:
     from django.conf.urls import url
 
@@ -32,9 +32,9 @@ def process_data(request, token, provider=None):
     payment = get_object_or_404(Payment, token=token)
     if not provider:
         try:
-            provider = provider_factory(payment.variant)
+            provider = payment.provider
         except ValueError:
-            raise Http404('No such payment')
+            raise Http404('No such provider')
     try:
         # request should have some abstraction
         # redefine django request as namedtuple

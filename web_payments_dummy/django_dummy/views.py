@@ -4,8 +4,8 @@ from django.urls import reverse_lazy, reverse
 from django.views.generic import FormView
 from wtforms import SelectField, validators
 from web_payments.forms import PaymentForm
+from web_payments.django import get_payment_model
 
-from .models import QPayment
 
 class PaymentView(SuccessMessageMixin, FormView):
     template_name = "form.html"
@@ -23,8 +23,9 @@ class PaymentView(SuccessMessageMixin, FormView):
         context['safe_urls'] = ["", reverse("payment-form"), reverse("select-form")]
         return context
 
-    def get_form(form_class=None):
-        return self.request.session.payment.provider.get_form(self.get_form_kwargs())
+    def get_form(self, form_class=None):
+        payment = get_payment_model().objects.get(id=self.request.session["paymentid"])
+        return payment.get_form(self.get_form_kwargs().get("data", None))
 
     def post(self, request, *args, **kwargs):
         """
@@ -44,7 +45,7 @@ class SelectPaymentForm(PaymentForm):
 
     def __init__(self, *args, **kwargs):
        super().__init__(*args, **kwargs)
-       self.variant.choices = [(x.extra["name"], x.extra.get("localized_name", x.extra["name"])) for x in QPayment.list_providers()]
+       self.variant.choices = [(x.extra["name"], x.extra.get("localized_name", x.extra["name"])) for x in get_payment_model().list_providers()]
 
 class SelectView(FormView):
     template_name = "form.html"
@@ -57,7 +58,13 @@ class SelectView(FormView):
         return context
 
     def get_form(self, form_class=None):
-        return SelectPaymentForm(formdata=self.get_form_kwargs())
+        formkwargs = self.get_form_kwargs()
+        return SelectPaymentForm(formdata=formkwargs.get("data", None), data=formkwargs["initial"])
+
+    def form_valid(self, form):
+        payment = get_payment_model().objects.create(variant=form.variant.data)
+        self.request.session["paymentid"] = payment.id
+        return super().form_valid(form)
 
     def post(self, request, *args, **kwargs):
         """

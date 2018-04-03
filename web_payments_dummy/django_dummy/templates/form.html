@@ -7,7 +7,7 @@
     {% csrf_token %}
   {% endif %}
 
-  {% if not form.validate %}
+  {% if form.error %}
   <div class="w3-red w3-padding">
       <strong>{% trans "Oops! We found some errors" %}</strong> - {% trans "please check the error messages below and try again" %}
   </div>
@@ -17,7 +17,7 @@
       {% if field.is_hidden %}
           {{ field }}
       {% else %}
-          <div class="w3-cell-row w3-gray w3-margin {% if field.errors %}error{% endif %}">
+          <div class="w3-cell-row w3-gray w3-padding w3-margin {% if field.errors %}error{% endif %}">
             <div class="w3-cell w3-half">
               {{ field.label }}
               {{ field }}

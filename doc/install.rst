@@ -75,8 +75,6 @@ Installation
       # settings.py
       INSTALLED_APPS = [
           # ...
-          'web_payments',
-          # or
           'web_payments.django',
           ]
 
@@ -84,7 +82,7 @@ Installation
       PAYMENT_PROTOCOL = "https"
       PAYMENT_MODEL = 'mypaymentapp.Payment'
       PAYMENT_VARIANTS_API = {
-          'default': ('web_payments_dummy.DummyProvider', {}, {"name": "default", "icon": "ll"})}
+          'default': ('web_payments_dummy.DummyProvider', {}, {"name": "default", "icon": "icon.png"})}
 
    Variants are named pairs of payment providers and their configuration.
 

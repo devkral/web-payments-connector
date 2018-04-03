@@ -38,10 +38,10 @@ def get_base_url(provider=None):
     Otherwise checks if it's callable and returns it's result. If it's not a
     callable treats it as domain.
     """
-    from django.contrib.sites.models import Site
     protocol = getattr(settings, 'PAYMENT_PROTOCOL', 'https')
     PAYMENT_HOST = getattr(settings, 'PAYMENT_HOST', None)
     if not PAYMENT_HOST:
+        from django.contrib.sites.models import Site
         current_site = Site.objects.get_current()
         domain = current_site.domain
     elif callable(PAYMENT_HOST):

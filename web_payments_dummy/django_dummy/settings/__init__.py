@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
 PAYMENT_MODEL = 'django_dummy.QPayment'
 PAYMENT_HOST = 'localhost:8000'
+PAYMENT_PROTOCOL = "http"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
