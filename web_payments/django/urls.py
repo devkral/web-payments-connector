@@ -73,7 +73,7 @@ def process_data(request, token, provider=None):
         # log here for beeing visible
         logging.exception(exc)
         # could contain sensitive data so don't return any information
-        # so just log
+        # just log
         return HttpResponseServerError()
 
 
