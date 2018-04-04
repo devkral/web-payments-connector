@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 import os
 
 PROJECT_ROOT = os.path.normpath(
-    os.path.join(os.path.dirname(__file__), 'payments'))
+    os.path.join(os.path.dirname(__file__), 'web_payments'))
 TEMPLATES = [{
     'BACKEND': 'django.template.backends.django.DjangoTemplates',
     'DIRS': [os.path.join(PROJECT_ROOT, 'templates')]}]
@@ -19,5 +19,12 @@ PAYMENT_VARIANTS_API = {
         "bic": "DABAIE2D"}, {}
         ),
     }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(os.path.dirname(__file__), 'db.sqlite3'),
+    }
+}
 
 INSTALLED_APPS = ['django.contrib.sites', 'web_payments']

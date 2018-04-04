@@ -133,6 +133,6 @@ PAYMENT_VARIANTS_API = {
     'DirectPaymentProvider': ('web_payments_externalpayments.DirectPaymentProvider', {}, {}),
     'iban': ('web_payments_externalpayments.BankTransferProvider', {
         "iban": "GL5604449876543210",
-        "bic": "DABAIE2D"}, {"name": "iban"}
+        "bic": "DABAIE2D"}, {"localized_name": "iban"}
         ),
     }

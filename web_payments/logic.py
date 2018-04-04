@@ -94,7 +94,11 @@ class BasicPayment(object):
 
     @classmethod
     def list_providers(cls, **_kwargs):
-        ''' returns an iterable with ProviderVariants '''
+        '''
+            returns an iterable with ProviderVariants
+            possible keywords:
+            name=<variantname>: extract variant, return list with one provider or [], required for static_callback
+        '''
         raise NotImplementedError()
 
     def get_provider_variant(self):
@@ -220,7 +224,6 @@ class BasicProvider(object):
         This class defines the provider API. It should not be instantiated
         directly. Use factory instead.
     '''
-    _method = 'post'
     form_class = None
 
     def __init__(self, capture=True):
@@ -235,7 +238,7 @@ class BasicProvider(object):
         '''
         if not self.form_class:
             raise NotSupported("No form class specified")
-        return self.form_class(data=data, provider=self, payment=payment, **kwargs)
+        return self.form_class(formdata=data, provider=self, payment=payment, **kwargs)
 
     def process_data(self, payment, request):
         '''

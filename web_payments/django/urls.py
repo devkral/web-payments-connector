@@ -80,11 +80,15 @@ def process_data(request, token, provider=None):
 @csrf_exempt
 @atomic
 def static_callback(request, variant):
-
-    try:
-        provider = provider_factory(variant)
-    except ValueError:
-        raise Http404('No such provider')
+    Payment = get_payment_model()
+    filtered_v = Payment.list_providers(name=variant)
+    if len(filtered_v) != 1:
+        raise Http404('No such provider/or not unique')
+    else:
+        try:
+            provider = provider_factory(filtered_v[0])
+        except ValueError:
+            raise Http404('No such provider')
 
     token = provider.get_token_from_request(request=request, payment=None)
     if not token:
@@ -97,4 +101,5 @@ urlpatterns = [
         '[0-9a-z]{4}-[0-9a-z]{4}-[0-9a-z]{12})/$', process_data,
         name='process_payment'),
     url(r'^process/(?P<variant>[a-z-]+)/$', static_callback,
-        name='static_process_payment')]
+        name='static_process_payment')
+    ]

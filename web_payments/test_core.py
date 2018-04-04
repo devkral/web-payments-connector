@@ -170,14 +170,14 @@ class TestCreditCardPaymentForm(TestCase):
         self.assertTrue(form.validate())
 
     def test_form_raises_error_for_invalid_card_number(self):
-        data = dict(self.credit_data)
+        data = self.credit_data.copy()
         data.update({'number': '1112223334445556'})
         form = CreditCardPaymentFormWithName(formdata=data)
         self.assertFalse(form.validate())
         self.assertIn('number', form.errors)
 
     def test_form_raises_error_for_invalid_cvv2(self):
-        data = dict(self.credit_data)
+        data = self.credit_data.copy()
         data.update({'cvv2': '12345'})
         form = CreditCardPaymentFormWithName(formdata=data)
         self.assertFalse(form.validate())

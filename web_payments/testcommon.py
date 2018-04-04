@@ -15,7 +15,7 @@ PAYMENT_VARIANTS_API = {
     'DirectPaymentProvider': ('web_payments_externalpayments.DirectPaymentProvider', {}, {}),
     'iban': ('web_payments_externalpayments.BankTransferProvider', {
         "iban": "GL5604449876543210",
-        "bic": "DABAIE2D"}, {"name": "iban"}
+        "bic": "DABAIE2D"}, {"localized_name": "iban"}
         ),
     }
 
@@ -60,13 +60,19 @@ def create_test_payment(PAYMENT_VARIANTS_API=PAYMENT_VARIANTS_API, **attributes)
                     currency='USD', sku='bar')]
 
         @classmethod
-        def list_providers(cls, **_kwargs):
+        def list_providers(cls, **kwargs):
             """ returns an iterable with ProviderVariants """
             def _helper(item):
-                t={"name": item[0]}
+                t = {"name": item[0]}
                 t.update(item[1][2])
                 return ProviderVariant(item[1][0], item[1][1], t)
-            return map(_helper, PAYMENT_VARIANTS_API.items())
+            if "name" in kwargs:
+                if kwargs["name"] in PAYMENT_VARIANTS_API:
+                    return [_helper((kwargs["name"], PAYMENT_VARIANTS_API[kwargs["name"]]))]
+                else:
+                    return []
+            else:
+                return map(_helper, PAYMENT_VARIANTS_API.items())
 
         def get_provider_variant(self):
             variant_tup = PAYMENT_VARIANTS_API[self.variant]
