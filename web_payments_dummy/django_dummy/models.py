@@ -1,7 +1,7 @@
-from web_payments.django.models import BasePayment
+from web_payments.django.models import BasePaymentWithAddress
 from django.urls import reverse
 
-class QPayment(BasePayment):
+class QPayment(BasePaymentWithAddress):
 
     def get_success_url(self):
         return reverse("select-form")

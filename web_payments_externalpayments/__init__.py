@@ -18,6 +18,8 @@ class DirectPaymentProvider(BasicProvider):
             because it is much longer it defaults to off
         prefix:
             reference: add prefix to payment id
+        confirm:
+            set PaymentStatus to CONFIRMED when this payment pipeline completes
 
     '''
 
@@ -58,6 +60,9 @@ class DirectPaymentProvider(BasicProvider):
         payment.change_status(PaymentStatus.REFUNDED)
         return amount
 
+    def get_action(self, payment):
+        return payment.get_success_url()
+
 class BankTransferProvider(BasicProvider):
     '''
         Banking software or human confirms transaction.
@@ -70,7 +75,7 @@ class BankTransferProvider(BasicProvider):
         prefix:
             reference: add prefix to payment id
         confirm:
-            set PaymentStatus to CONFIRMED after user confirms
+            set PaymentStatus to CONFIRMED when this payment pipeline completes
     '''
 
     def __init__(self, iban, bic, confirm=False,
@@ -112,3 +117,6 @@ class BankTransferProvider(BasicProvider):
             amount = payment.total
         payment.change_status(PaymentStatus.REFUNDED)
         return amount
+
+    def get_action(self, payment):
+        return payment.get_success_url()

@@ -243,8 +243,9 @@ class BasicProvider(object):
     def process_data(self, payment, request):
         '''
             Process callback request from a payment provider.
+            Default: return 404 if somebody tries it
         '''
-        raise NotImplementedError()
+        return False
 
     def get_token_from_request(self, payment, request):
         '''

@@ -1,11 +1,12 @@
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy, reverse
+from django.http import HttpResponseRedirect
 from django.views.generic import FormView
 from wtforms import SelectField, validators
 from web_payments.forms import PaymentForm
 from web_payments.django import get_payment_model
-
+from web_payments import RedirectNeeded
 
 class PaymentView(SuccessMessageMixin, FormView):
     template_name = "form.html"
@@ -27,12 +28,21 @@ class PaymentView(SuccessMessageMixin, FormView):
         payment = get_payment_model().objects.get(id=self.request.session["paymentid"])
         return payment.get_form(self.get_form_kwargs().get("data", None))
 
+    def get(self, request, *args, **kwargs):
+        try:
+            return super().get(request, *args, **kwargs)
+        except RedirectNeeded as exc:
+            return HttpResponseRedirect(exc.args[0])
+
     def post(self, request, *args, **kwargs):
         """
         Handles POST requests, instantiating a form instance with the passed
         POST variables and then checked for validity.
         """
-        form = self.get_form()
+        try:
+            form = self.get_form()
+        except RedirectNeeded as exc:
+            return HttpResponseRedirect(exc.args[0])
         if form.validate():
             messages.add_message(self.request, messages.SUCCESS, "Payment succeeded")
             return self.form_valid(form)
