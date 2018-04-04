@@ -60,9 +60,6 @@ class DirectPaymentProvider(BasicProvider):
         payment.change_status(PaymentStatus.REFUNDED)
         return amount
 
-    def get_action(self, payment):
-        return payment.get_success_url()
-
 class BankTransferProvider(BasicProvider):
     '''
         Banking software or human confirms transaction.
@@ -117,6 +114,3 @@ class BankTransferProvider(BasicProvider):
             amount = payment.total
         payment.change_status(PaymentStatus.REFUNDED)
         return amount
-
-    def get_action(self, payment):
-        return payment.get_success_url()

@@ -44,10 +44,10 @@ class PaymentView(SuccessMessageMixin, FormView):
         except RedirectNeeded as exc:
             return HttpResponseRedirect(exc.args[0])
         if form.validate():
-            messages.add_message(self.request, messages.SUCCESS, "Payment succeeded")
+            messages.add_message(request, messages.SUCCESS, "Payment succeeded")
             return self.form_valid(form)
         else:
-            messages.add_message(self.request, messages.ERROR, "Payment failed")
+            messages.add_message(request, messages.ERROR, "Payment failed")
             return self.form_invalid(form)
 
 class SelectPaymentForm(PaymentForm):

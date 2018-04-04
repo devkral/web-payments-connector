@@ -230,7 +230,7 @@ class BasicProvider(object):
         self._capture = capture
 
     def get_action(self, payment):
-        return payment.get_process_url()
+        return ""
 
     def get_form(self, payment, data=None, **kwargs):
         '''
