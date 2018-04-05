@@ -1,3 +1,5 @@
+from decimal import Decimal
+
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy, reverse
@@ -50,11 +52,12 @@ class PaymentView(SuccessMessageMixin, FormView):
 
 class SelectPaymentForm(PaymentForm):
     variant = SelectField("Payment Method", validators=[validators.InputRequired()])
-    total = DecimalField("Payment Method", validators=[])
+    total = DecimalField("Total amount", validators=[])
+    currency = StringField("Currency", validators=[])
     billing_first_name = StringField("First Name", validators=[validators.Length(max=255)])
     billing_last_name = StringField("Last Name", validators=[validators.Length(max=255)])
     billing_address_1 = StringField("Address", validators=[validators.Length(max=255)])
-    billing_address_2 = StringField("Address addition", validators=[validators.Length(max=255)])
+    billing_address_2 = StringField("Address extension", validators=[validators.Length(max=255)])
     billing_email = StringField("Email", widget=widgets.Input("email"), validators=[validators.Length(max=255), validators.Email(), validators.Optional()])
     billing_city = StringField("City", validators=[validators.Length(max=255)])
     billing_postcode = StringField("Post code", validators=[validators.Length(max=20)])
@@ -69,6 +72,7 @@ class SelectPaymentForm(PaymentForm):
 class SelectView(FormView):
     template_name = "form.html"
     success_url = reverse_lazy("payment-form")
+    initial = {"currency": "EUR", "total": Decimal("10.0")}
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
