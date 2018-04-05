@@ -3,7 +3,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 from django.views.generic import FormView
-from wtforms import SelectField, validators, StringField, widgets
+from wtforms import SelectField, validators, StringField, DecimalField, widgets
 from web_payments.forms import PaymentForm
 from web_payments.django import get_payment_model
 from web_payments import RedirectNeeded
@@ -50,6 +50,7 @@ class PaymentView(SuccessMessageMixin, FormView):
 
 class SelectPaymentForm(PaymentForm):
     variant = SelectField("Payment Method", validators=[validators.InputRequired()])
+    total = DecimalField("Payment Method", validators=[])
     billing_first_name = StringField("First Name", validators=[validators.Length(max=255)])
     billing_last_name = StringField("Last Name", validators=[validators.Length(max=255)])
     billing_address_1 = StringField("Address", validators=[validators.Length(max=255)])
