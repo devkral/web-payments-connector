@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy, reverse
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpResponseBadRequest
 from django.views.generic import FormView
 from wtforms import SelectField, validators
 from web_payments.forms import PaymentForm
@@ -44,8 +44,7 @@ class PaymentView(SuccessMessageMixin, FormView):
         except RedirectNeeded as exc:
             return HttpResponseRedirect(exc.args[0])
         except Exception as exc:
-            messages.add_message(request, messages.ERROR, "Error: exception: {}".format(exc))
-            return self.form_invalid(form)
+            return HttpResponseBadRequest(exc)
 
         if form.validate():
             messages.add_message(request, messages.SUCCESS, "Payment succeeded")
