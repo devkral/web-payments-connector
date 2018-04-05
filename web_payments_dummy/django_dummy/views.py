@@ -17,11 +17,6 @@ class PaymentView(SuccessMessageMixin, FormView):
         context["mytitle"] = "Payment"
         return context
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['safe_urls'] = ["", reverse("payment-form"), reverse("select-form")]
-        return context
-
     def get_form(self, form_class=None):
         payment = get_payment_model().objects.get(id=self.request.session["paymentid"])
         return payment.get_form(self.get_form_kwargs().get("data", None))
