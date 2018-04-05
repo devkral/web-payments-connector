@@ -3,6 +3,7 @@
 
 {% block main %}
 <form class="" action="{{ form.action }}" method="{{ form.method }}">
+  <button type="submit" style="margin-top: 20px; margin-bottom: 20px" class="btn btn-primary btn-large">{% trans "Proceed" %}</button>
   {% if form.action in safe_urls %}
     {% csrf_token %}
   {% endif %}
@@ -32,6 +33,6 @@
           </div>
       {% endif %}
   {% endfor %}
-  <button type="submit" style="margin-top: 20px" class="btn btn-primary btn-large">{% trans "Proceed" %}</button>
+  <button type="submit" style="margin-top: 20px; margin-bottom: 20px" class="btn btn-primary btn-large">{% trans "Proceed" %}</button>
 </form>
 {% endblock %}
