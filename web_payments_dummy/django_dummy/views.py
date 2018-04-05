@@ -3,7 +3,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 from django.views.generic import FormView
-from wtforms import SelectField, validators
+from wtforms import SelectField, validators, StringField, EmailField
 from web_payments.forms import PaymentForm
 from web_payments.django import get_payment_model
 from web_payments import RedirectNeeded
@@ -50,6 +50,16 @@ class PaymentView(SuccessMessageMixin, FormView):
 
 class SelectPaymentForm(PaymentForm):
     variant = SelectField("Payment Method", validators=[validators.InputRequired()])
+    first_name = StringField("First Name", validators=[validators.Length(max=255)])
+    last_name = StringField("Last Name", validators=[validators.Length(max=255)])
+    address_1 = StringField("Address", validators=[validators.Length(max=255)])
+    address_2 = StringField("Address addition", validators=[validators.Length(max=255)])
+    email = EmailField("Email", validators=[validators.Length(max=255), validators.Email()])
+    city = StringField("City", validators=[validators.Length(max=255)])
+    postcode = StringField("Post code", validators=[validators.Length(max=20)])
+    country_code = StringField("Country code", validators=[validators.Length(min=2, max=2)])
+    country_area = StringField("Country area", validators=[validators.Length(max=255)])
+
 
     def __init__(self, *args, **kwargs):
        super().__init__(*args, **kwargs)
@@ -70,7 +80,7 @@ class SelectView(FormView):
         return SelectPaymentForm(formdata=formkwargs.get("data", None), data=formkwargs["initial"])
 
     def form_valid(self, form):
-        payment = get_payment_model().objects.create(variant=form.variant.data)
+        payment = get_payment_model().objects.create(**form.data)
         self.request.session["paymentid"] = payment.id
         return super().form_valid(form)
 

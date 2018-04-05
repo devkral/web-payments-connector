@@ -20,7 +20,7 @@ def add_prefixed_address(prefix):
         setattr(dclass, address_2, models.CharField(max_length=256, blank=True))
         setattr(dclass, email, models.EmailField(blank=True))
         setattr(dclass, city, models.CharField(max_length=256, blank=True))
-        setattr(dclass, postcode, models.CharField(max_length=256, blank=True))
+        setattr(dclass, postcode, models.CharField(max_length=20, blank=True))
         setattr(dclass, country_code, models.CharField(max_length=2, blank=True))
         setattr(dclass, country_area, models.CharField(max_length=256, blank=True))
         return dclass
