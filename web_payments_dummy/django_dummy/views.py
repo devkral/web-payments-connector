@@ -11,8 +11,6 @@ from web_payments import RedirectNeeded
 class PaymentView(SuccessMessageMixin, FormView):
     template_name = "form.html"
 
-
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['safe_urls'] = ["", reverse("payment-form"), reverse("select-form")]
@@ -32,6 +30,7 @@ class PaymentView(SuccessMessageMixin, FormView):
         try:
             return super().get(request, *args, **kwargs)
         except RedirectNeeded as exc:
+            messages.add_message(request, messages.SUCCESS, "Payment redirects")
             return HttpResponseRedirect(exc.args[0])
 
     def post(self, request, *args, **kwargs):
@@ -42,6 +41,7 @@ class PaymentView(SuccessMessageMixin, FormView):
         try:
             form = self.get_form()
         except RedirectNeeded as exc:
+            messages.add_message(request, messages.SUCCESS, "Payment redirects")
             return HttpResponseRedirect(exc.args[0])
         #except Exception as exc:
         #    return HttpResponseBadRequest(exc, content_type="text/plain")
