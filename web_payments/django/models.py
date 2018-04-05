@@ -12,9 +12,8 @@ except ImportError:
 
 from .. import FraudStatus, PaymentStatus, ProviderVariant
 from ..logic import BasicPayment
-from .signals import status_changed
-from .utils import add_prefixed_address
 from ..utils import getter_prefixed_address
+from .signals import status_changed
 from . import get_base_url
 
 __all__ = ["BasePayment", "BasePaymentWithAddress"]
@@ -104,11 +103,20 @@ class BasePayment(models.Model, BasicPayment):
         return models.Model.save(self, **kwargs)
 
 
-@add_prefixed_address("billing")
 class BasePaymentWithAddress(BasePayment):
     """ Has real billing address + shippingaddress alias on billing address """
     get_billing_address = getter_prefixed_address("billing")
     get_shipping_address = get_billing_address
+
+    billing_first_name = models.CharField(max_length=256, blank=True)
+    billing_last_name = models.CharField(max_length=256, blank=True)
+    billing_address_1 = models.CharField(max_length=256, blank=True)
+    billing_address_2 = models.CharField(max_length=256, blank=True)
+    billing_email = models.EmailField(blank=True)
+    billing_city = models.CharField(max_length=256, blank=True)
+    billing_postcode = models.CharField(max_length=20, blank=True)
+    billing_country_code = models.CharField(max_length=2, blank=True)
+    billing_country_area = models.CharField(max_length=256, blank=True)
 
     class Meta:
         abstract = True
