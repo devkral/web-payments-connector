@@ -25,7 +25,7 @@ class PaymentView(SuccessMessageMixin, FormView):
         try:
             return super().get(request, *args, **kwargs)
         except RedirectNeeded as exc:
-            messages.add_message(request, messages.SUCCESS, "Payment redirects")
+            messages.add_message(request, messages.SUCCESS, "Payment redirects to %s" % exc.args[0])
             return HttpResponseRedirect(exc.args[0])
 
     def post(self, request, *args, **kwargs):
@@ -36,7 +36,7 @@ class PaymentView(SuccessMessageMixin, FormView):
         try:
             form = self.get_form()
         except RedirectNeeded as exc:
-            messages.add_message(request, messages.SUCCESS, "Payment redirects")
+            messages.add_message(request, messages.SUCCESS, "Payment redirects to %s" % exc.args[0])
             return HttpResponseRedirect(exc.args[0])
         #except Exception as exc:
         #    return HttpResponseBadRequest(exc, content_type="text/plain")
