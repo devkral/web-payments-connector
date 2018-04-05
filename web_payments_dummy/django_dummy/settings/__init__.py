@@ -54,8 +54,8 @@ ROOT_URLCONF = 'web_payments_dummy.django_dummy.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'web_payments_dummy', 'django_dummy', 'templates')],
-        'APP_DIRS': False,
+        'DIRS': [],
+        'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
@@ -115,7 +115,6 @@ USE_TZ = True
 
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "web_payments_dummy", "django_dummy", "static"),
 ]
 
 # Static files (CSS, JavaScript, Images)
