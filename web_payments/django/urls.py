@@ -67,7 +67,7 @@ def process_data(request, token, provider=None):
             content, type = ret
             return HttpResponse(content, type)
     except RedirectNeeded as exc:
-        return HttpResponseRedirect(exc)
+        return HttpResponseRedirect(exc.args[0])
     except Exception as exc:
         # for some providers this faces to the banking solution
         # log here for beeing visible
