@@ -29,5 +29,5 @@ urlpatterns = [
     url('^admin/', admin.site.urls),
     url('^payment/', include(web_payment_urls)),
     url('^form/$', PaymentView.as_view(), name="payment-form"),
-    url('^/$', SelectView.as_view(), name="select-form"),
+    url('', SelectView.as_view(), name="select-form"),
 ]
