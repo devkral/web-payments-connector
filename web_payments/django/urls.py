@@ -20,21 +20,7 @@ from . import get_payment_model
 from .. import HttpRequest, RedirectNeeded, provider_factory
 
 
-@csrf_exempt
-@atomic
-def process_data(request, token, provider=None):
-    '''
-    Calls process_data of an appropriate provider.
-
-    Raises Http404 if variant does not exist.
-    '''
-    Payment = get_payment_model()
-    payment = get_object_or_404(Payment, token=token)
-    if not provider:
-        try:
-            provider = payment.provider
-        except ValueError:
-            raise Http404('No such provider')
+def _process_data(request, payment, provider):
     try:
         # request should have some abstraction
         # redefine django request as namedtuple
@@ -74,6 +60,22 @@ def process_data(request, token, provider=None):
         # just log
         return HttpResponseServerError()
 
+@csrf_exempt
+@atomic
+def process_data(request, token, provider=None):
+    '''
+    Calls process_data of an appropriate provider.
+
+    Raises Http404 if variant does not exist.
+    '''
+    Payment = get_payment_model()
+    payment = get_object_or_404(Payment, token=token)
+    if not provider:
+        try:
+            provider = payment.provider
+        except ValueError:
+            raise Http404('No such provider')
+    return _process_data(request, payment, provider)
 
 @csrf_exempt
 @atomic
