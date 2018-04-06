@@ -44,10 +44,8 @@ class TestUrl(TestCase):
         request.body = json.dumps({'verification_result': verification_status})
         request.content_type = "application/json"
         testp = BasePayment(variant="DummyProvider")
-        with self.assertRaises(RedirectNeeded) as exc:
-            _process_data(request, testp, testp.provider)
-            self.assertEqual(testp.status, verification_status)
-            self.assertEqual(exc.args[0], testp.get_success_url())
+        self.assertEqual(_process_data(request, testp, testp.provider).url, testp.get_success_url())
+        self.assertEqual(testp.status, verification_status)
 
     @patch('web_payments.django.models.BasePayment.get_failure_url')
     @patch('web_payments.django.models.BasePayment.get_success_url')
@@ -62,8 +60,5 @@ class TestUrl(TestCase):
         request.content_type = "application/x-www-form-urlencoded"
         request.POST = {'verification_result': verification_status}
         testp = BasePayment(variant="DummyProvider")
-        with self.assertRaises(RedirectNeeded) as exc:
-            _process_data(request, testp, testp.provider)
-            self.assertEqual(testp.status, verification_status)
-            self.assertEqual(exc.args[0], testp.get_success_url())
-
+        self.assertEqual(_process_data(request, testp, testp.provider).url, testp.get_success_url())
+        self.assertEqual(testp.status, verification_status)
