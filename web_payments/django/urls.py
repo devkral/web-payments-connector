@@ -42,7 +42,7 @@ def process_data(request, token, provider=None):
         if request.method == "GET":
             content = None
         elif request.content_type == "application/json":
-            content = json.loads(request.content, use_decimal=True)
+            content = json.loads(request.body, use_decimal=True)
         elif request.content_type == "application/x-www-form-urlencoded":
             content = request.POST
         # XML is really a catastrophe
@@ -50,9 +50,9 @@ def process_data(request, token, provider=None):
             # I cannot allow people to handle xml themselves
             # You need good security know-how to handle it
             # Why people ban explosives and use xml?
-            content = xmltodict.parse(request.content)
+            content = xmltodict.parse(request.body)
         else:
-            content = request.content
+            content = request.body
         reqparsed = HttpRequest(request.method, request.GET, content, request.content_type)
         ret = provider.process_data(payment, reqparsed)
         if ret in (True, False, None):
