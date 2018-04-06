@@ -29,7 +29,7 @@ class TestHelpers(TestCase):
             testp.variant = i.extra["name"]
             self.assertIs(testp.provider, PROVIDER_CACHE[i.extra["name"]])
 
-"""
+
 class TestUrl(TestCase):
     @patch('web_payments.django.models.BasePayment.get_failure_url')
     @patch('web_payments.django.models.BasePayment.get_success_url')
@@ -57,12 +57,13 @@ class TestUrl(TestCase):
         failure.return_value = "failure.example.com"
         verification_status = PaymentStatus.CONFIRMED
         request = MagicMock()
+        request.GET = {}
         request.method = "POST"
         request.content_type = "application/x-www-form-urlencoded"
-        request.GET = {'verification_result': verification_status}
+        request.POST = {'verification_result': verification_status}
         testp = BasePayment(variant="DummyProvider")
         with self.assertRaises(RedirectNeeded) as exc:
             _process_data(request, testp, testp.provider)
             self.assertEqual(testp.status, verification_status)
             self.assertEqual(exc.args[0], testp.get_success_url())
-"""
+
