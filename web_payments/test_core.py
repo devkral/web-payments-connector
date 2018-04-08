@@ -15,7 +15,7 @@ class TestTranslation(TestCase):
 
     def test_translation(self):
         old_lang = translation.get_language()
-        for i in ["en", "ru", "it"]:
+        for i in ["de", "en", "ru", "it"]:
             translation.set_language(i)
             self.assertEqual(translation.get_language(), i)
             for count, val in enumerate(PaymentStatus.CHOICES):
