@@ -156,7 +156,7 @@ html_theme = 'default'
 #html_file_suffix = ''
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'django-paymentsdoc'
+htmlhelp_basename = 'web-payments-doc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
