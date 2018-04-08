@@ -23,11 +23,11 @@ msgstr ""
 
 #: web_payments/forms.py:30
 msgid "Please enter a valid card number."
-msgstr "Пожалуйста введите правильный номер карты."
+msgstr ""
 
 #: web_payments/forms.py:90
-msgid "Card Number"
-msgstr "Номер карты"
+msgid "Credit Card Number"
+msgstr ""
 
 #: web_payments/forms.py:95
 msgid "Expiration date (YYYY-MM):"
@@ -39,11 +39,11 @@ msgstr ""
 
 #: web_payments/forms.py:101
 msgid "CVV2 Security Number"
-msgstr "Код безопасности CVV2"
+msgstr ""
 
 #: web_payments/forms.py:101
 msgid "Enter a valid security number."
-msgstr "Введите правильный код безопасности"
+msgstr ""
 
 #: web_payments/forms.py:103
 msgid ""
@@ -55,49 +55,47 @@ msgstr ""
 #, python-format
 msgid "We accept only %(valid_types)s"
 msgstr ""
-"Последние три цифры, находящиеся на обратной стороне карты. Для карт "
-"American Express - четыре цифры на лицевой стороне."
 
 #: web_payments/forms.py:118
 msgid "Name on Credit Card"
-msgstr "Имя на карте"
+msgstr ""
 
 #: web_payments/status.py:17
 msgid "Waiting for confirmation"
-msgstr "Ожидает подтверждения"
+msgstr ""
 
 #: web_payments/status.py:18
 msgid "Pre-authorized"
-msgstr "Авторизован"
+msgstr ""
 
 #: web_payments/status.py:19
 msgid "Confirmed"
-msgstr "Подтвержден"
+msgstr ""
 
 #: web_payments/status.py:20 web_payments/status.py:35
 msgid "Rejected"
-msgstr "Отклонен"
+msgstr ""
 
 #: web_payments/status.py:21
 msgid "Refunded"
-msgstr "Возмещен"
+msgstr ""
 
 #: web_payments/status.py:22
 msgid "Error"
-msgstr "Ошибка"
+msgstr ""
 
 #: web_payments/status.py:23
 msgid "Input"
-msgstr "Введен"
+msgstr ""
 
 #: web_payments/status.py:33
 msgid "Unknown"
-msgstr "Неизвестный"
+msgstr ""
 
 #: web_payments/status.py:34
 msgid "Passed"
-msgstr "Одобрен"
+msgstr ""
 
 #: web_payments/status.py:36
 msgid "Review"
-msgstr "На рассмотрении"
+msgstr ""

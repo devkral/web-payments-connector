@@ -19,85 +19,85 @@ msgstr ""
 
 #: web_payments/forms.py:18
 msgid "Please enter a valid date."
-msgstr ""
+msgstr "Bitte geben Sie ein gültiges Datum ein."
 
 #: web_payments/forms.py:30
 msgid "Please enter a valid card number."
-msgstr "Пожалуйста введите правильный номер карты."
+msgstr "Bitte geben Sie eine gültige Kartennummer ein."
 
 #: web_payments/forms.py:90
-msgid "Card Number"
-msgstr "Номер карты"
+msgid "Credit Card Number"
+msgstr "Kreditkartennummer"
 
 #: web_payments/forms.py:95
 msgid "Expiration date (YYYY-MM):"
-msgstr ""
+msgstr "Ablaufdatum (JJJJ-MM)"
 
 #: web_payments/forms.py:96
 msgid "Enter a valid expiration date."
-msgstr ""
+msgstr "Bitte geben Sie ein gültiges Ablaufdatum ein"
 
 #: web_payments/forms.py:101
 msgid "CVV2 Security Number"
-msgstr "Код безопасности CVV2"
+msgstr "CVV2 Sicherheitsnummer"
 
 #: web_payments/forms.py:101
 msgid "Enter a valid security number."
-msgstr "Введите правильный код безопасности"
+msgstr "Bitte geben Sie eine gültige Sicherheitsnummer ein."
 
 #: web_payments/forms.py:103
 msgid ""
 "Last three digits located on the back of your card. For American Express the "
 "four digits found on the front side."
 msgstr ""
+"Die letzten drei Zahlen sind auf der Rückseite Ihrer Karte. Für American Express "
+"die vier Zahlen auf der Vorderseite"
 
 #: web_payments/forms.py:114
 #, python-format
 msgid "We accept only %(valid_types)s"
-msgstr ""
-"Последние три цифры, находящиеся на обратной стороне карты. Для карт "
-"American Express - четыре цифры на лицевой стороне."
+msgstr "Wir akzeptieren nur %(valid_types)s"
 
 #: web_payments/forms.py:118
 msgid "Name on Credit Card"
-msgstr "Имя на карте"
+msgstr "Name auf der Kreditkarte"
 
 #: web_payments/status.py:17
 msgid "Waiting for confirmation"
-msgstr "Ожидает подтверждения"
+msgstr "Warte auf Bestätigung"
 
 #: web_payments/status.py:18
 msgid "Pre-authorized"
-msgstr "Авторизован"
+msgstr "Vor authorisiert"
 
 #: web_payments/status.py:19
 msgid "Confirmed"
-msgstr "Подтвержден"
+msgstr "Bestätigt"
 
 #: web_payments/status.py:20 web_payments/status.py:35
 msgid "Rejected"
-msgstr "Отклонен"
+msgstr "Abgelehnt"
 
 #: web_payments/status.py:21
 msgid "Refunded"
-msgstr "Возмещен"
+msgstr "Zurückgezahlt"
 
 #: web_payments/status.py:22
 msgid "Error"
-msgstr "Ошибка"
+msgstr "Fehler"
 
 #: web_payments/status.py:23
 msgid "Input"
-msgstr "Введен"
+msgstr "Eingabe"
 
 #: web_payments/status.py:33
 msgid "Unknown"
-msgstr "Неизвестный"
+msgstr "Unbekannt"
 
 #: web_payments/status.py:34
 msgid "Passed"
-msgstr "Одобрен"
+msgstr "Bestanden"
 
 #: web_payments/status.py:36
 msgid "Review"
-msgstr "На рассмотрении"
+msgstr "Review nötig"

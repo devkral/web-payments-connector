@@ -27,7 +27,7 @@ class DateValidator(object):
 class CreditCardNumberValidator(object):
     def __init__(self, message=None):
         if not message:
-            message = _('Please enter a valid card number')
+            message = _('Please enter a valid card number.')
         self.message = message
 
     def __call__(self, form, field):
@@ -87,7 +87,7 @@ class CreditCardPaymentForm(PaymentForm):
     # which credit card types are accepted?
     VALID_TYPES = None
 
-    number = StringField(label=_('Card Number'),
+    number = StringField(label=_('Credit Card Number'),
         validators=[validators.InputRequired(), validators.Length(max=32),
                     CreditCardNumberValidator()],
         render_kw={'autocomplete': 'cc-number'})
