@@ -51,7 +51,9 @@ class DummyProvider(BasicProvider):
         return form
 
     def process_data(self, payment, request):
-        verification_result = request.GET.get('verification_result', request.POST.get('verification_result'))
+        verification_result = request.GET.get('verification_result', None)
+        if not verification_result and hasattr(request.POST, 'get'):
+            verification_result = request.POST.get('verification_result', None)
         if verification_result:
             payment.change_status(verification_result)
         if payment.status in [PaymentStatus.CONFIRMED, PaymentStatus.PREAUTH]:

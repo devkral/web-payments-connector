@@ -50,7 +50,7 @@ class TestUrl(TestCase):
     @patch('web_payments.django.models.BasePayment.get_failure_url')
     @patch('web_payments.django.models.BasePayment.get_success_url')
     @patch('web_payments.django.models.BasePayment.save')
-    def test_get(self, save, success, failure):
+    def test_www(self, save, success, failure):
         success.return_value = "success.example.com"
         failure.return_value = "failure.example.com"
         verification_status = PaymentStatus.CONFIRMED
@@ -59,6 +59,22 @@ class TestUrl(TestCase):
         request.method = "POST"
         request.content_type = "application/x-www-form-urlencoded"
         request.POST = {'verification_result': verification_status}
+        testp = BasePayment(variant="DummyProvider")
+        self.assertEqual(_process_data(request, testp, testp.provider).url, testp.get_success_url())
+        self.assertEqual(testp.status, verification_status)
+
+    @patch('web_payments.django.models.BasePayment.get_failure_url')
+    @patch('web_payments.django.models.BasePayment.get_success_url')
+    @patch('web_payments.django.models.BasePayment.save')
+    def test_get(self, save, success, failure):
+        success.return_value = "success.example.com"
+        failure.return_value = "failure.example.com"
+        verification_status = PaymentStatus.CONFIRMED
+        request = MagicMock()
+        request.GET = {'verification_result': verification_status}
+        request.POST = {}
+        request.method = "GET"
+        request.content_type = None
         testp = BasePayment(variant="DummyProvider")
         self.assertEqual(_process_data(request, testp, testp.provider).url, testp.get_success_url())
         self.assertEqual(testp.status, verification_status)
