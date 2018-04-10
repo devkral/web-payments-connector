@@ -20,5 +20,6 @@ Features:
 TODO:
 * porting backends
 * documentation for version 2.1
+* Maybe: safe token cache facility
 
 Note: I use semantic versioning.
