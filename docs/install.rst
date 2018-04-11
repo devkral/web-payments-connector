@@ -44,7 +44,7 @@ Installation
       from django.shortcuts import get_object_or_404, redirect
       from django.template.response import TemplateResponse
       from web_payments import RedirectNeeded
-      from web_payments.core import get_payment_model
+      from web_payments.django import get_payment_model
 
       def payment_details(request, payment_id):
           payment = get_object_or_404(get_payment_model(), id=payment_id)
