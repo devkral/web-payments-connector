@@ -14,8 +14,6 @@ Capturing the payment
 ---------------------
 To capture the payment from the buyer, call the ``capture()`` method on the :class:`Payment` instance::
 
-      >>> from web_payments.core import get_payment_model
-      >>> Payment = get_payment_model()
       >>> payment = Payment.objects.get()
       >>> payment.capture()
 
@@ -33,8 +31,6 @@ Releasing the payment
 ---------------------
 To release the payment to the buyer, call the ``release()`` method on your :class:`Payment` instance::
 
-      >>> from web_payments.core import get_payment_model
-      >>> Payment = get_payment_model()
       >>> payment = Payment.objects.get()
       >>> payment.release()
 

@@ -36,11 +36,11 @@ def create_test_payment(PAYMENT_VARIANTS_API=PAYMENT_VARIANTS_API, **attributes)
         created = datetime.now()
         modified = datetime.now()
 
-        billing_first_name = 'John'
-        billing_last_name = 'Smith'
-        billing_address_1 = 'JohnStreet 23'
-        billing_address_2 = ''
-        billing_city = 'Neches'
+        billing_first_name = "John"
+        billing_last_name = "Smith"
+        billing_address_1 = "JohnStreet 23"
+        billing_address_2 = ""
+        billing_city = "Neches"
         billing_postcode = "75779"
         billing_country_code = "US"
         billing_country_area = "Tennessee"
@@ -84,7 +84,7 @@ def create_test_payment(PAYMENT_VARIANTS_API=PAYMENT_VARIANTS_API, **attributes)
             return 'http://cancel.com'
 
         def get_process_url(self, extra_data=None):
-            return 'http://example.com'
+            return 'http://example.com/token'
 
         def get_success_url(self):
             return 'http://success.com'

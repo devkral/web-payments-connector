@@ -1,16 +1,11 @@
 {% extends 'base.html' %}
-{% load i18n %}
 
 {% block main %}
-<form class="" action="{{ form.action }}" method="{{ form.method }}">
-  <button type="submit" style="margin-top: 20px; margin-bottom: 20px" class="btn btn-primary btn-large">{% trans "Proceed" %}</button>
-  {% if form.action in safe_urls %}
-    {% csrf_token %}
-  {% endif %}
-
-  {% if form.error %}
+<form action="" method="POST">
+  <button type="submit" style="margin-top: 20px; margin-bottom: 20px" class="btn">Proceed</button>
+  {% if form.errors %}
   <div class="w3-red w3-padding">
-      <strong>{% trans "Oops! We found some errors" %}</strong> - {% trans "please check the error messages below and try again" %}
+      <strong>Errors found</strong> - please check the error messages below and try again
   </div>
   {% endif %}
 
@@ -18,7 +13,7 @@
       {% if field.type == "HiddenField" %}
           {{ field }}
       {% else %}
-          <div class="w3-cell-row w3-gray w3-padding w3-margin {% if field.errors %}error{% endif %}">
+          <div class="w3-cell-row w3-padding w3-margin {% if field.errors %}w3-red{% else %}w3-gray{% endif %}">
             <div class="w3-cell w3-half">
               {{ field.label }}
               {{ field }}
@@ -33,6 +28,6 @@
           </div>
       {% endif %}
   {% endfor %}
-  <button type="submit" style="margin-top: 20px; margin-bottom: 20px" class="btn btn-primary btn-large">{% trans "Proceed" %}</button>
+  <button type="submit" style="margin-top: 20px; margin-bottom: 20px" class="btn">Proceed</button>
 </form>
 {% endblock %}

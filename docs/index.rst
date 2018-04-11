@@ -11,6 +11,7 @@ Welcome to web-payments-connector's documentation!
    :caption: Contents:
 
    install.rst
+   django.rst
    usage.rst
    refund.rst
    preauth.rst
