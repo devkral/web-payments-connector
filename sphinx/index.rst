@@ -1,5 +1,5 @@
 web-payments-connector
-===============
+======================
 
 Contents:
 
