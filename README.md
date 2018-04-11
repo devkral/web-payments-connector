@@ -22,5 +22,6 @@ TODO:
 * porting backends
 * documentation for version 2.1
 * Maybe: safe token cache facility
+* django-oscar integration
 
 Note: I use semantic versioning.
