@@ -2,7 +2,7 @@ Django Helpers
 ==============
 
 
-#. Add the callback processor to your URL router::
+#. URL callback processor::
 
       # urls.py
       from django.urls import include, url
@@ -10,7 +10,7 @@ Django Helpers
       urlpatterns = [
           url('^payments/', include('web_payments.urls'))]
 
-#. Define a :class:`Payment` model by subclassing :class:`web_payments.django.models.BasePayment`::
+#. Creating a :class:`Payment` model by subclassing more sophisticated :class:`web_payments.django.models.BasePayment` or :class:`web_payments.django.models.BasePaymentWithAddress`::
 
       # mypaymentapp/models.py
       from decimal import Decimal
@@ -33,7 +33,7 @@ Django Helpers
 
    The :meth:`get_purchased_items` method should return an iterable yielding instances of :class:`web_payments.PurchasedItem`.
 
-#. Write a view that will handle the payment. You can obtain a form instance by passing POST data to ``payment.get_form()``::
+#. Get Payment object with ``payment.get_form()`` (full view example)::
 
       # mypaymentapp/views.py
       from django.shortcuts import get_object_or_404, redirect
@@ -54,26 +54,7 @@ Django Helpers
 
       Please note that :meth:`Payment.get_form` may raise a :exc:`RedirectNeeded` exception.
 
-#. Prepare a template that displays the form using its *action* and *method*:
-
-   .. code-block:: html
-
-      <!-- templates/payment.html -->
-      <form action="" method="POST">
-          {% for field in form %}
-              {{ field.label }}
-              {{ field }}
-              {% for error in field.errors %}
-                  <ul class="error-block">
-                      <li>{{ error }}</li>
-                  </ul>
-              {% endfor %}
-          {% endfor %}
-          <p><input type="submit" value="Proceed" /></p>
-      </form>
-
-
-#. Configure your ``settings.py``::
+#. Configuration by ``settings.py``::
 
       # settings.py
       INSTALLED_APPS = [

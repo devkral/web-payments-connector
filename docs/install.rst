@@ -69,3 +69,43 @@ Installation
                                   quantity=9, price=Decimal(10), currency='USD')
 
 The :meth:`get_purchased_items` method should return an iterable yielding instances of :class:`web_payments.PurchasedItem`.
+
+
+
+#. Write a view that will handle the payment. You can obtain a form instance by passing POST data to ``payment.get_form()``::
+
+      # mypaymentapp/views.py
+      ...
+      from web_payments import RedirectNeeded
+
+      def func(payment):
+          try:
+              form = payment.get_form(data=request.POST or None)
+          except RedirectNeeded as redirect_to:
+              return redirect(redirect_to.args[0])
+          return render(request, 'payment.html',
+                                  {'form': form, 'payment': payment})
+
+   .. note::
+
+      Please note that :meth:`Payment.get_form` may raise a :exc:`RedirectNeeded` exception.
+
+
+#. Create a form template
+
+   .. code-block:: html
+
+      <!-- templates/payment.html -->
+      <form action="" method="POST">
+          {% for field in form %}
+              {{ field.label }} <!-- optional -->
+              {{ field }}
+              <!-- the next step is optional -->
+              {% for error in field.errors %}
+                  <ul>
+                      <li>{{ error }}</li>
+                  </ul>
+              {% endfor %}
+          {% endfor %}
+          <p><input type="submit" value="Proceed" /></p>
+      </form>

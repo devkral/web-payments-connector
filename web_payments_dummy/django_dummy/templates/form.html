@@ -3,6 +3,9 @@
 {% block main %}
 <form action="" method="POST">
   <button type="submit" style="margin-top: 20px; margin-bottom: 20px" class="btn">Proceed</button>
+  {% if form.action in safe_urls %}
+    {% csrf_token %}
+  {% endif %}
   {% if form.errors %}
   <div class="w3-red w3-padding">
       <strong>Errors found</strong> - please check the error messages below and try again
