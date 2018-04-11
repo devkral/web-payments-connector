@@ -1,0 +1,182 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Django Helpers &#8212; web-payments-connector  documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Making a payment" href="usage.html" />
+    <link rel="prev" title="Installation" href="install.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="usage.html" title="Making a payment"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="install.html" title="Installation"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">web-payments-connector  documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="django-helpers">
+<h1>Django Helpers<a class="headerlink" href="#django-helpers" title="Permalink to this headline">¶</a></h1>
+<ol class="arabic">
+<li><p class="first">URL callback processor:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># urls.py</span>
+<span class="kn">from</span> <span class="nn">django.urls</span> <span class="k">import</span> <span class="n">include</span><span class="p">,</span> <span class="n">url</span>
+
+<span class="n">urlpatterns</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">url</span><span class="p">(</span><span class="s1">&#39;^payments/&#39;</span><span class="p">,</span> <span class="n">include</span><span class="p">(</span><span class="s1">&#39;web_payments.urls&#39;</span><span class="p">))]</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Creating a <code class="xref py py-class docutils literal notranslate"><span class="pre">Payment</span></code> model by subclassing more sophisticated <code class="xref py py-class docutils literal notranslate"><span class="pre">web_payments.django.models.BasePayment</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">web_payments.django.models.BasePaymentWithAddress</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># mypaymentapp/models.py</span>
+<span class="kn">from</span> <span class="nn">decimal</span> <span class="k">import</span> <span class="n">Decimal</span>
+
+<span class="kn">from</span> <span class="nn">web_payments</span> <span class="k">import</span> <span class="n">PurchasedItem</span>
+<span class="kn">from</span> <span class="nn">web_payments.models</span> <span class="k">import</span> <span class="n">BasePayment</span>
+
+<span class="k">class</span> <span class="nc">Payment</span><span class="p">(</span><span class="n">BasePayment</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">get_failure_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;http://example.com/failure/&#39;</span>
+
+    <span class="k">def</span> <span class="nf">get_success_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;http://example.com/success/&#39;</span>
+
+    <span class="k">def</span> <span class="nf">get_purchased_items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># you&#39;ll probably want to retrieve these from an associated order</span>
+        <span class="k">yield</span> <span class="n">PurchasedItem</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;The Hound of the Baskervilles&#39;</span><span class="p">,</span> <span class="n">sku</span><span class="o">=</span><span class="s1">&#39;BSKV&#39;</span><span class="p">,</span>
+                            <span class="n">quantity</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">price</span><span class="o">=</span><span class="n">Decimal</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">currency</span><span class="o">=</span><span class="s1">&#39;USD&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_purchased_items()</span></code> method should return an iterable yielding instances of <code class="xref py py-class docutils literal notranslate"><span class="pre">web_payments.PurchasedItem</span></code>.</p>
+</li>
+<li><p class="first">Get Payment object with <code class="docutils literal notranslate"><span class="pre">payment.get_form()</span></code> (full view example):</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># mypaymentapp/views.py</span>
+<span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="k">import</span> <span class="n">get_object_or_404</span><span class="p">,</span> <span class="n">redirect</span>
+<span class="kn">from</span> <span class="nn">django.template.response</span> <span class="k">import</span> <span class="n">TemplateResponse</span>
+<span class="kn">from</span> <span class="nn">web_payments</span> <span class="k">import</span> <span class="n">RedirectNeeded</span>
+<span class="kn">from</span> <span class="nn">web_payments.django</span> <span class="k">import</span> <span class="n">get_payment_model</span>
+
+<span class="k">def</span> <span class="nf">payment_details</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="n">payment_id</span><span class="p">):</span>
+    <span class="n">payment</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">get_payment_model</span><span class="p">(),</span> <span class="nb">id</span><span class="o">=</span><span class="n">payment_id</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">form</span> <span class="o">=</span> <span class="n">payment</span><span class="o">.</span><span class="n">get_form</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">RedirectNeeded</span> <span class="k">as</span> <span class="n">redirect_to</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="n">redirect_to</span><span class="o">.</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">TemplateResponse</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="s1">&#39;payment.html&#39;</span><span class="p">,</span>
+                            <span class="p">{</span><span class="s1">&#39;form&#39;</span><span class="p">:</span> <span class="n">form</span><span class="p">,</span> <span class="s1">&#39;payment&#39;</span><span class="p">:</span> <span class="n">payment</span><span class="p">})</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Please note that <code class="xref py py-meth docutils literal notranslate"><span class="pre">Payment.get_form()</span></code> may raise a <code class="xref py py-exc docutils literal notranslate"><span class="pre">RedirectNeeded</span></code> exception.</p>
+</div>
+</li>
+<li><p class="first">Configuration by <code class="docutils literal notranslate"><span class="pre">settings.py</span></code>:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># settings.py</span>
+<span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="c1"># ...</span>
+    <span class="s1">&#39;web_payments.django&#39;</span><span class="p">,</span>
+    <span class="p">]</span>
+
+<span class="n">PAYMENT_HOST</span> <span class="o">=</span> <span class="s1">&#39;localhost:8000&#39;</span>
+<span class="n">PAYMENT_PROTOCOL</span> <span class="o">=</span> <span class="s2">&quot;https&quot;</span>
+<span class="n">PAYMENT_MODEL</span> <span class="o">=</span> <span class="s1">&#39;mypaymentapp.Payment&#39;</span>
+<span class="c1"># &#39;default&#39; is used as extras[&quot;name&quot;]</span>
+<span class="n">PAYMENT_VARIANTS_API</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;web_payments_dummy.DummyProvider&#39;</span><span class="p">,</span> <span class="p">{},</span> <span class="p">{</span><span class="s2">&quot;localized_name&quot;</span><span class="p">:</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="s2">&quot;icon&quot;</span><span class="p">:</span> <span class="s2">&quot;icon.png&quot;</span><span class="p">})}</span>
+</pre></div>
+</div>
+<p>Variants are named pairs of payment providers, their configuration and extra information.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Variant names may are used in URLs so it’s best to stick to ASCII.</p>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">PAYMENT_HOST can also be a callable object which takes a <code class="xref py py-class docutils literal notranslate"><span class="pre">web_payments.ProviderVariant</span></code>.</p>
+</div>
+</li>
+</ol>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="install.html"
+                        title="previous chapter">Installation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="usage.html"
+                        title="next chapter">Making a payment</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/django.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="usage.html" title="Making a payment"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="install.html" title="Installation"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">web-payments-connector  documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.
+    </div>
+  </body>
+</html>
