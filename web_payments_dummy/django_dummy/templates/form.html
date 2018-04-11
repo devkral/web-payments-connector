@@ -15,7 +15,7 @@
   {% endif %}
 
   {% for field in form %}
-      {% if field.is_hidden %}
+      {% if field.type == "HiddenField" %}
           {{ field }}
       {% else %}
           <div class="w3-cell-row w3-gray w3-padding w3-margin {% if field.errors %}error{% endif %}">
