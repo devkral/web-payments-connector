@@ -35,7 +35,35 @@ class PaymentAttributeProxy(object):
         self._payment.extra_data = json.dumps(data, use_decimal=True)
 
 class BasicPayment(object):
-    ''' Logic of a Payment object, basis for implementations '''
+    '''
+        Logic of a Payment object, basis for implementations
+    '''
+
+    #: select payment provider
+    variant = NotImplemented
+    #: Transaction status
+    status = NotImplemented
+    #: Transaction status message
+    message = NotImplemented
+
+    #: fraud status
+    fraud_status = NotImplemented
+    #: fraud message
+    fraud_message = NotImplemented
+
+    #: for attrs pseudo dict
+    extra_data = NotImplemented
+    #: secret token (for get_process_url)
+    token = NotImplemented
+    #: Transaction ID (if applicable)
+    transaction_id = NotImplemented
+
+    #: Currency code (may be provider-specific)
+    currency = NotImplemented
+    #: Total amount (gross)
+    total = NotImplemented
+    #: captured = current captured amount
+    captured_amount = NotImplemented
 
     def change_status(self, status, message=''):
         '''
@@ -180,9 +208,12 @@ class BasicPayment(object):
         if amount:
             if amount > self.captured_amount:
                 raise ValueError(
-                    'Refund amount can not be greater then captured amount')
+                    'Refund amount can not be greater than captured amount')
         amount = self.provider.refund(self, amount)
         if amount:
+            if amount > self.captured_amount:
+                raise ValueError(
+                    'Provider returned refund amount can not be greater than captured amount')
             self.captured_amount -= amount
             if self.captured_amount == 0 and self.status != PaymentStatus.REFUNDED:
                 self.change_status(PaymentStatus.REFUNDED)

@@ -6,7 +6,7 @@ import sys
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'test_settings')
 
-DJANGO_VERSIONS="django>=1.11<2.1a"
+DJANGO_VERSIONS="django>=1.11"
 
 PACKAGES = [
     'web_payments',

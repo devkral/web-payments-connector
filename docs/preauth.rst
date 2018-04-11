@@ -9,6 +9,11 @@ Some gateways offer a two-step payment method known as Authorization & Capture, 
       PAYMENT_VARIANTS_API = {
           'default': ('web_payments_dummy.DummyProvider', {'capture': False}, {})}
 
+      # as PaymentVariant
+          ...
+          PaymentVariant('web_payments_dummy.DummyProvider', {'capture': False}, {})
+          ....
+
 
 Capturing the payment
 ---------------------
@@ -17,10 +22,11 @@ To capture the payment from the buyer, call the ``capture()`` method on the :cla
       >>> payment = Payment.objects.get()
       >>> payment.capture()
 
-By default, the total amount will be captured. You can capture a lower amount, by providing the ``amount`` parameter::
+By default, the total amount will be captured and the capture will be finalized. You can capture a lower amount, by providing the ``amount`` parameter and take multiple captures by providing final::
 
       >>> from decimal import Decimal
-      >>> payment.capture(amount=Decimal(10.0))
+      >>> captured_amount = payment.capture(amount=Decimal(10.0), final=False)
+      >>> payment.capture(amount=Decimal(10.0), final=True)
 
 .. note::
 

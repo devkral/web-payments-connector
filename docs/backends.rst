@@ -1,3 +1,16 @@
+Basic Backend Definition
+========================
+
+Default arguments
+-----------------
+
+captured: Default: True, if False enable preauth
+
+Default extras
+--------------
+
+name: name for provider_factory caching
+
 Builtin backends
 ================
 
@@ -11,5 +24,13 @@ Dummy
 
 Example::
 
-      PAYMENT_VARIANTS_API = {
-          'dummy': ('web_payments_dummy.DummyProvider', {}, {})}
+      from web_payments import PaymentVariant
+
+      PaymentVariant('web_payments_dummy.DummyProvider', {}, {})
+
+
+
+Writing a backend
+=================
+
+TODO

@@ -19,10 +19,7 @@ Making a payment
           billing_city='London',
           billing_postcode='NW1 6XE',
           billing_country_code='UK',
-          billing_country_area='Greater London',
-          customer_ip_address='127.0.0.1')
-
-#. Redirect the user to your payment handling view.
+          billing_country_area='Greater London')
 
 
 Payment amounts
@@ -72,7 +69,7 @@ Some gateways provide services used for fraud detection. You can check the fraud
       The fraud status is unknown. This is the default status for gateways, that do not involve fraud detection.
 
 ``accept``
-      Fraud was not detected.
+      Fraud was not detected. Appears as "passed"
 
 ``reject``
       Fraud service detected some problems with the payment. Inspect the details by accessing the ``payment.fraud_message`` field.

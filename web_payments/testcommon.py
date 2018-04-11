@@ -1,11 +1,8 @@
 
-from datetime import datetime
 from decimal import Decimal
 from .logic import BasicPayment
 from . import PaymentStatus, PurchasedItem, ProviderVariant, provider_factory
 from .utils import getter_prefixed_address
-from functools import partial
-from unittest import mock
 
 __all__ = ["create_test_payment"]
 
@@ -33,8 +30,6 @@ def create_test_payment(PAYMENT_VARIANTS_API=PAYMENT_VARIANTS_API, **attributes)
         extra_data = ""
         variant = "undefined"
         transaction_id = None
-        created = datetime.now()
-        modified = datetime.now()
 
         billing_first_name = "John"
         billing_last_name = "Smith"

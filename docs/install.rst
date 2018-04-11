@@ -10,8 +10,6 @@ Installation
 
 #. Create a :class:`Payment` model by subclassing :class:`web_payments.logic.BasicPayment`::
 
-    .. code-block:: python3
-
       from decimal import Decimal
 
       from web_payments import PurchasedItem

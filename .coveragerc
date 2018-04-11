@@ -1,9 +1,13 @@
 [run]
-branch = 1
+branch = True
 omit =
     web_payments/test_*.py
     web_payments/*/test_*.py
-source = web_payments
+source =
+    web_payments
+    web_payments_dummy
+    web_payments_externalpayments
+
 
 [report]
 exclude_lines =
