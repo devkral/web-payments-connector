@@ -15,12 +15,12 @@ help:
 
 .PHONY: help Makefile
 
-html:
+html2:
 	@$(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 	rsync -a --delete "--exclude=.git" $(BUILDDIR)/html/ $(HTMLDIR)
 
 
-buildandcommithtml: html
+buildandcommithtml: html2
 	pushd $(HTMLDIR); git add . ; git commit -m "rebuilt docs"; git push origin gh-pages; popd
 
 # Catch-all target: route all unknown targets to Sphinx using the new
