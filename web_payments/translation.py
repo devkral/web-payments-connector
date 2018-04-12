@@ -77,6 +77,9 @@ class _lazy_constant(object):
     def __str__(self):
         return self.func()
 
+    def __repr__(self):
+        return "'%s'" % self.func()
+
 class Translation(object):
     fallback = None
     domain = None
