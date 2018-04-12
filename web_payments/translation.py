@@ -49,12 +49,17 @@ class _lazy_constant(object):
         functools.update_wrapper(self, func)
 
     def deconstruct(self):
-        selfname = ".".join([self.__class__.__module__, self.__class__.__qualname__])
+        selfname = ".".join([_lazy_constant.__module__, _lazy_constant.__qualname__])
         args = [(self.func.func.__self__.instance_path, self.func.func.__qualname__.split(".", 1)[1])]
         # python 3.4 compatibility
         for arg in self.func.args:
             args.append(arg)
         return (selfname, args, self.func.keywords)
+
+    def __getattribute__(self, item):
+        if item in ("func", "__dict__", "__init__", "deconstruct"):
+            return super().__getattribute__(item)
+        return self.func().__getattribute__(item)
 
     def __eq__(self, obj):
         return self.func().__eq__(obj)
@@ -73,6 +78,12 @@ class _lazy_constant(object):
 
     def __ge__(self, obj):
         return self.func().__ge__(obj)
+
+    def __iter__(self):
+        return self.func().__iter__()
+
+    def __len__(self):
+        return self.func().__len__()
 
     def __str__(self):
         return self.func()
