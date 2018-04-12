@@ -2,7 +2,6 @@ import os
 import gettext
 import functools
 import threading
-import importlib
 
 
 __all__ = ["web_payments_translation_path", "set_language", "get_language", "Translation", "translation"]
@@ -11,6 +10,7 @@ web_payments_translation_path = os.path.join(os.path.dirname(__file__), "locale"
 
 class _TLocal(threading.local):
     def __init__(self, **kwargs):
+        super().__init__()
         for key, val in kwargs.items():
             setattr(self, key, val)
 
@@ -61,35 +61,16 @@ class _lazy_constant(object):
             return super().__getattribute__(item)
         return self.func().__getattribute__(item)
 
-    def __eq__(self, obj):
-        return self.func().__eq__(obj)
-
-    def __ne__(self, obj):
-        return self.func().__ne__(obj)
-
-    def __lt__(self, obj):
-        return self.func().__lt__(obj)
-
-    def __le__(self, obj):
-        return self.func().__le__(obj)
-
-    def __gt__(self, obj):
-        return self.func().__gt__(obj)
-
-    def __ge__(self, obj):
-        return self.func().__ge__(obj)
-
-    def __iter__(self):
-        return self.func().__iter__()
-
-    def __len__(self):
-        return self.func().__len__()
-
-    def __str__(self):
-        return self.func()
-
-    def __repr__(self):
-        return "'%s'" % self.func()
+    def __eq__(self, obj): return self.func().__eq__(obj)
+    def __ne__(self, obj): return self.func().__ne__(obj)
+    def __lt__(self, obj): return self.func().__lt__(obj)
+    def __le__(self, obj): return self.func().__le__(obj)
+    def __gt__(self, obj): return self.func().__gt__(obj)
+    def __ge__(self, obj): return self.func().__ge__(obj)
+    def __iter__(self): return self.func().__iter__()
+    def __len__(self): return self.func().__len__()
+    def __str__(self): return self.func()
+    def __repr__(self): return "'%s'" % self.func()
 
 class Translation(object):
     fallback = None
@@ -109,8 +90,7 @@ class Translation(object):
     def _trans(self, lang):
         if lang:
             return gettext.translation("web_payments", self.translation_path, [lang]+self.fallback, fallback=True)
-        else:
-            return gettext.translation("web_payments", self.translation_path, self.fallback, fallback=True)
+        return gettext.translation("web_payments", self.translation_path, self.fallback, fallback=True)
 
     def trans(self, cur_lang=None):
         if not cur_lang:

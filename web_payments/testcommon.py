@@ -1,7 +1,7 @@
 
 from decimal import Decimal
 from .logic import BasicPayment
-from . import PaymentStatus, PurchasedItem, ProviderVariant, provider_factory
+from . import PaymentStatus, PurchasedItem, ProviderVariant
 from .utils import getter_prefixed_address
 
 __all__ = ["create_test_payment"]
@@ -54,20 +54,20 @@ def create_test_payment(PAYMENT_VARIANTS_API=PAYMENT_VARIANTS_API, **attributes)
                     name='foo', quantity=10, price=Decimal('20'),
                     currency='USD', sku='bar')]
 
+        @staticmethod
+        def _list_providers_helper(item):
+            _ndict = {"name": item[0]}
+            _ndict.update(item[1][2])
+            return ProviderVariant(item[1][0], item[1][1], _ndict)
+
         @classmethod
         def list_providers(cls, **kwargs):
             """ returns an iterable with ProviderVariants """
-            def _helper(item):
-                t = {"name": item[0]}
-                t.update(item[1][2])
-                return ProviderVariant(item[1][0], item[1][1], t)
             if "name" in kwargs:
                 if kwargs["name"] in PAYMENT_VARIANTS_API:
-                    return [_helper((kwargs["name"], PAYMENT_VARIANTS_API[kwargs["name"]]))]
-                else:
-                    return []
-            else:
-                return map(_helper, PAYMENT_VARIANTS_API.items())
+                    return [cls._list_providers_helper((kwargs["name"], PAYMENT_VARIANTS_API[kwargs["name"]]))]
+                return []
+            return map(cls._list_providers_helper, PAYMENT_VARIANTS_API.items())
 
         def get_provider_variant(self):
             variant_tup = PAYMENT_VARIANTS_API[self.variant]
@@ -84,7 +84,7 @@ def create_test_payment(PAYMENT_VARIANTS_API=PAYMENT_VARIANTS_API, **attributes)
         def get_success_url(self):
             return 'http://success.com'
 
-        def save(self):
+        def save(self, **kwargs):
             pass
     # workaround limitation in python
     for key, val in attributes.items():
