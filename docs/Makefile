@@ -15,6 +15,10 @@ help:
 
 .PHONY: help Makefile
 
+html:
+	@$(SPHINXBUILD) -M html "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
+	rsync -a --delete "--exclude=.git" $(BUILDDIR)/html/ $(HTMLDIR)
+
 
 buildandcommithtml: html
 	pushd $(HTMLDIR); git add . ; git commit -m "rebuilt docs"; git push origin gh-pages; popd
@@ -23,4 +27,3 @@ buildandcommithtml: html
 # "make mode" option.  $(O) is meant as a shortcut for $(SPHINXOPTS).
 %: Makefile
 	@$(SPHINXBUILD) -M $@ "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
-	rsync -a --delete "--exclude=.git" $(BUILDDIR)/html/ $(HTMLDIR)
