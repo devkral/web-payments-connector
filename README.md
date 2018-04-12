@@ -18,9 +18,15 @@ Features:
 * framework independent translation
 * better documented API (source code)
 
-TODO:
+Documentation
+=============
+
+See https://devkral.github.io/web-payments-connector/
+
+TODO
+====
+
 * porting backends
-* documentation for version 2.1
 * Maybe: safe token cache facility
 * django-oscar integration
 
