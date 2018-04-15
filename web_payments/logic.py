@@ -21,7 +21,9 @@ class PaymentAttributeProxy(object):
     def __get__(self, pay_inst, _payment_cls):
         if self._payment or pay_inst is None:
             return self
-        return PaymentAttributeProxy(pay_inst)
+        if not hasattr(pay_inst, "_payment_attribute_proxy_instance"):
+            pay_inst._payment_attribute_proxy_instance = PaymentAttributeProxy(pay_inst)
+        return pay_inst._payment_attribute_proxy_instance
 
     @staticmethod
     def __set__(pay_inst, value):
