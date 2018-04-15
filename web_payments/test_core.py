@@ -1,4 +1,6 @@
 from decimal import Decimal
+import datetime
+import logging
 from unittest import TestCase
 from unittest.mock import patch, NonCallableMock
 
@@ -7,6 +9,8 @@ from . import PaymentStatus, FraudStatus
 from .forms import CreditCardPaymentFormWithName, PaymentForm
 from . import translation
 from .testcommon import create_test_payment
+
+from web_payments_dummy import DummyProvider
 
 BasePayment = create_test_payment()
 
@@ -23,7 +27,7 @@ class TestTranslation(TestCase):
         translation.set_language(old_lang)
 
 
-class TestProviderFactory(TestCase):
+class TestProvider(TestCase):
 
     def test_provider_factory(self):
         payment = BasePayment(variant="DummyProvider")
@@ -32,6 +36,11 @@ class TestProviderFactory(TestCase):
         self.assertEqual(payment.provider, provider_factory(payment.get_provider_variant()))
         payment.load_providers()
 
+    def test_provider_does_not_exist(self):
+        payment = BasePayment(variant="fake_provider")
+        with self.assertRaises(ValueError):
+            payment.provider
+
     def test_attributes(self):
         payment = BasePayment(variant="DummyProvider")
         self.assertEqual(payment.provider.extra.get("is_dummy", None), True)
@@ -39,21 +48,21 @@ class TestProviderFactory(TestCase):
         self.assertEqual(payment.provider.extra.get("name", None), "DummyProvider")
 
     def test_token_cache(self):
-        payment = BasePayment(variant="DummyProvider")
-        self.assertEqual(payment.provider.token, 1)
-        self.assertEqual(payment.provider.token_cache.token, 1)
-        expires = payment.provider.token_cache.expires
-        payment.provider.clear_token_cache()
-        payment.provider.token
-        self.assertTrue(payment.provider.token_cache.expires > expires)
-        payment.provider.token
-        self.assertTrue(payment.provider.token_cache.expires > expires)
+        provider = DummyProvider()
+        self.assertEqual(provider.token, 1)
+        self.assertEqual(provider.token_cache.token, 1)
+        expires = provider.token_cache.expires
+        provider.clear_token_cache()
+        provider.token
+        self.assertGreater(provider.token_cache.expires, expires)
+        expires = provider.token_cache.expires
+        provider.token
+        self.assertGreater(provider.token_cache.expires, expires)
 
-    def test_provider_does_not_exist(self):
-        payment = BasePayment(variant="fake_provider")
-        with self.assertRaises(ValueError):
-            payment.provider
-
+    def test_time_reserve_warning(self):
+        provider = DummyProvider(time_reserve=datetime.timedelta(seconds=3))
+        with self.assertLogs(level=logging.WARNING):
+            provider.token
 
 class TestBasicPayment(TestCase):
 

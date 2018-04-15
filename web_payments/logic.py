@@ -1,6 +1,7 @@
 from uuid import uuid4
 from decimal import Decimal
 import threading
+import logging
 import datetime
 
 import simplejson as json
