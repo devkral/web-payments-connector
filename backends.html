@@ -39,11 +39,17 @@
 <h1>Basic Backend Definition<a class="headerlink" href="#basic-backend-definition" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="default-arguments">
 <h2>Default arguments<a class="headerlink" href="#default-arguments" title="Permalink to this headline">¶</a></h2>
-<p>captured: Default: True, if False enable preauth</p>
+<p>captured: Default: True, if False enable preauth
+time_reserve: Default: timedelta(seconds=0), how many time should a used token have left at least?</p>
 </div>
-<div class="section" id="default-extras">
-<h2>Default extras<a class="headerlink" href="#default-extras" title="Permalink to this headline">¶</a></h2>
-<p>name: name for provider_factory caching, defaults to Provider Name</p>
+<div class="section" id="extras">
+<h2>Extras<a class="headerlink" href="#extras" title="Permalink to this headline">¶</a></h2>
+<p>Extras should not affect Provider, it is only for the integration.
+Notable exception is name:
+name is used for provider_factory caching</p>
+<p>Rational behind this is that providers of the same type but different parameters can exist.</p>
+<p>name is set to dictionary key name in django, testcommon and defaults to
+Provider Class Name</p>
 </div>
 </div>
 <div class="section" id="builtin-backends">
@@ -90,7 +96,7 @@ or a program checking the bank transactions</p>
   <ul>
 <li><a class="reference internal" href="#">Basic Backend Definition</a><ul>
 <li><a class="reference internal" href="#default-arguments">Default arguments</a></li>
-<li><a class="reference internal" href="#default-extras">Default extras</a></li>
+<li><a class="reference internal" href="#extras">Extras</a></li>
 </ul>
 </li>
 <li><a class="reference internal" href="#builtin-backends">Builtin backends</a><ul>

@@ -5,11 +5,21 @@ Default arguments
 -----------------
 
 captured: Default: True, if False enable preauth
+time_reserve: Default: timedelta(seconds=0), how many time should a used token have left at least?
 
-Default extras
+Extras
 --------------
 
-name: name for provider_factory caching, defaults to Provider Name
+Extras should not affect Provider, it is only for the integration.
+Notable exception is name:
+name is used for provider_factory caching
+
+Rational behind this is that providers of the same type but different parameters can exist.
+
+name is set to dictionary key name in django, testcommon and defaults to
+Provider Class Name
+
+
 
 Builtin backends
 ================
