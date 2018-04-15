@@ -318,8 +318,8 @@ class BasicProvider(object):
 
     def clear_token_cache(self):
         ''' clear token cache '''
-        token_cache.expires = None
-        token_cache.token = None
+        self.token_cache.expires = None
+        self.token_cache.token = None
 
     def get_action(self, payment):
         return ""

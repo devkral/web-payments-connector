@@ -73,7 +73,4 @@ class DummyProvider(BasicProvider):
         return amount or 0
 
     def get_auth_token(self, now):
-        a = 0
-        while(True):
-            a += 1
-            yield (a, now)
+        return 1, now
