@@ -1,7 +1,6 @@
 from uuid import uuid4
 from decimal import Decimal
 
-
 import simplejson as json
 
 from . import NotSupported, FraudStatus, PaymentStatus, ProviderVariant, provider_factory
@@ -10,12 +9,26 @@ __all__ = ["BasicPayment", "BasicProvider"]
 
 
 class PaymentAttributeProxy(object):
+    """
+        Access payment extra attributes like an object
+    """
+    _payment = None
 
-    def __init__(self, payment):
+    def __init__(self, payment=None):
         super().__init__()
         self._payment = payment
-        # replace
-        #payment.__dict__["attrs"] = self
+
+    def __get__(self, pay_inst, _payment_cls):
+        if self._payment or pay_inst is None:
+            return self
+        return PaymentAttributeProxy(pay_inst)
+
+    @staticmethod
+    def __set__(pay_inst, value):
+        """ can assign dict to attrs; updates extra_data """
+        # instance is always a payment object
+        # don't use _payment as it could be not initialized yet
+        pay_inst.extra_data = json.dumps(value, use_decimal=True)
 
     def __getattr__(self, item):
         data = json.loads(self._payment.extra_data or '{}')
@@ -32,7 +45,7 @@ class PaymentAttributeProxy(object):
         except ValueError:
             data = {}
         data[key] = value
-        self._payment.extra_data = json.dumps(data, use_decimal=True)
+        self.__set__(self._payment, data)
 
 class BasicPayment(object):
     '''
@@ -238,12 +251,11 @@ class BasicPayment(object):
                         break
                 tries.add(token)
 
-    @property
-    def attrs(self):
-        return PaymentAttributeProxy(self)
+    # auto initializes, see PaymentAttributeProxy
+    attrs = PaymentAttributeProxy()
 
     def save(self, **kwargs):
-        ''' save model implementation dependant '''
+        ''' save model implementation dependent '''
         raise NotImplementedError()
 
 
