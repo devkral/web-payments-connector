@@ -17,6 +17,8 @@ Features:
 * more security features (safe xml parsing, hidden credentials)
 * framework independent translation
 * better documented API (source code)
+* threading safe, token cache facility
+* extra attributes on providers, helping integration
 
 Documentation
 =============
@@ -27,7 +29,6 @@ TODO
 ====
 
 * porting backends
-* Maybe: safe token cache facility
 * django-oscar integration
 
 Note: I use semantic versioning.
