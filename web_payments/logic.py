@@ -9,8 +9,8 @@ from . import NotSupported, FraudStatus, PaymentStatus, ProviderVariant, provide
 
 __all__ = ["BasicPayment", "BasicProvider"]
 
-# reserve 0 time, for token
-_0reserve = datetime.timedelta(seconds=0)
+# reserve no time, for Provider token
+_no_reserve = datetime.timedelta(seconds=0)
 
 class TokenCache(threading.local):
     """
@@ -286,8 +286,9 @@ class BasicProvider(object):
     # see extra documentation for variant
     extra = None
 
-    def __init__(self, capture=True):
+    def __init__(self, capture=True, time_reserve=_no_reserve):
         self._capture = capture
+        self._time_reserve = time_reserve
         self.token_cache = TokenCache()
 
     @property
@@ -300,7 +301,7 @@ class BasicProvider(object):
             self.token_cache.token, expires = self.get_auth_token(now)
             if not isinstance(expires, datetime.datetime):
                 raise TypeError("Invalid expire type (requires datetime):  %s, %s", type(expires), expires)
-            self.token_cache.expires = expires-self.extra.get("time_reserve", _0reserve)
+            self.token_cache.expires = expires-self._time_reserve
             if self.token_cache.expires < now:
                 logging.warning("now > expire - time_reserve, new expire date is in the past: %s", self.token_cache.expires)
         return self.token_cache.token
