@@ -35,5 +35,9 @@ def provider_factory(variant):
             str(module_path), globals(), locals(), [str(class_name)])
         class_ = getattr(module, class_name)
         PROVIDER_CACHE[name] = class_(**variant.config)
-        PROVIDER_CACHE[name].extra = variant.extra
+        provextra = PROVIDER_CACHE[name].extra
+        PROVIDER_CACHE[name].extra = {}
+        if provextra:
+            PROVIDER_CACHE[name].extra.update(provextra)
+        PROVIDER_CACHE[name].extra.update(variant.extra)
     return PROVIDER_CACHE[name]

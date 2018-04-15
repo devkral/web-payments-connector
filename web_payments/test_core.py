@@ -32,6 +32,14 @@ class TestProviderFactory(TestCase):
         self.assertEqual(payment.provider, provider_factory(payment.get_provider_variant()))
         payment.load_providers()
 
+    def test_attributes(self):
+        payment = BasePayment(variant="DummyProvider")
+        self.assertEqual(payment.provider.extra.get("is_dummy", None), True)
+        self.assertEqual(payment.provider.extra.get("test_var", None), "test")
+        self.assertEqual(payment.provider.extra.get("name", None), "DummyProvider")
+        self.assertEqual(payment.provider.token, 1)
+        self.assertEqual(payment.provider.token, 2)
+
     def test_provider_does_not_exist(self):
         payment = BasePayment(variant="fake_provider")
         with self.assertRaises(ValueError):

@@ -1,11 +1,23 @@
 from uuid import uuid4
 from decimal import Decimal
+import threading
+import datetime
 
 import simplejson as json
 
 from . import NotSupported, FraudStatus, PaymentStatus, ProviderVariant, provider_factory
 
 __all__ = ["BasicPayment", "BasicProvider"]
+
+# reserve 0 time, for token
+_0reserve = datetime.timedelta(seconds=0)
+
+class TokenCache(threading.local):
+    """
+        threadsafe token cache
+    """
+    expires = None
+    token = None
 
 
 class PaymentAttributeProxy(object):
@@ -266,13 +278,47 @@ BasePaymentLogic = BasicPayment
 
 class BasicProvider(object):
     '''
-        This class defines the provider API. It should not be instantiated
-        directly. Use factory instead.
+        This class defines the backend provider API. It should not be instantiated directly. Use BasicPayment methods instead.
     '''
     form_class = None
 
+    # Replace by dict to provide default arguments, like name for Provider
+    # see extra documentation for variant
+    extra = None
+
     def __init__(self, capture=True):
         self._capture = capture
+        self.token_cache = TokenCache()
+
+    @property
+    def token(self):
+        '''
+            Access to authentication token
+        '''
+        now = datetime.datetime.now(tz=datetime.timezone.utc)
+        if not self.token_cache.expires or self.token_cache.expires <= now:
+            self.token_cache.token, expires = self.get_auth_token(now)
+            if not isinstance(expires, datetime.datetime):
+                raise TypeError("Invalid expire type (requires datetime):  %s, %s", type(expires), expires)
+            self.token_cache.expires = expires-self.extra.get("time_reserve", _0reserve)
+            if self.token_cache.expires < now:
+                logging.warning("now > expire - time_reserve, new expire date is in the past: %s", self.token_cache.expires)
+        return self.token_cache.token
+
+    def get_auth_token(self, now):
+        '''
+            Takes now, a datetime object with timezone utc, as argument
+
+            Must return (authentication token, datetime when it will expire)
+
+            datetime can be now to disable caching
+        '''
+        return NotImplemented, now
+
+    def clear_token_cache(self):
+        ''' clear token cache '''
+        token_cache.expires = None
+        token_cache.token = None
 
     def get_action(self, payment):
         return ""

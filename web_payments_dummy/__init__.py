@@ -14,6 +14,8 @@ class DummyProvider(BasicProvider):
     Dummy payment provider
     '''
 
+    extra = {"is_dummy": True}
+
     def get_form(self, payment, data=None):
         if payment.status == PaymentStatus.WAITING:
             payment.change_status(PaymentStatus.INPUT)
@@ -69,3 +71,9 @@ class DummyProvider(BasicProvider):
 
     def refund(self, payment, amount=None):
         return amount or 0
+
+    def get_auth_token(self, now):
+        a = 0
+        while(True):
+            a += 1
+            yield (a, now)
