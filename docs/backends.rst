@@ -51,6 +51,20 @@ External Payments
 Writing a backend
 =================
 
-See testcommon and externalpayments for good examples
+See testcommon and externalpayments for good examples.
+
+Test project
+------------
+For developing a backend a test project exists. It's located in web_payments_dummy/django_dummy.
+
+#Example: run server::
+
+   .. code-block:: bash
+   ./web_payments_dummy/django_dummy/manage.py runserver
+
+Adding your own backends can be done with the DJANGO_SETTINGS_MODULE environment variable and
+point to your own settings.
+Own settings can live in the settings folder (gitignored) and inherit from web_payments_dummy.django_dummy.settings (for defaults)
+
 
 TODO: Further documentation
