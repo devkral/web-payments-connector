@@ -64,13 +64,13 @@ class PaymentView(SuccessMessageMixin, FormView):
     def get_success_url(self):
         payment = get_payment_model().objects.get(id=self.kwargs["id"])
         if not payment.provider._capture:
-            return reverse("paymentob", id=self.kwargs["id"])
+            return reverse("paymentob", , kwargs={"id": self.payment.id})
         else:
             return reverse("select-form")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['safe_urls'] = ["", reverse("payment-form", id=self.kwargs["id"]), reverse("select-form")]
+        context['safe_urls'] = ["", reverse("payment-form", kwargs={"id": self.payment.id}), reverse("select-form")]
         #context["object"] = get_payment_model().objects.get(id=self.kwargs["id"])
         context["payoblist"] = get_payment_model().objects.all()
         context["mytitle"] = "Payment"
@@ -131,7 +131,7 @@ class SelectView(FormView):
     initial = {"currency": "EUR", "total": Decimal("10.0")}
 
     def get_success_url(self):
-        return reverse("payment-form", id=self.payment.id)
+        return reverse("payment-form", kwargs={"id": self.payment.id})
 
 
     def get_context_data(self, **kwargs):
