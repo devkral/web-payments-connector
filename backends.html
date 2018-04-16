@@ -82,8 +82,20 @@ or a program checking the bank transactions</p>
 </div>
 <div class="section" id="writing-a-backend">
 <h1>Writing a backend<a class="headerlink" href="#writing-a-backend" title="Permalink to this headline">¶</a></h1>
-<p>See testcommon and externalpayments for good examples</p>
+<p>See testcommon and externalpayments for good examples.</p>
+<div class="section" id="test-project">
+<h2>Test project<a class="headerlink" href="#test-project" title="Permalink to this headline">¶</a></h2>
+<p>For developing a backend a test project exists. It’s located in web_payments_dummy/django_dummy.</p>
+<p>#Example: run server:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">code</span><span class="o">-</span><span class="n">block</span><span class="p">::</span> <span class="n">bash</span>
+<span class="o">./</span><span class="n">web_payments_dummy</span><span class="o">/</span><span class="n">django_dummy</span><span class="o">/</span><span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">runserver</span>
+</pre></div>
+</div>
+<p>Adding your own backends can be done with the DJANGO_SETTINGS_MODULE environment variable and
+point to your own settings.
+Own settings can live in the settings folder (gitignored) and inherit from web_payments_dummy.django_dummy.settings (for defaults)</p>
 <p>TODO: Further documentation</p>
+</div>
 </div>
 
 
@@ -104,7 +116,10 @@ or a program checking the bank transactions</p>
 <li><a class="reference internal" href="#external-payments">External Payments</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#writing-a-backend">Writing a backend</a></li>
+<li><a class="reference internal" href="#writing-a-backend">Writing a backend</a><ul>
+<li><a class="reference internal" href="#test-project">Test project</a></li>
+</ul>
+</li>
 </ul>
 
   <h4>Previous topic</h4>
