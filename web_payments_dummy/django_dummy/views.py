@@ -20,11 +20,15 @@ class PayObView(SuccessMessageMixin, FormView):
     template_name = "payob.html"
     success_url = reverse_lazy("select-form")
 
+    def dispatch(self, request, *args, **kwargs):
+        self.payment = get_payment_model().objects.get(id=kwargs["id"])
+        return super().dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form_is_local'] = True
-        context["mytitle"] = "Payment"
-        context["object"] = get_payment_model().objects.get(id=self.kwargs["id"])
+        context["mytitle"] = "Payment Object: %s" % self.payment.id
+        context["payment_fields"] =[(f.verbose_name, getattr(self.payment, f.name)) for f in self.payment._meta.get_fields()]
         context["payoblist"] = get_payment_model().objects.all()
         return context
 
@@ -46,24 +50,26 @@ class PayObView(SuccessMessageMixin, FormView):
             return self.form_invalid(form)
 
     def form_valid(self, form):
-        payment = get_payment_model().objects.get(id=self.kwargs["id"])
         data = form.data
         if data["action"] == "capture":
-            payment.capture(data["amount"], data["final"])
+            self.payment.capture(data["amount"], data["final"])
         elif data["action"] == "refund":
-            payment.refund(data["amount"])
+            self.payment.refund(data["amount"])
         elif data["action"] == "fail":
-            payment.change_status(PaymentStatus.ERROR, data["message"])
+            self.payment.change_status(PaymentStatus.ERROR, data["message"])
         elif data["action"] == "success":
-            payment.change_status(PaymentStatus.CONFIRMED)
+            self.payment.change_status(PaymentStatus.CONFIRMED)
         return super().form_valid(form)
 
 class PaymentView(SuccessMessageMixin, FormView):
     template_name = "form.html"
 
+    def dispatch(self, request, *args, **kwargs):
+        self.payment = get_payment_model().objects.get(id=kwargs["id"])
+        return super().dispatch(request, *args, **kwargs)
+
     def get_success_url(self):
-        payment = get_payment_model().objects.get(id=self.kwargs["id"])
-        if not payment.provider._capture:
+        if not self.payment.provider._capture:
             return reverse("paymentob", kwargs={"id": self.payment.id})
         else:
             return reverse("select-form")
@@ -77,8 +83,7 @@ class PaymentView(SuccessMessageMixin, FormView):
         return context
 
     def get_form(self, form_class=None):
-        payment = get_payment_model().objects.get(id=self.kwargs["id"])
-        return payment.get_form(self.get_form_kwargs().get("data", None))
+        return self.payment.get_form(self.get_form_kwargs().get("data", None))
 
     def get(self, request, *args, **kwargs):
         try:
@@ -133,7 +138,6 @@ class SelectView(FormView):
     def get_success_url(self):
         return reverse("payment-form", kwargs={"id": self.payment.id})
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['form_is_local'] = True
@@ -147,6 +151,9 @@ class SelectView(FormView):
 
     def form_valid(self, form):
         self.payment = get_payment_model().objects.create(**form.data)
+        if self.payment.provider._capture:
+            self.payment.captured_amount = self.payment.total
+            self.payment.save()
         return super().form_valid(form)
 
     def post(self, request, *args, **kwargs):

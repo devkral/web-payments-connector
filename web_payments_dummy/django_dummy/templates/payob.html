@@ -27,3 +27,14 @@ function hideunrelated(value){
 {% endblock %}
 
 {% block body_stuff %}onload="hideunrelated('')"{% endblock %}
+{% block main %}
+{{block.super}}
+<details class="w3-content w3-left-align" open="open">
+  <summary><h1>Payment object</h1></summary>
+  {% for field, value in payment_fields %}
+    <div>
+      {{field}} - {{value}}
+    </div>
+  {% endfor %}
+</details>
+{% endblock %}
