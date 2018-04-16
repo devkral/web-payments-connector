@@ -32,8 +32,13 @@ function hideunrelated(value){
 <details class="w3-content w3-left-align" open="open">
   <summary><h1>Payment object</h1></summary>
   {% for field, value in payment_fields %}
-    <div>
-      {{field}} - {{value}}
+    <div class="w3-row w3-margin w3-grey">
+      <div class="w3-col s2">
+        {{field}}
+      </div>
+      <div class="w3-col s10">
+        {{value}}
+      </div>
     </div>
   {% endfor %}
 </details>

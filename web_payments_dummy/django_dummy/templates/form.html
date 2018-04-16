@@ -16,14 +16,14 @@
         {% if field.type == "HiddenField" %}
             {{ field }}
         {% else %}
-            <div id="{{ field.name }}-form" class="w3-cell-row w3-padding w3-margin {% if field.errors %}w3-red{% else %}w3-gray{% endif %}">
-              <div class="w3-cell w3-third w3-right-align">
+            <div id="{{ field.name }}-form" class="w3-row w3-padding w3-margin {% if field.errors %}w3-red{% else %}w3-gray{% endif %}">
+              <div class="w3-col s3 w3-right-align">
                 {{ field.label }}
               </div>
-              <div class="w3-cell w3-third w3-left-align" style="padding-left: 10px">
+              <div class="w3-col s5 w3-left-align" style="padding-left: 10px">
                 {{ field }}
               </div>
-              <div class="w3-cell w3-third w3-left-align">
+              <div class="w3-col s4 w3-left-align">
                   {% for error in field.errors %}
                       <ul class="error-block">
                           {{ error }}
@@ -35,13 +35,13 @@
     {% endfor %}
     <button type="submit" style="margin-bottom: 20px" class="w3-btn w3-grey w3-round">Proceed</button>
   </form>
-  <details class="w3-third">
-    <summary class="w3-btn w3-grey w3-round">List with Payment Objects</summary>
+  <div class="w3-third">
+    <h2>List with Payment Objects</h2>
     {% for payob in payoblist %}
       <ul class="w3-left-align">
         <a href="{% url "paymentob" id=payob.id %}"><li class="w3-grey">{{ payob.id }} - {{ payob.variant }} - <span title="{{ payob.message }}">{{ payob.status }}</span></li></a>
       </ul>
     {% endfor %}
-  </details>
+  </div>
 </div>
 {% endblock %}

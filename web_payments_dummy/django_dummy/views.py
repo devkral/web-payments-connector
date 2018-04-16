@@ -1,22 +1,21 @@
 from decimal import Decimal
 
 from django.contrib import messages
-from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import reverse_lazy, reverse
 from django.http import HttpResponseRedirect
 from django.views.generic import FormView
 from wtforms import SelectField, BooleanField, validators, StringField, DecimalField, widgets
 from web_payments.forms import PaymentForm
 from web_payments.django import get_payment_model
-from web_payments import RedirectNeeded, PaymentStatus
+from web_payments import RedirectNeeded, PaymentStatus, FraudStatus
 
 class PaymentObForm(PaymentForm):
-    action = SelectField("Action:", validators=[validators.InputRequired()], choices=[('',''),("capture", "capture"), ("refund", "refund"), ("fail", "fail"), ("success", "success")], render_kw={"onchange": "hideunrelated(this.value)"})
+    action = SelectField("Action:", validators=[validators.InputRequired()], choices=[('',''),("capture", "capture"), ("refund", "refund"), ("fail", "fail"), ("fraud", "fraud"), ("success", "success")], render_kw={"onchange": "hideunrelated(this.value)"})
     amount = DecimalField("Total amount:", validators=[validators.Optional()])
     final = BooleanField("Final?", validators=[validators.Optional()])
     message = StringField("Message:", validators=[validators.Optional()])
 
-class PayObView(SuccessMessageMixin, FormView):
+class PayObView(FormView):
     template_name = "payob.html"
     success_url = reverse_lazy("select-form")
 
@@ -57,11 +56,13 @@ class PayObView(SuccessMessageMixin, FormView):
             self.payment.refund(data["amount"])
         elif data["action"] == "fail":
             self.payment.change_status(PaymentStatus.ERROR, data["message"])
+        elif data["action"] == "fraud":
+            self.payment.change_fraud_status(FraudStatus.REJECT, data["message"])
         elif data["action"] == "success":
             self.payment.change_status(PaymentStatus.CONFIRMED)
         return super().form_valid(form)
 
-class PaymentView(SuccessMessageMixin, FormView):
+class PaymentView(FormView):
     template_name = "form.html"
 
     def dispatch(self, request, *args, **kwargs):
