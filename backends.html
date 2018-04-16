@@ -86,11 +86,14 @@ or a program checking the bank transactions</p>
 <div class="section" id="test-project">
 <h2>Test project<a class="headerlink" href="#test-project" title="Permalink to this headline">¶</a></h2>
 <p>For developing a backend a test project exists. It’s located in web_payments_dummy/django_dummy.</p>
-<p>#Example: run server:</p>
+<ol class="arabic">
+<li><p class="first">Example: run server:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="o">..</span> <span class="n">code</span><span class="o">-</span><span class="n">block</span><span class="p">::</span> <span class="n">bash</span>
 <span class="o">./</span><span class="n">web_payments_dummy</span><span class="o">/</span><span class="n">django_dummy</span><span class="o">/</span><span class="n">manage</span><span class="o">.</span><span class="n">py</span> <span class="n">runserver</span>
 </pre></div>
 </div>
+</li>
+</ol>
 <p>Adding your own backends can be done with the DJANGO_SETTINGS_MODULE environment variable and
 point to your own settings.
 Own settings can live in the settings folder (gitignored) and inherit from web_payments_dummy.django_dummy.settings (for defaults)</p>
