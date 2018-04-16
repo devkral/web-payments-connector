@@ -57,7 +57,7 @@ Test project
 ------------
 For developing a backend a test project exists. It's located in web_payments_dummy/django_dummy.
 
-#Example: run server::
+#. Example: run server::
 
    .. code-block:: bash
    ./web_payments_dummy/django_dummy/manage.py runserver
