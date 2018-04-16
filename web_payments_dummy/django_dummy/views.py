@@ -64,7 +64,7 @@ class PaymentView(SuccessMessageMixin, FormView):
     def get_success_url(self):
         payment = get_payment_model().objects.get(id=self.kwargs["id"])
         if not payment.provider._capture:
-            return reverse("paymentob", , kwargs={"id": self.payment.id})
+            return reverse("paymentob", kwargs={"id": self.payment.id})
         else:
             return reverse("select-form")
 
