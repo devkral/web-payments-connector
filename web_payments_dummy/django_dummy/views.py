@@ -11,7 +11,7 @@ from web_payments.django import get_payment_model
 from web_payments import RedirectNeeded, PaymentStatus
 
 class PaymentObForm(PaymentForm):
-    action = SelectField("Action:", validators=[validators.InputRequired()], choices=[('',''),("capture", "capture"), ("refund", "refund"), ("fail", "fail"), ("success", "success")])
+    action = SelectField("Action:", validators=[validators.InputRequired()], choices=[('',''),("capture", "capture"), ("refund", "refund"), ("fail", "fail"), ("success", "success")], render_kw={"onchange": "actionselected(this.value)"})
     amount = DecimalField("Total amount:", validators=[validators.Optional()])
     final = BooleanField("Final?", validators=[validators.Optional()])
     message = StringField("Message:", validators=[validators.Optional()])
@@ -62,7 +62,7 @@ class PaymentView(SuccessMessageMixin, FormView):
     template_name = "form.html"
 
     def get_success_url(self):
-        payment = get_payment_model().objects.get(id=self.request.session["paymentid"])
+        payment = get_payment_model().objects.get(id=self.kwargs["id"])
         if not payment.provider._capture:
             return reverse("paymentob", id=self.kwargs["id"])
         else:
@@ -77,7 +77,7 @@ class PaymentView(SuccessMessageMixin, FormView):
         return context
 
     def get_form(self, form_class=None):
-        payment = get_payment_model().objects.get(id=self.request.session["paymentid"])
+        payment = get_payment_model().objects.get(id=self.kwargs["id"])
         return payment.get_form(self.get_form_kwargs().get("data", None))
 
     def get(self, request, *args, **kwargs):
@@ -131,7 +131,7 @@ class SelectView(FormView):
     initial = {"currency": "EUR", "total": Decimal("10.0")}
 
     def get_success_url(self):
-        return reverse("payment-form", id=payment.id)
+        return reverse("payment-form", id=self.payment.id)
 
 
     def get_context_data(self, **kwargs):

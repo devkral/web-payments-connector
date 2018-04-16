@@ -16,9 +16,9 @@
       {% block extrahead %}{% endblock %}
   </head>
 
-  <body class="{% block body_class %}{% endblock %}">
-    <main class="w3-center w3-content">
-      {% block fhead%}
+  <body class="{% block body_class %}{% endblock %}" {% block body_stuff %}{% endblock %}>
+    <main class="w3-center">
+      {% block fhead %}
         <h1>{{mytitle}}</h1>
       {% endblock %}
       {% block messages %}
