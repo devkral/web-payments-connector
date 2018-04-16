@@ -3,7 +3,7 @@
 {% block main %}
 <form action="" method="POST">
   <button type="submit" style="margin-top: 20px; margin-bottom: 20px" class="btn">Proceed</button>
-  {% if form.action in safe_urls %}
+  {% if form.action in safe_urls or form_is_local %}
     {% csrf_token %}
   {% endif %}
   {% if form.errors %}
@@ -16,21 +16,29 @@
       {% if field.type == "HiddenField" %}
           {{ field }}
       {% else %}
-          <div class="w3-cell-row w3-padding w3-margin {% if field.errors %}w3-red{% else %}w3-gray{% endif %}">
+          <div class="w3-cell-row w3-padding w3-margin w3-left-align {% if field.errors %}w3-red{% else %}w3-gray{% endif %}">
             <div class="w3-cell w3-half">
               {{ field.label }}
               {{ field }}
             </div>
             <div class="w3-cell w3-half">
-              {% for error in field.errors %}
-                  <ul class="error-block">
-                      <li>{{ error }}</li>
-                  </ul>
-              {% endfor %}
+                {% for error in field.errors %}
+                    <ul class="error-block">
+                        {{ error }}
+                    </ul>
+                {% endfor %}
             </div>
           </div>
       {% endif %}
   {% endfor %}
   <button type="submit" style="margin-top: 20px; margin-bottom: 20px" class="btn">Proceed</button>
 </form>
+<details class="">
+  <summary class="w3-btn w3-green">List with Payment Objects</summary>
+  {% for payob in payoblist %}
+    <ul class="w3-left-align">
+      <a href="{% url "paymentob" id=payob.id %}"><li class="w3-grey">{{ payob.id }} - {{ payob.variant }} - <span title="{{ payob.message }}">{{ payob.status }}</span></li></a>
+    </ul>
+  {% endfor %}
+</details>
 {% endblock %}

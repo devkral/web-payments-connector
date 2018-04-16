@@ -22,12 +22,13 @@ except ImportError:
     from django.conf.urls import include
 
 from web_payments.django import urls as web_payment_urls
-from .views import PaymentView, SelectView
+from .views import PaymentView, PayObView, SelectView
 
 
 urlpatterns = [
     url('^admin/', admin.site.urls),
     url('^payment/', include(web_payment_urls)),
-    url('^form/$', PaymentView.as_view(), name="payment-form"),
+    url('^payob/(?P<id>[0-9]+)/', PayObView.as_view(), name="paymentob"),
+    url('^form/(?P<id>[0-9]+)/$', PaymentView.as_view(), name="payment-form"),
     url('', SelectView.as_view(), name="select-form"),
 ]
