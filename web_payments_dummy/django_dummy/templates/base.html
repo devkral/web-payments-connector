@@ -19,7 +19,7 @@
   <body class="{% block body_class %}{% endblock %}" {% block body_stuff %}{% endblock %}>
     <main class="w3-center">
       {% block fhead %}
-        <h1>{{mytitle}}</h1>
+        <h1><a href="{% url "select-form" %}">{{mytitle}}</a></h1>
       {% endblock %}
       {% block messages %}
           {% if messages %}
