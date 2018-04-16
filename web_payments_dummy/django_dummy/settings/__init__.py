@@ -130,7 +130,8 @@ PAYMENT_MODEL = 'django_dummy.QPayment'
 PAYMENT_HOST = 'localhost:8000'
 PAYMENT_PROTOCOL = "http"
 PAYMENT_VARIANTS_API = {
-    'dummy': ('web_payments_dummy.DummyProvider', {}, {}),
+    'dummy_capture': ('web_payments_dummy.DummyProvider', {}, {}),
+    'dummy_nocapture': ('web_payments_dummy.DummyProvider', {"capture": False}, {}),
     'directwithform': ('web_payments_externalpayments.DirectPaymentProvider', {'skipform': False, 'confirm': True}, {}),
     'direct': ('web_payments_externalpayments.DirectPaymentProvider', {}, {}),
     'IBAN': ('web_payments_externalpayments.BankTransferProvider', {
