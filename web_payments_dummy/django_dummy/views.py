@@ -11,13 +11,13 @@ from web_payments.django import get_payment_model
 from web_payments import RedirectNeeded, PaymentStatus
 
 class PaymentObForm(PaymentForm):
-    action = SelectField("Action:", validators=[validators.InputRequired()], choices=[('',''),("capture", "capture"), ("refund", "refund"), ("fail", "fail"), ("success", "success")], render_kw={"onchange": "actionselected(this.value)"})
+    action = SelectField("Action:", validators=[validators.InputRequired()], choices=[('',''),("capture", "capture"), ("refund", "refund"), ("fail", "fail"), ("success", "success")], render_kw={"onchange": "hideunrelated(this.value)"})
     amount = DecimalField("Total amount:", validators=[validators.Optional()])
     final = BooleanField("Final?", validators=[validators.Optional()])
     message = StringField("Message:", validators=[validators.Optional()])
 
 class PayObView(SuccessMessageMixin, FormView):
-    template_name = "form.html"
+    template_name = "payob.html"
     success_url = reverse_lazy("select-form")
 
     def get_context_data(self, **kwargs):

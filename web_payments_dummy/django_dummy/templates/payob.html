@@ -1,0 +1,29 @@
+{% extends 'form.html' %}
+
+{% block extrahead %}
+<script>
+function hideunrelated(value){
+  switch (value){
+    case "":
+      document.getElementById("amount-form").classList.add("w3-hide");
+      document.getElementById("final-form").classList.add("w3-hide");
+      document.getElementById("message-form").classList.add("w3-hide");
+      break;
+    case "capture":
+    case "refund":
+      document.getElementById("amount-form").classList.remove("w3-hide");
+      document.getElementById("final-form").classList.remove("w3-hide");
+      document.getElementById("message-form").classList.add("w3-hide");
+      break;
+    case "fail":
+    case "success":
+      document.getElementById("amount-form").classList.add("w3-hide");
+      document.getElementById("final-form").classList.add("w3-hide");
+      document.getElementById("message-form").classList.remove("w3-hide");
+      break;
+  }
+}
+</script>
+{% endblock %}
+
+{% block body_stuff %}onload="hideunrelated('')"{% endblock %}
