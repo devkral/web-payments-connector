@@ -9,6 +9,7 @@ from .. import translation
 
 __all__ = ["get_base_url", "get_payment_model", "initialize"]
 
+# django variable: allows import of web_payments.django instead of full path
 default_app_config = 'web_payments.django.apps.WebPaymentsConfig'
 
 
