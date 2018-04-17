@@ -4,7 +4,7 @@ import logging
 from unittest import TestCase
 from unittest.mock import patch, NonCallableMock
 
-from . import provider_factory
+from . import provider_factory, PROVIDER_CACHE
 from . import PaymentStatus, FraudStatus
 from .forms import CreditCardPaymentFormWithName, PaymentForm
 from . import translation
@@ -28,6 +28,9 @@ class TestTranslation(TestCase):
 
 
 class TestProvider(TestCase):
+
+    def setUp(self):
+        PROVIDER_CACHE.clear()
 
     def test_provider_factory(self):
         payment = BasePayment(variant="DummyProvider")

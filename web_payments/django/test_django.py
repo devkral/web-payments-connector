@@ -10,6 +10,9 @@ from .. import ProviderVariant, PROVIDER_CACHE, PaymentStatus, HttpRequest, Redi
 from web_payments_dummy import DummyProvider
 
 class TestHelpers(TestCase):
+    def setUp(self):
+        PROVIDER_CACHE.clear()
+
     @patch('django.conf.settings.PAYMENT_HOST', new_callable=NonCallableMock)
     def test_text_get_base_url(self, host):
         host.__str__ = lambda x: "example.com/string"
@@ -31,6 +34,9 @@ class TestHelpers(TestCase):
 
 
 class TestUrl(TestCase):
+    def setUp(self):
+        PROVIDER_CACHE.clear()
+
     @patch('web_payments.django.models.BasePayment.get_failure_url')
     @patch('web_payments.django.models.BasePayment.get_success_url')
     @patch('web_payments.django.models.BasePayment.save')
