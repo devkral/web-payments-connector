@@ -16,6 +16,7 @@ Welcome to web-payments-connector's documentation!
    refund.rst
    preauth.rst
    backends.rst
+   modules.rst
 
 
 
