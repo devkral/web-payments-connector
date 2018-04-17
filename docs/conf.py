@@ -15,7 +15,14 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath(".."))
-
+try:
+    import django
+    from django.conf import settings
+    import test_settings
+    settings.configure(default_settings=test_settings)
+    django.setup()
+except ImportError:
+    print("Django module cannot be documented")
 
 # -- Project information -----------------------------------------------------
 

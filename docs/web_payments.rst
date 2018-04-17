@@ -35,14 +35,6 @@ web\_payments.status module
     :undoc-members:
     :show-inheritance:
 
-web\_payments.test\_core module
--------------------------------
-
-.. automodule:: web_payments.test_core
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 web\_payments.testcommon module
 -------------------------------
 

@@ -1,15 +1,14 @@
-from __future__ import unicode_literals
+from django.conf.global_settings import *
+
 import os
 
-PROJECT_ROOT = os.path.normpath(
-    os.path.join(os.path.dirname(__file__), 'web_payments'))
-TEMPLATES = [{
-    'BACKEND': 'django.template.backends.django.DjangoTemplates',
-    'DIRS': [os.path.join(PROJECT_ROOT, 'templates')]}]
+
+DEBUG = True
 
 SECRET_KEY = 'NOTREALLY'
 PAYMENT_HOST = 'example.com'
 PAYMENT_PROTOCOL = 'https'
+PAYMENT_MODEL = "django_dummy.QPayment"
 
 PAYMENT_VARIANTS_API = {
     'default': ('web_payments_dummy.DummyProvider', {}, {}),
@@ -28,4 +27,4 @@ DATABASES = {
     }
 }
 
-INSTALLED_APPS = ['django.contrib.sites', 'web_payments']
+INSTALLED_APPS = ['django.contrib.sites', 'web_payments.django', 'web_payments_dummy.django_dummy']

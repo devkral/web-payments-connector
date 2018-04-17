@@ -12,14 +12,6 @@ web\_payments\_externalpayments.forms module
     :undoc-members:
     :show-inheritance:
 
-web\_payments\_externalpayments.test\_externalpayments module
--------------------------------------------------------------
-
-.. automodule:: web_payments_externalpayments.test_externalpayments
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 web\_payments\_externalpayments.translation module
 --------------------------------------------------
 

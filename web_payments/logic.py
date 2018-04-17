@@ -182,11 +182,9 @@ class BasicPayment(object):
         '''
             extra costs like delivery or tax (required, Decimal), defaults to zero
             Payment message, minimumage,... (not required, provider SHOULD not depend on it)
-            Overwrite or extend to be useful
-
+            Overwrite or extend to add functionality
             universal types:
-            type: what type is the transaction (official, physical, ...),
-                    VALID value can be provider dependent
+            type: what type is the transaction (official, physical, ...), VALID value can be provider dependent
             message: message for customer
             minimumage: minimum age for customer
         '''

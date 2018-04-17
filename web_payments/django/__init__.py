@@ -14,7 +14,7 @@ default_app_config = 'web_payments.django.apps.WebPaymentsConfig'
 
 def get_payment_model():
     '''
-    Return the Payment model that is active in this project
+        Return the Payment model that is active in this project
     '''
     try:
         app_label, model_name = settings.PAYMENT_MODEL.split('.')
@@ -31,13 +31,13 @@ def get_payment_model():
 
 
 def get_base_url(provider=None):
-    """
-    Returns host url according to project settings. Protocol is chosen by
-    PAYMENT_PROTOCOL variable.
-    If PAYMENT_HOST is not specified, get domain from Sites.
-    Otherwise checks if it's callable and returns it's result. If it's not a
-    callable treats it as domain.
-    """
+    '''
+        Returns host url according to project settings. Protocol is chosen by
+        PAYMENT_PROTOCOL variable.
+        If PAYMENT_HOST is not specified, get domain from Sites.
+        Otherwise checks if it's callable and returns it's result. If it's not a
+        callable treats it as domain.
+    '''
     protocol = getattr(settings, 'PAYMENT_PROTOCOL', 'https')
     PAYMENT_HOST = getattr(settings, 'PAYMENT_HOST', None)
     if not PAYMENT_HOST:

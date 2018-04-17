@@ -28,14 +28,6 @@ web\_payments.django.signals module
     :undoc-members:
     :show-inheritance:
 
-web\_payments.django.test\_django module
-----------------------------------------
-
-.. automodule:: web_payments.django.test_django
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
 web\_payments.django.urls module
 --------------------------------
 

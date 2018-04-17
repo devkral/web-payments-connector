@@ -12,15 +12,6 @@ web\_payments\_dummy.forms module
     :undoc-members:
     :show-inheritance:
 
-web\_payments\_dummy.test\_dummy module
----------------------------------------
-
-.. automodule:: web_payments_dummy.test_dummy
-    :members:
-    :undoc-members:
-    :show-inheritance:
-
-
 Module contents
 ---------------
 
