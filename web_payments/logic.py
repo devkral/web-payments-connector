@@ -212,7 +212,7 @@ class BasicPayment(object):
             raise ValueError(
                 'Only pre-authorized payments can be captured.')
         amount = self.provider.capture(self, amount, final)
-        if amount:
+        if amount is not None:
             self.captured_amount += amount
             if final:
                 self.change_status(PaymentStatus.CONFIRMED)
@@ -233,12 +233,12 @@ class BasicPayment(object):
         if self.status != PaymentStatus.CONFIRMED:
             raise ValueError(
                 'Only charged payments can be refunded.')
-        if amount:
+        if amount is not None:
             if amount > self.captured_amount:
                 raise ValueError(
                     'Refund amount can not be greater than captured amount')
         amount = self.provider.refund(self, amount)
-        if amount:
+        if amount is not None:
             if amount > self.captured_amount:
                 raise ValueError(
                     'Provider returned refund amount can not be greater than captured amount')
