@@ -230,9 +230,9 @@ class BasicPayment(object):
 
     def refund(self, amount=None):
         ''' Refund payment, return amount which was refunded '''
-        if self.status not in (PaymentStatus.CONFIRMED, PaymentStatus.REFUNDED):
+        if self.status not in (PaymentStatus.CONFIRMED, PaymentStatus.REFUNDED) or self.captured_amount == 0:
             raise ValueError(
-                'Only charged (or refunded charged) payments can be refunded.')
+                'Only charged payments can be refunded.')
         if amount is not None:
             if amount > self.captured_amount:
                 raise ValueError(
