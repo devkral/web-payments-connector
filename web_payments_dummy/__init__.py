@@ -63,7 +63,6 @@ class DummyProvider(BasicProvider):
         raise RedirectNeeded(payment.get_failure_url())
 
     def capture(self, payment, amount=None, final=True):
-        payment.change_status(PaymentStatus.CONFIRMED)
         return amount
 
     def release(self, payment):

@@ -8,9 +8,9 @@ class PaymentStatus:
     WAITING = 'waiting'
     PREAUTH = 'preauth'
     CONFIRMED = 'confirmed'
-    REJECTED = 'rejected'
-    REFUNDED = 'refunded'
-    ERROR = 'error'
+    REJECTED = 'rejected' # end status
+    REFUNDED = 'refunded' # end status
+    ERROR = 'error' # end status
     INPUT = 'input'
 
     CHOICES = [
@@ -25,8 +25,8 @@ class PaymentStatus:
 
 class FraudStatus:
     UNKNOWN = 'unknown'
-    ACCEPT = 'accept'
-    REJECT = 'reject'
+    ACCEPT = 'accept' # end status
+    REJECT = 'reject' # end status
     REVIEW = 'review'
 
     CHOICES = [
