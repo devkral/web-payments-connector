@@ -11,7 +11,7 @@ from web_payments import RedirectNeeded, PaymentStatus, FraudStatus
 
 class PaymentObForm(PaymentForm):
     action = SelectField("Action:", validators=[validators.InputRequired()], choices=[('',''),("capture", "capture"), ("refund", "refund"), ("fail", "fail"), ("fraud", "fraud"), ("success", "success")], render_kw={"onchange": "hideunrelated(this.value)"})
-    amount = DecimalField("Total amount:", validators=[validators.Optional()])
+    amount = DecimalField("Amount:", validators=[validators.Optional()])
     final = BooleanField("Final?", validators=[validators.Optional()])
     message = StringField("Message:", validators=[validators.Optional()])
 
