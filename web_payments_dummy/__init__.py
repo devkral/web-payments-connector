@@ -63,13 +63,17 @@ class DummyProvider(BasicProvider):
         raise RedirectNeeded(payment.get_failure_url())
 
     def capture(self, payment, amount=None, final=True):
+        if amount is None:
+            return payment.captured_amount
         return amount
 
     def release(self, payment):
-        return None
+        pass
 
     def refund(self, payment, amount=None):
-        return amount or 0
+        if amount is None:
+            return payment.captured_amount
+        return amount
 
     def get_auth_token(self, now):
         return 1, now
