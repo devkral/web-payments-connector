@@ -51,9 +51,13 @@ class PayObView(FormView):
     def form_valid(self, form):
         data = form.data
         if data["action"] == "capture":
-            self.payment.capture(data["amount"], data["final"])
+            captured = self.payment.capture(data["amount"], data["final"])
+            if captured:
+                messages.add_message(request, messages.SUCCESS, "Captured: %s" % captured)
         elif data["action"] == "refund":
-            self.payment.refund(data["amount"])
+            refunded = self.payment.refund(data["amount"])
+            if refunded:
+                messages.add_message(request, messages.SUCCESS, "Refunded: %s" % refunded)
         elif data["action"] == "fail":
             self.payment.change_status(PaymentStatus.ERROR, data["message"])
         elif data["action"] == "fraud":
