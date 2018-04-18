@@ -53,11 +53,11 @@ class PayObView(FormView):
         if data["action"] == "capture":
             captured = self.payment.capture(data["amount"], data["final"])
             if captured:
-                messages.add_message(request, messages.SUCCESS, "Captured: %s" % captured)
+                messages.add_message(self.request, messages.SUCCESS, "Captured: %s" % captured)
         elif data["action"] == "refund":
             refunded = self.payment.refund(data["amount"])
             if refunded:
-                messages.add_message(request, messages.SUCCESS, "Refunded: %s" % refunded)
+                messages.add_message(self.request, messages.SUCCESS, "Refunded: %s" % refunded)
         elif data["action"] == "fail":
             self.payment.change_status(PaymentStatus.ERROR, data["message"])
         elif data["action"] == "fraud":
