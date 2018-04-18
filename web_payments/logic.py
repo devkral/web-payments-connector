@@ -216,6 +216,8 @@ class BasicPayment(object):
             self.captured_amount += amount
             if final:
                 self.change_status(PaymentStatus.CONFIRMED)
+            else:
+                self.save()
         return amount
 
     def release(self):
@@ -243,7 +245,8 @@ class BasicPayment(object):
             self.captured_amount -= amount
             if self.captured_amount == 0 and self.status != PaymentStatus.REFUNDED:
                 self.change_status(PaymentStatus.REFUNDED)
-            self.save()
+            else:
+                self.save()
         return amount
 
     @classmethod
