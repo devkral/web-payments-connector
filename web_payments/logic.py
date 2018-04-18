@@ -230,9 +230,9 @@ class BasicPayment(object):
 
     def refund(self, amount=None):
         ''' Refund payment, return amount which was refunded '''
-        if self.status != PaymentStatus.CONFIRMED:
+        if self.status not in (PaymentStatus.CONFIRMED, PaymentStatus.REFUNDED):
             raise ValueError(
-                'Only charged payments can be refunded.')
+                'Only charged (or refunded charged) payments can be refunded.')
         if amount is not None:
             if amount > self.captured_amount:
                 raise ValueError(
@@ -243,7 +243,7 @@ class BasicPayment(object):
                 raise ValueError(
                     'Provider returned refund amount can not be greater than captured amount')
             self.captured_amount -= amount
-            if self.captured_amount == 0 and self.status != PaymentStatus.REFUNDED:
+            if self.status != PaymentStatus.REFUNDED:
                 self.change_status(PaymentStatus.REFUNDED)
             else:
                 self.save()

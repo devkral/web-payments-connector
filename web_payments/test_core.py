@@ -163,10 +163,10 @@ class TestBasicPayment(TestCase):
         self.assertEqual(mocked_refund_method.call_count, 1)
 
     @patch('web_payments_dummy.DummyProvider.refund')
-    def test_refund_partial_success(self, mocked_refund_method):
+    def test_refund_partial_refunded(self, mocked_refund_method):
         refund_amount = Decimal('100')
         captured_amount = Decimal('200')
-        status = PaymentStatus.CONFIRMED
+        status = PaymentStatus.REFUNDED
         with patch.object(BasePayment, 'save') as mocked_save_method:
             mocked_save_method.return_value = None
             mocked_refund_method.return_value = refund_amount
