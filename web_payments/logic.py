@@ -226,6 +226,7 @@ class BasicPayment(object):
             raise ValueError(
                 'Only pre-authorized payments can be released.')
         self.provider.release(self)
+        self.captured_amount = Decimal("0")
         self.change_status(PaymentStatus.REFUNDED)
 
     def refund(self, amount=None):
