@@ -92,10 +92,10 @@ class CreditCardPaymentForm(PaymentForm):
                     CreditCardNumberValidator()],
         render_kw={'autocomplete': 'cc-number'})
 
-    expiration = DateField(label=_('Expiration date (YYYY-MM):'),
+    expiration = DateField(label=_('Expiration date (MM/YYYY):'),
         validators=[validators.InputRequired(_('Enter a valid expiration date.')), DateValidator()],
-        format='%Y-%m',
-        render_kw={'autocomplete': 'cc-exp'})
+        format='%m/%Y',
+        render_kw={'autocomplete': 'cc-exp', 'pattern': '[0-9]{2}/[0-9]{4}'})
 
     cvv2 = StringField(
         label=_('CVV2 Security Number'), validators=[validators.InputRequired(_('Enter a valid security number.')), validators.Regexp('^[0-9]{3,4}$', message=_('Enter a valid security number.'))],
@@ -116,4 +116,5 @@ class CreditCardPaymentForm(PaymentForm):
 
 class CreditCardPaymentFormWithName(CreditCardPaymentForm):
     name = StringField(label=_('Name on Credit Card'),
-        validators=[validators.Length(max=128)])
+        validators=[validators.Length(max=128)],
+        render_kw={'autocomplete': 'cc-name'})

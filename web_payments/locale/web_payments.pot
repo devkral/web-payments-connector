@@ -30,7 +30,7 @@ msgid "Credit Card Number"
 msgstr ""
 
 #: web_payments/forms.py:95
-msgid "Expiration date (YYYY-MM):"
+msgid "Expiration date (MM/YYYY):"
 msgstr ""
 
 #: web_payments/forms.py:96

@@ -31,8 +31,8 @@ msgid "Credit Card Number"
 msgstr "Numero Carta di credito"
 
 #: web_payments/forms.py:95
-msgid "Expiration date (YYYY-MM):"
-msgstr "Data di scadenza (YYYY-MM):"
+msgid "Expiration date (MM/YYYY):"
+msgstr "Data di scadenza (MM/YYYY):"
 
 #: web_payments/forms.py:96
 msgid "Enter a valid expiration date."

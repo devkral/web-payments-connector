@@ -200,7 +200,7 @@ class TestCreditCardPaymentForm(TestCase):
         self.credit_data = {
                 'name': 'John Doe',
                 'number': '4716124728800975',
-                'expiration': '2020-05',
+                'expiration':  (datetime.datetime.now()+datetime.timedelta(weeks=3*52)).strftime("%m/%Y"),
                 'cvv2': '123'}
 
     def test_form_verifies_card_number(self):
