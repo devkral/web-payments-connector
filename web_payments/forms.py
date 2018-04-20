@@ -21,7 +21,7 @@ class DateValidator(object):
         data = field.data
         if isinstance(data, str):
             data = datetime.datetime.strptime(data, '%Y-%m').date()
-        if data < datetime.date.today():
+        if not data or data < datetime.date.today():
             raise ValidationError(self.message)
 
 class CreditCardNumberValidator(object):
