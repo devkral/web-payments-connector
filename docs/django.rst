@@ -57,6 +57,7 @@ Django Helpers
 #. Configuration by ``settings.py``::
 
       # settings.py
+      from web_payments import ProviderVariant
       INSTALLED_APPS = [
           # ...
           'web_payments.django',
@@ -67,14 +68,22 @@ Django Helpers
       PAYMENT_MODEL = 'mypaymentapp.Payment'
       # 'default' is used as extras["name"]
       PAYMENT_VARIANTS_API = {
-          'default': ('web_payments_dummy.DummyProvider', {}, {"localized_name": "default", "icon": "icon.png"})}
+          'default': ProviderVariant('web_payments_dummy.DummyProvider', {}, {"localized_name": "default", "icon": "icon.png"}),
+          # or:
+          'default2': ('web_payments_dummy.DummyProvider', {}, {"localized_name": "default", "icon": "icon.png"})
+      }
 
    Variants are named pairs of payment providers, their configuration and extra information.
 
    .. note::
 
-      Variant names may are used in URLs so it's best to stick to ASCII.
+      Variant names may are used in URLs so it's best to stick to ASCII and use extra for fancy naming
 
    .. note::
 
       PAYMENT_HOST can also be a callable object which takes a :class:`web_payments.ProviderVariant`.
+
+   .. note:
+
+      :class:`web_payments.ProviderVariant` and tuples with three elements
+      are exchangeable. See example above. (own implementations should wrap tuples into ProviderVariant)

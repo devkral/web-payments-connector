@@ -19,8 +19,6 @@ Rational behind this is that providers of the same type but different parameters
 name is set to dictionary key name in django, testcommon and defaults to
 Provider Class Name
 
-
-
 Builtin backends
 ================
 
@@ -52,6 +50,11 @@ Writing a backend
 =================
 
 See testcommon and externalpayments for good examples.
+
+   .. note:
+
+      as Form Class PaymentForm should be used. It has some tweaks to ease testing and implementation (allowing dicts as formdata input, special attributes)
+
 
 Test project
 ------------
