@@ -4,13 +4,13 @@ Basic Backend Definition
 Default arguments
 -----------------
 
-captured: Default: True, if False enable preauth
-time_reserve: Default: timedelta(seconds=0), how many time should a used token have left at least?
+* captured: Default: True, if False enable preauth
+* time_reserve: Default: timedelta(seconds=0), how many time should a used token have left at least?
 
-Extras
+Extra
 --------------
 
-Extras should not affect Provider, it is only for the integration.
+Extra should not affect Provider, it is only for the integration.
 Notable exception is name:
 name is used for provider_factory caching
 
@@ -22,29 +22,7 @@ Provider Class Name
 Builtin backends
 ================
 
-
-Dummy
------
-
-.. class:: web_payments_dummy.DummyProvider
-
-   This is a dummy backend suitable for testing your store without contacting any payment gateways. Instead of using an external service it will simply show you a form that allows you to confirm or reject the payment.
-
-
-External Payments
------------------
-
-
-.. class:: web_payments_externalpayments.DirectPaymentProvider
-
-   This Provider is suitable for manual cashing processes
-
-
-
-.. class:: web_payments_externalpayments.BankTransferProvider
-
-  This Provider allows manual bank transactions. It requires a human
-  or a program checking the bank transactions
+See :doc:`web_payments_dummy` and :doc:`web_payments_externalpayments`
 
 Writing a backend
 =================
@@ -70,4 +48,4 @@ point to your own settings.
 Own settings can live in the settings folder (gitignored) and inherit from web_payments_dummy.django_dummy.settings (for defaults)
 
 
-TODO: Further documentation
+.. todo: Further documentation

@@ -10,17 +10,10 @@ class DirectPaymentProvider(BasicProvider):
         Payment is done manually e.g. cash on delivery, voucher in restaurant.
         Payments are just a placeholder; to allow every further operation set to CONFIRMED.
 
-        skipform:
-            doesn't show form with data
-        usetoken:
-            if you don't verify the name; don't allow people
-            supplying others order numbers (use token)
-            because it is much longer it defaults to off
-        prefix:
-            reference: add prefix to payment id
-        confirm:
-            set PaymentStatus to CONFIRMED when this payment pipeline completes
-
+        :param bool skipform: doesn't show form with data
+        :param bool usetoken: if you don't verify the name; don't allow people supplying others order numbers (use token) because it is much longer it defaults to off
+        :param str prefix: add prefix to payment id as reference
+        :param bool confirm: set PaymentStatus to CONFIRMED when get_form completes
     '''
 
     def __init__(self, skipform=True, confirm=False,
@@ -65,14 +58,11 @@ class BankTransferProvider(BasicProvider):
         Banking software or human confirms transaction.
         Because there is no security problems if somebody pays for somebody else and references can not hold many characters, only the id is required.
         The form is used to show the user the data he has to send.
-        iban:
-            IBAN number
-        bic:
-            BIC number
-        prefix:
-            reference: add prefix to payment id
-        confirm:
-            set PaymentStatus to CONFIRMED when this payment pipeline completes
+
+        :param str iban: IBAN number
+        :param str bic: BIC number
+        :param str prefix: add prefix to payment id as reference
+        :param bool confirm: set PaymentStatus to CONFIRMED when get_form completes
     '''
 
     def __init__(self, iban, bic, confirm=False,

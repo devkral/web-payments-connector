@@ -66,7 +66,7 @@ Django Helpers
       PAYMENT_HOST = 'localhost:8000'
       PAYMENT_PROTOCOL = "https"
       PAYMENT_MODEL = 'mypaymentapp.Payment'
-      # 'default' is used as extras["name"]
+      # 'default' is used as extra["name"]
       PAYMENT_VARIANTS_API = {
           'default': ProviderVariant('web_payments_dummy.DummyProvider', {}, {"localized_name": "default", "icon": "icon.png"}),
           # or:
