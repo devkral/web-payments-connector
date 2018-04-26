@@ -55,23 +55,26 @@
 
 <span class="n">_tlocal</span> <span class="o">=</span> <span class="n">_TLocal</span><span class="p">(</span><span class="n">current_language</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">)</span>
 
-<span class="k">def</span> <span class="nf">set_language</span><span class="p">(</span><span class="n">lang</span><span class="p">):</span>
+<div class="viewcode-block" id="set_language"><a class="viewcode-back" href="../../web_payments.html#web_payments.translation.set_language">[docs]</a><span class="k">def</span> <span class="nf">set_language</span><span class="p">(</span><span class="n">language</span><span class="p">):</span>
     <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Set language. Default implementation</span>
-<span class="sd">    Note: if get_language is overwritten this method should be also overwritten</span>
-<span class="sd">    or not used</span>
-<span class="sd">    Note: loading with django overwrites this method if not initialized</span>
-<span class="sd">    &#39;&#39;&#39;</span>
-    <span class="n">_tlocal</span><span class="o">.</span><span class="n">current_language</span> <span class="o">=</span> <span class="n">lang</span>
+<span class="sd">        Set language.</span>
+<span class="sd">        Default implementation can be overwritten.</span>
+<span class="sd">        Note: if get_language is overwritten this method should be also overwritten</span>
+<span class="sd">        or not used</span>
+<span class="sd">        Note: loading with django overwrites this method if not initialized</span>
 
-<span class="k">def</span> <span class="nf">get_language</span><span class="p">():</span>
-    <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">    Get language. For translations.</span>
-<span class="sd">    Default implementation can be overwritten.</span>
-<span class="sd">    Note: if set_language is overwritten this method should be also overwritten</span>
-<span class="sd">    Note: loading with django overwrites this method if not initialized</span>
+<span class="sd">        :param str language: language to set to</span>
 <span class="sd">    &#39;&#39;&#39;</span>
-    <span class="k">return</span> <span class="n">_tlocal</span><span class="o">.</span><span class="n">current_language</span>
+    <span class="n">_tlocal</span><span class="o">.</span><span class="n">current_language</span> <span class="o">=</span> <span class="n">language</span></div>
+
+<div class="viewcode-block" id="get_language"><a class="viewcode-back" href="../../web_payments.html#web_payments.translation.get_language">[docs]</a><span class="k">def</span> <span class="nf">get_language</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">        Get language. For translations.</span>
+<span class="sd">        Default implementation can be overwritten.</span>
+<span class="sd">        Note: if set_language is overwritten this method should be also overwritten</span>
+<span class="sd">        Note: loading with django overwrites this method if not initialized</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">_tlocal</span><span class="o">.</span><span class="n">current_language</span></div>
 
 <span class="k">class</span> <span class="nc">_lazy_constant</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
