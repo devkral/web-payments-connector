@@ -4,7 +4,7 @@ from setuptools.command.test import test as TestCommand
 import os
 import sys
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'test_settings')
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'web_payments_dummy.django_dummy.settings.test')
 
 DJANGO_VERSIONS="django>=1.11"
 

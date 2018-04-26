@@ -27,4 +27,4 @@ DATABASES = {
     }
 }
 
-INSTALLED_APPS = ['django.contrib.sites', 'web_payments.django', 'web_payments_dummy.django_dummy']
+INSTALLED_APPS = ['web_payments_dummy.django_dummy']

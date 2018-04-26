@@ -282,6 +282,8 @@ BasePaymentLogic = BasicPayment
 class BasicProvider(object):
     '''
         This class defines the backend provider API. It should not be instantiated directly. Use BasicPayment methods instead.
+        :param bool capture: automatic capture of payments, False not supported by all backends
+        :param timedelta time_reserve: minimum time left to expire until a new token is requested, defaults to zero
     '''
     form_class = None
 

@@ -18,8 +18,8 @@ sys.path.insert(0, os.path.abspath(".."))
 try:
     import django
     from django.conf import settings
-    import test_settings
-    settings.configure(default_settings=test_settings)
+    import doc_settings
+    settings.configure(default_settings=doc_settings)
     django.setup()
 except ImportError:
     print("Django module cannot be documented")

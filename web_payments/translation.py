@@ -16,21 +16,24 @@ class _TLocal(threading.local):
 
 _tlocal = _TLocal(current_language="en")
 
-def set_language(lang):
+def set_language(language):
     '''
-    Set language. Default implementation
-    Note: if get_language is overwritten this method should be also overwritten
-    or not used
-    Note: loading with django overwrites this method if not initialized
+        Set language.
+        Default implementation can be overwritten.
+        Note: if get_language is overwritten this method should be also overwritten
+        or not used
+        Note: loading with django overwrites this method if not initialized
+
+        :param str language: language to set to
     '''
-    _tlocal.current_language = lang
+    _tlocal.current_language = language
 
 def get_language():
     '''
-    Get language. For translations.
-    Default implementation can be overwritten.
-    Note: if set_language is overwritten this method should be also overwritten
-    Note: loading with django overwrites this method if not initialized
+        Get language. For translations.
+        Default implementation can be overwritten.
+        Note: if set_language is overwritten this method should be also overwritten
+        Note: loading with django overwrites this method if not initialized
     '''
     return _tlocal.current_language
 
