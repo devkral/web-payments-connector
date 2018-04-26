@@ -3,7 +3,7 @@ from ._exceptions import (RedirectNeeded, ExternalPostNeeded,
                          PaymentError, NotInitialized, NotSupported)
 from .status import PaymentStatus, FraudStatus
 
-__all__ = ["PurchasedItem", "HttpRequest"]
+__all__ = ["PurchasedItem", "HttpRequest", "ProviderVariant"]
 __all__ += ["PaymentStatus", "FraudStatus"]
 __all__ += ["RedirectNeeded", "ExternalPostNeeded"]
 __all__ += ["PaymentError", "NotInitialized", "NotSupported"]
