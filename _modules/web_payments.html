@@ -1,0 +1,124 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>web_payments &#8212; web-payments-connector  documentation</title>
+    <link rel="stylesheet" href="../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">web-payments-connector  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for web_payments</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">namedtuple</span>
+<span class="kn">from</span> <span class="nn">._exceptions</span> <span class="k">import</span> <span class="p">(</span><span class="n">RedirectNeeded</span><span class="p">,</span> <span class="n">ExternalPostNeeded</span><span class="p">,</span>
+                         <span class="n">PaymentError</span><span class="p">,</span> <span class="n">NotInitialized</span><span class="p">,</span> <span class="n">NotSupported</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">.status</span> <span class="k">import</span> <span class="n">PaymentStatus</span><span class="p">,</span> <span class="n">FraudStatus</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;PurchasedItem&quot;</span><span class="p">,</span> <span class="s2">&quot;HttpRequest&quot;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;PaymentStatus&quot;</span><span class="p">,</span> <span class="s2">&quot;FraudStatus&quot;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;RedirectNeeded&quot;</span><span class="p">,</span> <span class="s2">&quot;ExternalPostNeeded&quot;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;PaymentError&quot;</span><span class="p">,</span> <span class="s2">&quot;NotInitialized&quot;</span><span class="p">,</span> <span class="s2">&quot;NotSupported&quot;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">+=</span> <span class="p">[</span><span class="s2">&quot;provider_factory&quot;</span><span class="p">]</span>
+
+<span class="n">PurchasedItem</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;PurchasedItem&#39;</span><span class="p">,</span>
+                           <span class="p">[</span><span class="s1">&#39;name&#39;</span><span class="p">,</span> <span class="s1">&#39;quantity&#39;</span><span class="p">,</span> <span class="s1">&#39;price&#39;</span><span class="p">,</span> <span class="s1">&#39;currency&#39;</span><span class="p">,</span> <span class="s1">&#39;sku&#39;</span><span class="p">])</span>
+
+<span class="n">HttpRequest</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;HttpRequest&#39;</span><span class="p">,</span>
+                         <span class="p">[</span><span class="s1">&#39;method&#39;</span><span class="p">,</span> <span class="s1">&#39;GET&#39;</span><span class="p">,</span> <span class="s1">&#39;POST&#39;</span><span class="p">,</span> <span class="s1">&#39;content_type&#39;</span><span class="p">])</span>
+
+<span class="c1"># extra is a dictionary</span>
+<span class="n">ProviderVariant</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;ProviderVariant&#39;</span><span class="p">,</span>
+                             <span class="p">[</span><span class="s1">&#39;path&#39;</span><span class="p">,</span> <span class="s1">&#39;config&#39;</span><span class="p">,</span> <span class="s1">&#39;extra&#39;</span><span class="p">])</span>
+
+<span class="n">PROVIDER_CACHE</span> <span class="o">=</span> <span class="p">{}</span>
+
+<div class="viewcode-block" id="provider_factory"><a class="viewcode-back" href="../web_payments.html#web_payments.provider_factory">[docs]</a><span class="k">def</span> <span class="nf">provider_factory</span><span class="p">(</span><span class="n">variant</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Return the provider instance based on ProviderVariant</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">variant</span> <span class="ow">or</span> <span class="kc">None</span> <span class="ow">in</span> <span class="n">variant</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Payment variant does not exist: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span>
+                         <span class="p">(</span><span class="n">variant</span><span class="p">,))</span>
+    <span class="n">module_path</span><span class="p">,</span> <span class="n">class_name</span> <span class="o">=</span> <span class="n">variant</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">variant</span><span class="o">.</span><span class="n">extra</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;name&quot;</span><span class="p">,</span> <span class="n">class_name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">PROVIDER_CACHE</span><span class="p">:</span>
+        <span class="n">module</span> <span class="o">=</span> <span class="nb">__import__</span><span class="p">(</span>
+            <span class="nb">str</span><span class="p">(</span><span class="n">module_path</span><span class="p">),</span> <span class="nb">globals</span><span class="p">(),</span> <span class="nb">locals</span><span class="p">(),</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">class_name</span><span class="p">)])</span>
+        <span class="n">class_</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">class_name</span><span class="p">)</span>
+        <span class="n">provider_instance</span> <span class="o">=</span> <span class="n">class_</span><span class="p">(</span><span class="o">**</span><span class="n">variant</span><span class="o">.</span><span class="n">config</span><span class="p">)</span>
+        <span class="n">provextra</span> <span class="o">=</span> <span class="n">provider_instance</span><span class="o">.</span><span class="n">extra</span>
+        <span class="n">provider_instance</span><span class="o">.</span><span class="n">extra</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">provextra</span><span class="p">:</span>
+            <span class="n">provider_instance</span><span class="o">.</span><span class="n">extra</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">provextra</span><span class="p">)</span>
+        <span class="n">provider_instance</span><span class="o">.</span><span class="n">extra</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">variant</span><span class="o">.</span><span class="n">extra</span><span class="p">)</span>
+        <span class="n">PROVIDER_CACHE</span><span class="p">[</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">provider_instance</span>
+    <span class="k">return</span> <span class="n">PROVIDER_CACHE</span><span class="p">[</span><span class="n">name</span><span class="p">]</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">web-payments-connector  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.3.
+    </div>
+  </body>
+</html>

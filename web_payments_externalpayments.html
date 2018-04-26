@@ -1,0 +1,224 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>web_payments_externalpayments package &#8212; web-payments-connector  documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="web_payments_dummy package" href="web_payments_dummy.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="web_payments_dummy.html" title="web_payments_dummy package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">web-payments-connector  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">web_payments</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="web-payments-externalpayments-package">
+<h1>web_payments_externalpayments package<a class="headerlink" href="#web-payments-externalpayments-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-web_payments_externalpayments">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-web_payments_externalpayments" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="web_payments_externalpayments.DirectPaymentProvider">
+<em class="property">class </em><code class="descclassname">web_payments_externalpayments.</code><code class="descname">DirectPaymentProvider</code><span class="sig-paren">(</span><em>skipform=True</em>, <em>confirm=False</em>, <em>usetoken=False</em>, <em>prefix=''</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments_externalpayments.html#DirectPaymentProvider"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments_externalpayments.DirectPaymentProvider" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="web_payments.html#web_payments.logic.BasicProvider" title="web_payments.logic.BasicProvider"><code class="xref py py-class docutils literal notranslate"><span class="pre">web_payments.logic.BasicProvider</span></code></a></p>
+<p>Payment is done manually e.g. cash on delivery, voucher in restaurant.
+Payments are just a placeholder; to allow every further operation set to CONFIRMED.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>skipform</strong> (<em>bool</em>) – doesn’t show form with data</li>
+<li><strong>usetoken</strong> (<em>bool</em>) – if you don’t verify the name; don’t allow people supplying others order numbers (use token) because it is much longer it defaults to off</li>
+<li><strong>prefix</strong> (<em>str</em>) – add prefix to payment id as reference</li>
+<li><strong>confirm</strong> (<em>bool</em>) – set PaymentStatus to CONFIRMED when get_form completes</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="web_payments_externalpayments.DirectPaymentProvider.get_form">
+<code class="descname">get_form</code><span class="sig-paren">(</span><em>payment</em>, <em>data=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments_externalpayments.html#DirectPaymentProvider.get_form"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments_externalpayments.DirectPaymentProvider.get_form" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts <em>payment</em> into a form</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="web_payments_externalpayments.DirectPaymentProvider.refund">
+<code class="descname">refund</code><span class="sig-paren">(</span><em>payment</em>, <em>amount=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments_externalpayments.html#DirectPaymentProvider.refund"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments_externalpayments.DirectPaymentProvider.refund" title="Permalink to this definition">¶</a></dt>
+<dd><p>Refund payment, return amount which was refunded</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="web_payments_externalpayments.BankTransferProvider">
+<em class="property">class </em><code class="descclassname">web_payments_externalpayments.</code><code class="descname">BankTransferProvider</code><span class="sig-paren">(</span><em>iban</em>, <em>bic</em>, <em>confirm=False</em>, <em>prefix=''</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments_externalpayments.html#BankTransferProvider"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments_externalpayments.BankTransferProvider" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="web_payments.html#web_payments.logic.BasicProvider" title="web_payments.logic.BasicProvider"><code class="xref py py-class docutils literal notranslate"><span class="pre">web_payments.logic.BasicProvider</span></code></a></p>
+<p>Banking software or human confirms transaction.
+Because there is no security problems if somebody pays for somebody else and references can not hold many characters, only the id is required.
+The form is used to show the user the data he has to send.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>iban</strong> (<em>str</em>) – IBAN number</li>
+<li><strong>bic</strong> (<em>str</em>) – BIC number</li>
+<li><strong>prefix</strong> (<em>str</em>) – add prefix to payment id as reference</li>
+<li><strong>confirm</strong> (<em>bool</em>) – set PaymentStatus to CONFIRMED when get_form completes</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<dl class="method">
+<dt id="web_payments_externalpayments.BankTransferProvider.get_fields">
+<code class="descname">get_fields</code><span class="sig-paren">(</span><em>payment</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments_externalpayments.html#BankTransferProvider.get_fields"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments_externalpayments.BankTransferProvider.get_fields" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="web_payments_externalpayments.BankTransferProvider.get_form">
+<code class="descname">get_form</code><span class="sig-paren">(</span><em>payment</em>, <em>data=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments_externalpayments.html#BankTransferProvider.get_form"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments_externalpayments.BankTransferProvider.get_form" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts <em>payment</em> into a form</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="web_payments_externalpayments.BankTransferProvider.refund">
+<code class="descname">refund</code><span class="sig-paren">(</span><em>payment</em>, <em>amount=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments_externalpayments.html#BankTransferProvider.refund"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments_externalpayments.BankTransferProvider.refund" title="Permalink to this definition">¶</a></dt>
+<dd><p>Refund payment, return amount which was refunded</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-web_payments_externalpayments.forms">
+<span id="web-payments-externalpayments-forms-module"></span><h2>web_payments_externalpayments.forms module<a class="headerlink" href="#module-web_payments_externalpayments.forms" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="web_payments_externalpayments.forms.OrderIdForm">
+<em class="property">class </em><code class="descclassname">web_payments_externalpayments.forms.</code><code class="descname">OrderIdForm</code><span class="sig-paren">(</span><em>*</em>, <em>provider=None</em>, <em>payment=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments_externalpayments/forms.html#OrderIdForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments_externalpayments.forms.OrderIdForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="web_payments.html#web_payments.forms.PaymentForm" title="web_payments.forms.PaymentForm"><code class="xref py py-class docutils literal notranslate"><span class="pre">web_payments.forms.PaymentForm</span></code></a></p>
+<dl class="attribute">
+<dt id="web_payments_externalpayments.forms.OrderIdForm.order">
+<code class="descname">order</code><em class="property"> = &lt;UnboundField(StringField, (), {'label': 'Please supply as reference', 'render_kw': {'readonly': True}})&gt;</em><a class="headerlink" href="#web_payments_externalpayments.forms.OrderIdForm.order" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="web_payments_externalpayments.forms.IBANBankingForm">
+<em class="property">class </em><code class="descclassname">web_payments_externalpayments.forms.</code><code class="descname">IBANBankingForm</code><span class="sig-paren">(</span><em>*</em>, <em>provider=None</em>, <em>payment=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments_externalpayments/forms.html#IBANBankingForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments_externalpayments.forms.IBANBankingForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="web_payments.html#web_payments.forms.PaymentForm" title="web_payments.forms.PaymentForm"><code class="xref py py-class docutils literal notranslate"><span class="pre">web_payments.forms.PaymentForm</span></code></a></p>
+<dl class="attribute">
+<dt id="web_payments_externalpayments.forms.IBANBankingForm.bic">
+<code class="descname">bic</code><em class="property"> = &lt;UnboundField(StringField, (), {'label': 'BIC', 'render_kw': {'readonly': True}})&gt;</em><a class="headerlink" href="#web_payments_externalpayments.forms.IBANBankingForm.bic" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments_externalpayments.forms.IBANBankingForm.iban">
+<code class="descname">iban</code><em class="property"> = &lt;UnboundField(StringField, (), {'label': 'IBAN', 'render_kw': {'readonly': True}})&gt;</em><a class="headerlink" href="#web_payments_externalpayments.forms.IBANBankingForm.iban" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments_externalpayments.forms.IBANBankingForm.order">
+<code class="descname">order</code><em class="property"> = &lt;UnboundField(StringField, (), {'label': 'Please supply as reference', 'render_kw': {'readonly': True}})&gt;</em><a class="headerlink" href="#web_payments_externalpayments.forms.IBANBankingForm.order" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">web_payments_externalpayments package</a><ul>
+<li><a class="reference internal" href="#module-web_payments_externalpayments">Module contents</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-web_payments_externalpayments.forms">web_payments_externalpayments.forms module</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="web_payments_dummy.html"
+                        title="previous chapter">web_payments_dummy package</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/web_payments_externalpayments.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="web_payments_dummy.html" title="web_payments_dummy package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">web-payments-connector  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >web_payments</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.3.
+    </div>
+  </body>
+</html>

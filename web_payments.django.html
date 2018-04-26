@@ -1,0 +1,366 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>web_payments.django package &#8212; web-payments-connector  documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="web_payments_dummy package" href="web_payments_dummy.html" />
+    <link rel="prev" title="web_payments package" href="web_payments.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="web_payments_dummy.html" title="web_payments_dummy package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="web_payments.html" title="web_payments package"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">web-payments-connector  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >web_payments</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="web_payments.html" accesskey="U">web_payments package</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="web-payments-django-package">
+<h1>web_payments.django package<a class="headerlink" href="#web-payments-django-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-web_payments.django.apps">
+<span id="web-payments-django-apps-module"></span><h2>web_payments.django.apps module<a class="headerlink" href="#module-web_payments.django.apps" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="web_payments.django.apps.WebPaymentsConfig">
+<em class="property">class </em><code class="descclassname">web_payments.django.apps.</code><code class="descname">WebPaymentsConfig</code><span class="sig-paren">(</span><em>app_name</em>, <em>app_module</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/django/apps.html#WebPaymentsConfig"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.django.apps.WebPaymentsConfig" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.apps.config.AppConfig</span></code></p>
+<dl class="attribute">
+<dt id="web_payments.django.apps.WebPaymentsConfig.name">
+<code class="descname">name</code><em class="property"> = 'web_payments'</em><a class="headerlink" href="#web_payments.django.apps.WebPaymentsConfig.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="web_payments.django.apps.WebPaymentsConfig.ready">
+<code class="descname">ready</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/django/apps.html#WebPaymentsConfig.ready"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.django.apps.WebPaymentsConfig.ready" title="Permalink to this definition">¶</a></dt>
+<dd><p>Override this method in subclasses to run code when Django starts.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-web_payments.django.models">
+<span id="web-payments-django-models-module"></span><h2>web_payments.django.models module<a class="headerlink" href="#module-web_payments.django.models" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="web_payments.django.models.BasePayment">
+<em class="property">class </em><code class="descclassname">web_payments.django.models.</code><code class="descname">BasePayment</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/django/models.html#BasePayment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.django.models.BasePayment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">django.db.models.base.Model</span></code>, <a class="reference internal" href="web_payments.html#web_payments.logic.BasicPayment" title="web_payments.logic.BasicPayment"><code class="xref py py-class docutils literal notranslate"><span class="pre">web_payments.logic.BasicPayment</span></code></a></p>
+<p>Represents a single transaction. Each instance has one or more PaymentItem.</p>
+<dl class="class">
+<dt id="web_payments.django.models.BasePayment.Meta">
+<em class="property">class </em><code class="descname">Meta</code><a class="reference internal" href="_modules/web_payments/django/models.html#BasePayment.Meta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.django.models.BasePayment.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="web_payments.django.models.BasePayment.Meta.abstract">
+<code class="descname">abstract</code><em class="property"> = False</em><a class="headerlink" href="#web_payments.django.models.BasePayment.Meta.abstract" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="web_payments.django.models.BasePayment.check_token_exists">
+<em class="property">classmethod </em><code class="descname">check_token_exists</code><span class="sig-paren">(</span><em>token</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/django/models.html#BasePayment.check_token_exists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.django.models.BasePayment.check_token_exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>create token for process_url</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="web_payments.django.models.BasePayment.get_fraud_status_display">
+<code class="descname">get_fraud_status_display</code><span class="sig-paren">(</span><em>*</em>, <em>field=&lt;django.db.models.fields.CharField: fraud_status&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#web_payments.django.models.BasePayment.get_fraud_status_display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="web_payments.django.models.BasePayment.get_process_url">
+<code class="descname">get_process_url</code><span class="sig-paren">(</span><em>extra_data=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/django/models.html#BasePayment.get_process_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.django.models.BasePayment.get_process_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns a communication url, should kept secret
+except if provider communication is with customer</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="web_payments.django.models.BasePayment.get_provider_variant">
+<code class="descname">get_provider_variant</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/django/models.html#BasePayment.get_provider_variant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.django.models.BasePayment.get_provider_variant" title="Permalink to this definition">¶</a></dt>
+<dd><p>return ProviderVariant for this payment object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="web_payments.django.models.BasePayment.get_status_display">
+<code class="descname">get_status_display</code><span class="sig-paren">(</span><em>*</em>, <em>field=&lt;django.db.models.fields.CharField: status&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#web_payments.django.models.BasePayment.get_status_display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="web_payments.django.models.BasePayment.list_providers">
+<em class="property">classmethod </em><code class="descname">list_providers</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/django/models.html#BasePayment.list_providers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.django.models.BasePayment.list_providers" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns an iterable with ProviderVariants</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="web_payments.django.models.BasePayment.save">
+<code class="descname">save</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/django/models.html#BasePayment.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.django.models.BasePayment.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save the current instance. Override this in a subclass if you want to
+control the saving process.</p>
+<p>The ‘force_insert’ and ‘force_update’ parameters can be used to insist
+that the “save” must be an SQL insert or update (or equivalent for
+non-SQL backends), respectively. Normally, they should not be set.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="web_payments.django.models.BasePayment.signal_status_change">
+<code class="descname">signal_status_change</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/django/models.html#BasePayment.signal_status_change"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.django.models.BasePayment.signal_status_change" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called on status change. Should send signal (see django.models for example).
+must to be overwritten to be useful</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="web_payments.django.models.BasePaymentWithAddress">
+<em class="property">class </em><code class="descclassname">web_payments.django.models.</code><code class="descname">BasePaymentWithAddress</code><span class="sig-paren">(</span><em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/django/models.html#BasePaymentWithAddress"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.django.models.BasePaymentWithAddress" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#web_payments.django.models.BasePayment" title="web_payments.django.models.BasePayment"><code class="xref py py-class docutils literal notranslate"><span class="pre">web_payments.django.models.BasePayment</span></code></a></p>
+<p>Has real billing address + shippingaddress alias on billing address</p>
+<dl class="class">
+<dt id="web_payments.django.models.BasePaymentWithAddress.Meta">
+<em class="property">class </em><code class="descname">Meta</code><a class="reference internal" href="_modules/web_payments/django/models.html#BasePaymentWithAddress.Meta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.django.models.BasePaymentWithAddress.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="web_payments.django.models.BasePaymentWithAddress.Meta.abstract">
+<code class="descname">abstract</code><em class="property"> = False</em><a class="headerlink" href="#web_payments.django.models.BasePaymentWithAddress.Meta.abstract" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.django.models.BasePaymentWithAddress.billing_address_1">
+<code class="descname">billing_address_1</code><a class="headerlink" href="#web_payments.django.models.BasePaymentWithAddress.billing_address_1" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.django.models.BasePaymentWithAddress.billing_address_2">
+<code class="descname">billing_address_2</code><a class="headerlink" href="#web_payments.django.models.BasePaymentWithAddress.billing_address_2" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.django.models.BasePaymentWithAddress.billing_city">
+<code class="descname">billing_city</code><a class="headerlink" href="#web_payments.django.models.BasePaymentWithAddress.billing_city" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.django.models.BasePaymentWithAddress.billing_country_area">
+<code class="descname">billing_country_area</code><a class="headerlink" href="#web_payments.django.models.BasePaymentWithAddress.billing_country_area" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.django.models.BasePaymentWithAddress.billing_country_code">
+<code class="descname">billing_country_code</code><a class="headerlink" href="#web_payments.django.models.BasePaymentWithAddress.billing_country_code" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.django.models.BasePaymentWithAddress.billing_email">
+<code class="descname">billing_email</code><a class="headerlink" href="#web_payments.django.models.BasePaymentWithAddress.billing_email" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.django.models.BasePaymentWithAddress.billing_first_name">
+<code class="descname">billing_first_name</code><a class="headerlink" href="#web_payments.django.models.BasePaymentWithAddress.billing_first_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.django.models.BasePaymentWithAddress.billing_last_name">
+<code class="descname">billing_last_name</code><a class="headerlink" href="#web_payments.django.models.BasePaymentWithAddress.billing_last_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.django.models.BasePaymentWithAddress.billing_postcode">
+<code class="descname">billing_postcode</code><a class="headerlink" href="#web_payments.django.models.BasePaymentWithAddress.billing_postcode" title="Permalink to this definition">¶</a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="web_payments.django.models.BasePaymentWithAddress.get_billing_address">
+<code class="descname">get_billing_address</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#web_payments.django.models.BasePaymentWithAddress.get_billing_address" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="web_payments.django.models.BasePaymentWithAddress.get_fraud_status_display">
+<code class="descname">get_fraud_status_display</code><span class="sig-paren">(</span><em>*</em>, <em>field=&lt;django.db.models.fields.CharField: fraud_status&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#web_payments.django.models.BasePaymentWithAddress.get_fraud_status_display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="web_payments.django.models.BasePaymentWithAddress.get_shipping_address">
+<code class="descname">get_shipping_address</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#web_payments.django.models.BasePaymentWithAddress.get_shipping_address" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="web_payments.django.models.BasePaymentWithAddress.get_status_display">
+<code class="descname">get_status_display</code><span class="sig-paren">(</span><em>*</em>, <em>field=&lt;django.db.models.fields.CharField: status&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#web_payments.django.models.BasePaymentWithAddress.get_status_display" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-web_payments.django.signals">
+<span id="web-payments-django-signals-module"></span><h2>web_payments.django.signals module<a class="headerlink" href="#module-web_payments.django.signals" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-web_payments.django.urls">
+<span id="web-payments-django-urls-module"></span><h2>web_payments.django.urls module<a class="headerlink" href="#module-web_payments.django.urls" title="Permalink to this headline">¶</a></h2>
+<p>This module is responsible for automatic processing of provider callback
+data (asynchronous transaction updates).</p>
+<dl class="function">
+<dt id="web_payments.django.urls.process_data">
+<code class="descclassname">web_payments.django.urls.</code><code class="descname">process_data</code><span class="sig-paren">(</span><em>request</em>, <em>token</em>, <em>provider=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/django/urls.html#process_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.django.urls.process_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls process_data of an appropriate provider.</p>
+<p>Raises Http404 if variant does not exist.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="web_payments.django.urls.static_callback">
+<code class="descclassname">web_payments.django.urls.</code><code class="descname">static_callback</code><span class="sig-paren">(</span><em>request</em>, <em>variant</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/django/urls.html#static_callback"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.django.urls.static_callback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-web_payments.django">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-web_payments.django" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="web_payments.django.get_base_url">
+<code class="descclassname">web_payments.django.</code><code class="descname">get_base_url</code><span class="sig-paren">(</span><em>provider=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/django.html#get_base_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.django.get_base_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns host url according to project settings. Protocol is chosen by
+PAYMENT_PROTOCOL variable.
+If PAYMENT_HOST is not specified, get domain from Sites.
+Otherwise checks if it’s callable and returns it’s result. If it’s not a
+callable treats it as domain.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="web_payments.django.get_payment_model">
+<code class="descclassname">web_payments.django.</code><code class="descname">get_payment_model</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/django.html#get_payment_model"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.django.get_payment_model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the Payment model that is active in this project</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="web_payments.django.initialize">
+<code class="descclassname">web_payments.django.</code><code class="descname">initialize</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/django.html#initialize"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.django.initialize" title="Permalink to this definition">¶</a></dt>
+<dd><p>overwrites get/set language with django equivalents</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">web_payments.django package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-web_payments.django.apps">web_payments.django.apps module</a></li>
+<li><a class="reference internal" href="#module-web_payments.django.models">web_payments.django.models module</a></li>
+<li><a class="reference internal" href="#module-web_payments.django.signals">web_payments.django.signals module</a></li>
+<li><a class="reference internal" href="#module-web_payments.django.urls">web_payments.django.urls module</a></li>
+<li><a class="reference internal" href="#module-web_payments.django">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="web_payments.html"
+                        title="previous chapter">web_payments package</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="web_payments_dummy.html"
+                        title="next chapter">web_payments_dummy package</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/web_payments.django.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="web_payments_dummy.html" title="web_payments_dummy package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="web_payments.html" title="web_payments package"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">web-payments-connector  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >web_payments</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="web_payments.html" >web_payments package</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.3.
+    </div>
+  </body>
+</html>

@@ -25,6 +25,9 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="usage.html" title="Making a payment"
              accesskey="N">next</a> |</li>
         <li class="right" >
@@ -51,7 +54,7 @@
 </pre></div>
 </div>
 </li>
-<li><p class="first">Creating a <code class="xref py py-class docutils literal notranslate"><span class="pre">Payment</span></code> model by subclassing more sophisticated <code class="xref py py-class docutils literal notranslate"><span class="pre">web_payments.django.models.BasePayment</span></code> or <code class="xref py py-class docutils literal notranslate"><span class="pre">web_payments.django.models.BasePaymentWithAddress</span></code>:</p>
+<li><p class="first">Creating a <code class="xref py py-class docutils literal notranslate"><span class="pre">Payment</span></code> model by subclassing more sophisticated <a class="reference internal" href="web_payments.django.html#web_payments.django.models.BasePayment" title="web_payments.django.models.BasePayment"><code class="xref py py-class docutils literal notranslate"><span class="pre">web_payments.django.models.BasePayment</span></code></a> or <a class="reference internal" href="web_payments.django.html#web_payments.django.models.BasePaymentWithAddress" title="web_payments.django.models.BasePaymentWithAddress"><code class="xref py py-class docutils literal notranslate"><span class="pre">web_payments.django.models.BasePaymentWithAddress</span></code></a>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># mypaymentapp/models.py</span>
 <span class="kn">from</span> <span class="nn">decimal</span> <span class="k">import</span> <span class="n">Decimal</span>
 
@@ -72,7 +75,7 @@
                             <span class="n">quantity</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">price</span><span class="o">=</span><span class="n">Decimal</span><span class="p">(</span><span class="mi">10</span><span class="p">),</span> <span class="n">currency</span><span class="o">=</span><span class="s1">&#39;USD&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_purchased_items()</span></code> method should return an iterable yielding instances of <code class="xref py py-class docutils literal notranslate"><span class="pre">web_payments.PurchasedItem</span></code>.</p>
+<p>The <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_purchased_items()</span></code> method should return an iterable yielding instances of <a class="reference internal" href="web_payments.html#web_payments.PurchasedItem" title="web_payments.PurchasedItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">web_payments.PurchasedItem</span></code></a>.</p>
 </li>
 <li><p class="first">Get Payment object with <code class="docutils literal notranslate"><span class="pre">payment.get_form()</span></code> (full view example):</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># mypaymentapp/views.py</span>
@@ -98,6 +101,7 @@
 </li>
 <li><p class="first">Configuration by <code class="docutils literal notranslate"><span class="pre">settings.py</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># settings.py</span>
+<span class="kn">from</span> <span class="nn">web_payments</span> <span class="k">import</span> <span class="n">ProviderVariant</span>
 <span class="n">INSTALLED_APPS</span> <span class="o">=</span> <span class="p">[</span>
     <span class="c1"># ...</span>
     <span class="s1">&#39;web_payments.django&#39;</span><span class="p">,</span>
@@ -106,15 +110,18 @@
 <span class="n">PAYMENT_HOST</span> <span class="o">=</span> <span class="s1">&#39;localhost:8000&#39;</span>
 <span class="n">PAYMENT_PROTOCOL</span> <span class="o">=</span> <span class="s2">&quot;https&quot;</span>
 <span class="n">PAYMENT_MODEL</span> <span class="o">=</span> <span class="s1">&#39;mypaymentapp.Payment&#39;</span>
-<span class="c1"># &#39;default&#39; is used as extras[&quot;name&quot;]</span>
+<span class="c1"># &#39;default&#39; is used as extra[&quot;name&quot;]</span>
 <span class="n">PAYMENT_VARIANTS_API</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;web_payments_dummy.DummyProvider&#39;</span><span class="p">,</span> <span class="p">{},</span> <span class="p">{</span><span class="s2">&quot;localized_name&quot;</span><span class="p">:</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="s2">&quot;icon&quot;</span><span class="p">:</span> <span class="s2">&quot;icon.png&quot;</span><span class="p">})}</span>
+    <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="n">ProviderVariant</span><span class="p">(</span><span class="s1">&#39;web_payments_dummy.DummyProvider&#39;</span><span class="p">,</span> <span class="p">{},</span> <span class="p">{</span><span class="s2">&quot;localized_name&quot;</span><span class="p">:</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="s2">&quot;icon&quot;</span><span class="p">:</span> <span class="s2">&quot;icon.png&quot;</span><span class="p">}),</span>
+    <span class="c1"># or:</span>
+    <span class="s1">&#39;default2&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;web_payments_dummy.DummyProvider&#39;</span><span class="p">,</span> <span class="p">{},</span> <span class="p">{</span><span class="s2">&quot;localized_name&quot;</span><span class="p">:</span> <span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="s2">&quot;icon&quot;</span><span class="p">:</span> <span class="s2">&quot;icon.png&quot;</span><span class="p">})</span>
+<span class="p">}</span>
 </pre></div>
 </div>
 <p>Variants are named pairs of payment providers, their configuration and extra information.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">Variant names may are used in URLs so it’s best to stick to ASCII.</p>
+<p class="last">Variant names may are used in URLs so it’s best to stick to ASCII and use extra for fancy naming</p>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -166,6 +173,9 @@
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="usage.html" title="Making a payment"
              >next</a> |</li>
         <li class="right" >
@@ -176,7 +186,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright .
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.3.
     </div>
   </body>
 </html>

@@ -25,6 +25,9 @@
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="django.html" title="Django Helpers"
              accesskey="N">next</a> |</li>
         <li class="right" >
@@ -47,7 +50,7 @@
 </pre></div>
 </div>
 </li>
-<li><p class="first">Create a <code class="xref py py-class docutils literal notranslate"><span class="pre">Payment</span></code> model by subclassing <code class="xref py py-class docutils literal notranslate"><span class="pre">web_payments.logic.BasicPayment</span></code>:</p>
+<li><p class="first">Create a <code class="xref py py-class docutils literal notranslate"><span class="pre">Payment</span></code> model by subclassing <a class="reference internal" href="web_payments.html#web_payments.logic.BasicPayment" title="web_payments.logic.BasicPayment"><code class="xref py py-class docutils literal notranslate"><span class="pre">web_payments.logic.BasicPayment</span></code></a>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">decimal</span> <span class="k">import</span> <span class="n">Decimal</span>
 
 <span class="kn">from</span> <span class="nn">web_payments</span> <span class="k">import</span> <span class="n">PurchasedItem</span>
@@ -109,7 +112,7 @@
 </div>
 </li>
 </ol>
-<p>The <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_purchased_items()</span></code> method should return an iterable yielding instances of <code class="xref py py-class docutils literal notranslate"><span class="pre">web_payments.PurchasedItem</span></code>.</p>
+<p>The <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_purchased_items()</span></code> method should return an iterable yielding instances of <a class="reference internal" href="web_payments.html#web_payments.PurchasedItem" title="web_payments.PurchasedItem"><code class="xref py py-class docutils literal notranslate"><span class="pre">web_payments.PurchasedItem</span></code></a>.</p>
 <ol class="arabic">
 <li><p class="first">Write a view that will handle the payment. You can obtain a form instance by passing POST data to <code class="docutils literal notranslate"><span class="pre">payment.get_form()</span></code>:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># mypaymentapp/views.py</span>
@@ -193,6 +196,9 @@
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
           <a href="django.html" title="Django Helpers"
              >next</a> |</li>
         <li class="right" >
@@ -203,7 +209,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright .
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.3.
     </div>
   </body>
 </html>

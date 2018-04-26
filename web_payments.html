@@ -1,0 +1,820 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>web_payments package &#8212; web-payments-connector  documentation</title>
+    <link rel="stylesheet" href="_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="web_payments.django package" href="web_payments.django.html" />
+    <link rel="prev" title="web_payments" href="modules.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="web_payments.django.html" title="web_payments.django package"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="web_payments"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">web-payments-connector  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" accesskey="U">web_payments</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="web-payments-package">
+<h1>web_payments package<a class="headerlink" href="#web-payments-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="web_payments.django.html">web_payments.django package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="web_payments.django.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="web_payments.django.html#module-web_payments.django.apps">web_payments.django.apps module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="web_payments.django.html#module-web_payments.django.models">web_payments.django.models module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="web_payments.django.html#module-web_payments.django.signals">web_payments.django.signals module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="web_payments.django.html#module-web_payments.django.urls">web_payments.django.urls module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="web_payments.django.html#module-web_payments.django">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</div>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-web_payments.forms">
+<span id="web-payments-forms-module"></span><h2>web_payments.forms module<a class="headerlink" href="#module-web_payments.forms" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="web_payments.forms.DateValidator">
+<em class="property">class </em><code class="descclassname">web_payments.forms.</code><code class="descname">DateValidator</code><span class="sig-paren">(</span><em>message=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/forms.html#DateValidator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.forms.DateValidator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+</dd></dl>
+
+<dl class="class">
+<dt id="web_payments.forms.CreditCardNumberValidator">
+<em class="property">class </em><code class="descclassname">web_payments.forms.</code><code class="descname">CreditCardNumberValidator</code><span class="sig-paren">(</span><em>message=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/forms.html#CreditCardNumberValidator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.forms.CreditCardNumberValidator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="staticmethod">
+<dt id="web_payments.forms.CreditCardNumberValidator.cart_number_checksum_validation">
+<em class="property">static </em><code class="descname">cart_number_checksum_validation</code><span class="sig-paren">(</span><em>number</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/forms.html#CreditCardNumberValidator.cart_number_checksum_validation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.forms.CreditCardNumberValidator.cart_number_checksum_validation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="web_payments.forms.PaymentForm">
+<em class="property">class </em><code class="descclassname">web_payments.forms.</code><code class="descname">PaymentForm</code><span class="sig-paren">(</span><em>*</em>, <em>provider=None</em>, <em>payment=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/forms.html#PaymentForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.forms.PaymentForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">wtforms.form.Form</span></code></p>
+<p>Payment form</p>
+<p>When displaying the form remember to use <em>action</em> and <em>method</em>.
+use always formdata except for defaults.
+formdata of is different to Wtforms as it supports dicts</p>
+<dl class="class">
+<dt id="web_payments.forms.PaymentForm.Meta">
+<em class="property">class </em><code class="descname">Meta</code><a class="reference internal" href="_modules/web_payments/forms.html#PaymentForm.Meta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.forms.PaymentForm.Meta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="method">
+<dt id="web_payments.forms.PaymentForm.Meta.wrap_formdata">
+<code class="descname">wrap_formdata</code><span class="sig-paren">(</span><em>form</em>, <em>formdata</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/forms.html#PaymentForm.Meta.wrap_formdata"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.forms.PaymentForm.Meta.wrap_formdata" title="Permalink to this definition">¶</a></dt>
+<dd><p>work around wtform implementation</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.forms.PaymentForm.action">
+<code class="descname">action</code><em class="property"> = ''</em><a class="headerlink" href="#web_payments.forms.PaymentForm.action" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.forms.PaymentForm.method">
+<code class="descname">method</code><em class="property"> = 'post'</em><a class="headerlink" href="#web_payments.forms.PaymentForm.method" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.forms.PaymentForm.payment">
+<code class="descname">payment</code><em class="property"> = None</em><a class="headerlink" href="#web_payments.forms.PaymentForm.payment" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.forms.PaymentForm.provider">
+<code class="descname">provider</code><em class="property"> = None</em><a class="headerlink" href="#web_payments.forms.PaymentForm.provider" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="web_payments.forms.CreditCardPaymentForm">
+<em class="property">class </em><code class="descclassname">web_payments.forms.</code><code class="descname">CreditCardPaymentForm</code><span class="sig-paren">(</span><em>*</em>, <em>valid_types=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/forms.html#CreditCardPaymentForm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.forms.CreditCardPaymentForm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#web_payments.forms.PaymentForm" title="web_payments.forms.PaymentForm"><code class="xref py py-class docutils literal notranslate"><span class="pre">web_payments.forms.PaymentForm</span></code></a></p>
+<dl class="attribute">
+<dt id="web_payments.forms.CreditCardPaymentForm.VALID_TYPES">
+<code class="descname">VALID_TYPES</code><em class="property"> = None</em><a class="headerlink" href="#web_payments.forms.CreditCardPaymentForm.VALID_TYPES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.forms.CreditCardPaymentForm.cvv2">
+<code class="descname">cvv2</code><em class="property"> = &lt;UnboundField(StringField, (), {'label': 'CVV2 Security Number', 'validators': [&lt;wtforms.validators.InputRequired object&gt;, &lt;wtforms.validators.Regexp object&gt;], 'description': 'Last three digits located on the back of your card. For American Express the four digits found on the front side.', 'render_kw': {'autocomplete': 'cc-csc'}})&gt;</em><a class="headerlink" href="#web_payments.forms.CreditCardPaymentForm.cvv2" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.forms.CreditCardPaymentForm.expiration">
+<code class="descname">expiration</code><em class="property"> = &lt;UnboundField(DateField, (), {'label': 'Expiration date (MM/YYYY):', 'validators': [&lt;wtforms.validators.InputRequired object&gt;, &lt;web_payments.forms.DateValidator object&gt;], 'format': '%m/%Y', 'render_kw': {'autocomplete': 'cc-exp', 'pattern': '[0-9]{2}/[0-9]{4}'}})&gt;</em><a class="headerlink" href="#web_payments.forms.CreditCardPaymentForm.expiration" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.forms.CreditCardPaymentForm.number">
+<code class="descname">number</code><em class="property"> = &lt;UnboundField(StringField, (), {'label': 'Credit Card Number', 'validators': [&lt;wtforms.validators.InputRequired object&gt;, &lt;wtforms.validators.Length object&gt;, &lt;web_payments.forms.CreditCardNumberValidator object&gt;], 'render_kw': {'autocomplete': 'cc-number'}})&gt;</em><a class="headerlink" href="#web_payments.forms.CreditCardPaymentForm.number" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="web_payments.forms.CreditCardPaymentForm.validate_number">
+<code class="descname">validate_number</code><span class="sig-paren">(</span><em>field</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/forms.html#CreditCardPaymentForm.validate_number"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.forms.CreditCardPaymentForm.validate_number" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="web_payments.forms.CreditCardPaymentFormWithName">
+<em class="property">class </em><code class="descclassname">web_payments.forms.</code><code class="descname">CreditCardPaymentFormWithName</code><span class="sig-paren">(</span><em>*</em>, <em>valid_types=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/forms.html#CreditCardPaymentFormWithName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.forms.CreditCardPaymentFormWithName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#web_payments.forms.CreditCardPaymentForm" title="web_payments.forms.CreditCardPaymentForm"><code class="xref py py-class docutils literal notranslate"><span class="pre">web_payments.forms.CreditCardPaymentForm</span></code></a></p>
+<dl class="attribute">
+<dt id="web_payments.forms.CreditCardPaymentFormWithName.name">
+<code class="descname">name</code><em class="property"> = &lt;UnboundField(StringField, (), {'label': 'Name on Credit Card', 'validators': [&lt;wtforms.validators.Length object&gt;], 'render_kw': {'autocomplete': 'cc-name'}})&gt;</em><a class="headerlink" href="#web_payments.forms.CreditCardPaymentFormWithName.name" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-web_payments.logic">
+<span id="web-payments-logic-module"></span><h2>web_payments.logic module<a class="headerlink" href="#module-web_payments.logic" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="web_payments.logic.BasicPayment">
+<em class="property">class </em><code class="descclassname">web_payments.logic.</code><code class="descname">BasicPayment</code><a class="reference internal" href="_modules/web_payments/logic.html#BasicPayment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicPayment" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Logic of a Payment object, basis for implementations</p>
+<dl class="attribute">
+<dt id="web_payments.logic.BasicPayment.attrs">
+<code class="descname">attrs</code><a class="headerlink" href="#web_payments.logic.BasicPayment.attrs" title="Permalink to this definition">¶</a></dt>
+<dd><p>Access payment extra attributes like an object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="web_payments.logic.BasicPayment.capture">
+<code class="descname">capture</code><span class="sig-paren">(</span><em>amount=None</em>, <em>final=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/logic.html#BasicPayment.capture"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicPayment.capture" title="Permalink to this definition">¶</a></dt>
+<dd><p>Capture a fraction of the total amount of a payment.
+Return amount captured or None</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.logic.BasicPayment.captured_amount">
+<code class="descname">captured_amount</code><em class="property"> = NotImplemented</em><a class="headerlink" href="#web_payments.logic.BasicPayment.captured_amount" title="Permalink to this definition">¶</a></dt>
+<dd><p>captured = current captured amount</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="web_payments.logic.BasicPayment.change_fraud_status">
+<code class="descname">change_fraud_status</code><span class="sig-paren">(</span><em>status</em>, <em>message=''</em>, <em>commit=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/logic.html#BasicPayment.change_fraud_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicPayment.change_fraud_status" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="web_payments.logic.BasicPayment.change_status">
+<code class="descname">change_status</code><span class="sig-paren">(</span><em>status</em>, <em>message=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/logic.html#BasicPayment.change_status"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicPayment.change_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates the Payment status and sends the status_changed signal.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="web_payments.logic.BasicPayment.check_token_exists">
+<em class="property">classmethod </em><code class="descname">check_token_exists</code><span class="sig-paren">(</span><em>token</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/logic.html#BasicPayment.check_token_exists"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicPayment.check_token_exists" title="Permalink to this definition">¶</a></dt>
+<dd><p>create token for process_url</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="web_payments.logic.BasicPayment.create_token">
+<code class="descname">create_token</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/logic.html#BasicPayment.create_token"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicPayment.create_token" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.logic.BasicPayment.currency">
+<code class="descname">currency</code><em class="property"> = NotImplemented</em><a class="headerlink" href="#web_payments.logic.BasicPayment.currency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Currency code (may be provider-specific)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.logic.BasicPayment.extra_data">
+<code class="descname">extra_data</code><em class="property"> = NotImplemented</em><a class="headerlink" href="#web_payments.logic.BasicPayment.extra_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>for attrs pseudo dict</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.logic.BasicPayment.fraud_message">
+<code class="descname">fraud_message</code><em class="property"> = NotImplemented</em><a class="headerlink" href="#web_payments.logic.BasicPayment.fraud_message" title="Permalink to this definition">¶</a></dt>
+<dd><p>fraud message</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.logic.BasicPayment.fraud_status">
+<code class="descname">fraud_status</code><em class="property"> = NotImplemented</em><a class="headerlink" href="#web_payments.logic.BasicPayment.fraud_status" title="Permalink to this definition">¶</a></dt>
+<dd><p>fraud status</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="web_payments.logic.BasicPayment.get_billing_address">
+<code class="descname">get_billing_address</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/logic.html#BasicPayment.get_billing_address"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicPayment.get_billing_address" title="Permalink to this definition">¶</a></dt>
+<dd><p>return billing address</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="web_payments.logic.BasicPayment.get_failure_url">
+<code class="descname">get_failure_url</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/logic.html#BasicPayment.get_failure_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicPayment.get_failure_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>url where customer should be redirected if payment had an error</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="web_payments.logic.BasicPayment.get_form">
+<code class="descname">get_form</code><span class="sig-paren">(</span><em>data=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/logic.html#BasicPayment.get_form"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicPayment.get_form" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="web_payments.logic.BasicPayment.get_payment_extra">
+<code class="descname">get_payment_extra</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/logic.html#BasicPayment.get_payment_extra"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicPayment.get_payment_extra" title="Permalink to this definition">¶</a></dt>
+<dd><p>extra costs like delivery or tax (required, Decimal), defaults to zero
+Payment message, minimumage,… (not required, provider SHOULD not depend on it)
+Overwrite or extend to add functionality
+universal types:
+type: what type is the transaction (official, physical, …), VALID value can be provider dependent
+message: message for customer
+minimumage: minimum age for customer</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="web_payments.logic.BasicPayment.get_process_url">
+<code class="descname">get_process_url</code><span class="sig-paren">(</span><em>extra_data=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/logic.html#BasicPayment.get_process_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicPayment.get_process_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns a communication url, should kept secret
+except if provider communication is with customer</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="web_payments.logic.BasicPayment.get_provider_variant">
+<code class="descname">get_provider_variant</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/logic.html#BasicPayment.get_provider_variant"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicPayment.get_provider_variant" title="Permalink to this definition">¶</a></dt>
+<dd><p>return ProviderVariant for this payment object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="web_payments.logic.BasicPayment.get_purchased_items">
+<code class="descname">get_purchased_items</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/logic.html#BasicPayment.get_purchased_items"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicPayment.get_purchased_items" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="web_payments.logic.BasicPayment.get_shipping_address">
+<code class="descname">get_shipping_address</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/logic.html#BasicPayment.get_shipping_address"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicPayment.get_shipping_address" title="Permalink to this definition">¶</a></dt>
+<dd><p>return shipping address</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="web_payments.logic.BasicPayment.get_success_url">
+<code class="descname">get_success_url</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/logic.html#BasicPayment.get_success_url"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicPayment.get_success_url" title="Permalink to this definition">¶</a></dt>
+<dd><p>url where customer should be redirected if payment was successful</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="web_payments.logic.BasicPayment.list_providers">
+<em class="property">classmethod </em><code class="descname">list_providers</code><span class="sig-paren">(</span><em>**_kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/logic.html#BasicPayment.list_providers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicPayment.list_providers" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns an iterable with ProviderVariants
+possible keywords:
+name=&lt;variantname&gt;: extract variant, return list with one provider or [], required for static_callback</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="web_payments.logic.BasicPayment.load_providers">
+<em class="property">classmethod </em><code class="descname">load_providers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/logic.html#BasicPayment.load_providers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicPayment.load_providers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load all providers in cache
+Also useful method to check if all providers are valid</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.logic.BasicPayment.message">
+<code class="descname">message</code><em class="property"> = NotImplemented</em><a class="headerlink" href="#web_payments.logic.BasicPayment.message" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transaction status message</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.logic.BasicPayment.provider">
+<code class="descname">provider</code><a class="headerlink" href="#web_payments.logic.BasicPayment.provider" title="Permalink to this definition">¶</a></dt>
+<dd><p>returns provider object</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="web_payments.logic.BasicPayment.refund">
+<code class="descname">refund</code><span class="sig-paren">(</span><em>amount=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/logic.html#BasicPayment.refund"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicPayment.refund" title="Permalink to this definition">¶</a></dt>
+<dd><p>Refund payment, return amount which was refunded</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="web_payments.logic.BasicPayment.release">
+<code class="descname">release</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/logic.html#BasicPayment.release"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicPayment.release" title="Permalink to this definition">¶</a></dt>
+<dd><p>Annilates captured payment</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="web_payments.logic.BasicPayment.save">
+<code class="descname">save</code><span class="sig-paren">(</span><em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/logic.html#BasicPayment.save"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicPayment.save" title="Permalink to this definition">¶</a></dt>
+<dd><p>save model implementation dependent</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="web_payments.logic.BasicPayment.signal_status_change">
+<code class="descname">signal_status_change</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/logic.html#BasicPayment.signal_status_change"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicPayment.signal_status_change" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called on status change. Should send signal (see django.models for example).
+must to be overwritten to be useful</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.logic.BasicPayment.status">
+<code class="descname">status</code><em class="property"> = NotImplemented</em><a class="headerlink" href="#web_payments.logic.BasicPayment.status" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transaction status</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.logic.BasicPayment.token">
+<code class="descname">token</code><em class="property"> = NotImplemented</em><a class="headerlink" href="#web_payments.logic.BasicPayment.token" title="Permalink to this definition">¶</a></dt>
+<dd><p>secret token (for get_process_url)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.logic.BasicPayment.total">
+<code class="descname">total</code><em class="property"> = NotImplemented</em><a class="headerlink" href="#web_payments.logic.BasicPayment.total" title="Permalink to this definition">¶</a></dt>
+<dd><p>Total amount (gross)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.logic.BasicPayment.transaction_id">
+<code class="descname">transaction_id</code><em class="property"> = NotImplemented</em><a class="headerlink" href="#web_payments.logic.BasicPayment.transaction_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Transaction ID (if applicable)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.logic.BasicPayment.variant">
+<code class="descname">variant</code><em class="property"> = NotImplemented</em><a class="headerlink" href="#web_payments.logic.BasicPayment.variant" title="Permalink to this definition">¶</a></dt>
+<dd><p>select payment provider</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="web_payments.logic.BasicProvider">
+<em class="property">class </em><code class="descclassname">web_payments.logic.</code><code class="descname">BasicProvider</code><span class="sig-paren">(</span><em>capture=True</em>, <em>time_reserve=datetime.timedelta(0)</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/logic.html#BasicProvider"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicProvider" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>This class defines the backend provider API. It should not be instantiated directly. Use BasicPayment methods instead.</p>
+<dl class="method">
+<dt id="web_payments.logic.BasicProvider.capture">
+<code class="descname">capture</code><span class="sig-paren">(</span><em>payment</em>, <em>amount=None</em>, <em>final=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/logic.html#BasicProvider.capture"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicProvider.capture" title="Permalink to this definition">¶</a></dt>
+<dd><p>Capture a fraction of the total amount of a payment.
+Return amount captured or None</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="web_payments.logic.BasicProvider.clear_token_cache">
+<code class="descname">clear_token_cache</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/logic.html#BasicProvider.clear_token_cache"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicProvider.clear_token_cache" title="Permalink to this definition">¶</a></dt>
+<dd><p>clear token cache</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.logic.BasicProvider.extra">
+<code class="descname">extra</code><em class="property"> = None</em><a class="headerlink" href="#web_payments.logic.BasicProvider.extra" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.logic.BasicProvider.form_class">
+<code class="descname">form_class</code><em class="property"> = None</em><a class="headerlink" href="#web_payments.logic.BasicProvider.form_class" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="web_payments.logic.BasicProvider.get_action">
+<code class="descname">get_action</code><span class="sig-paren">(</span><em>payment</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/logic.html#BasicProvider.get_action"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicProvider.get_action" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="web_payments.logic.BasicProvider.get_auth_token">
+<code class="descname">get_auth_token</code><span class="sig-paren">(</span><em>now</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/logic.html#BasicProvider.get_auth_token"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicProvider.get_auth_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes now, a datetime object with timezone utc, as argument</p>
+<p>Must return (authentication token, datetime when it will expire)</p>
+<p>datetime can be now to disable caching</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="web_payments.logic.BasicProvider.get_form">
+<code class="descname">get_form</code><span class="sig-paren">(</span><em>payment</em>, <em>data=None</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/logic.html#BasicProvider.get_form"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicProvider.get_form" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts <em>payment</em> into a form</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="web_payments.logic.BasicProvider.get_token_from_request">
+<code class="descname">get_token_from_request</code><span class="sig-paren">(</span><em>payment</em>, <em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/logic.html#BasicProvider.get_token_from_request"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicProvider.get_token_from_request" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return payment token from provider request.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="web_payments.logic.BasicProvider.process_data">
+<code class="descname">process_data</code><span class="sig-paren">(</span><em>payment</em>, <em>request</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/logic.html#BasicProvider.process_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicProvider.process_data" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process callback request from a payment provider.
+Default: return 404 if somebody tries it</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="web_payments.logic.BasicProvider.refund">
+<code class="descname">refund</code><span class="sig-paren">(</span><em>payment</em>, <em>amount=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/logic.html#BasicProvider.refund"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicProvider.refund" title="Permalink to this definition">¶</a></dt>
+<dd><p>Refund payment, return amount which was refunded</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="web_payments.logic.BasicProvider.release">
+<code class="descname">release</code><span class="sig-paren">(</span><em>payment</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/logic.html#BasicProvider.release"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.logic.BasicProvider.release" title="Permalink to this definition">¶</a></dt>
+<dd><p>Annilates captured payment</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.logic.BasicProvider.token">
+<code class="descname">token</code><a class="headerlink" href="#web_payments.logic.BasicProvider.token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Access to authentication token</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-web_payments.status">
+<span id="web-payments-status-module"></span><h2>web_payments.status module<a class="headerlink" href="#module-web_payments.status" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-web_payments.testcommon">
+<span id="web-payments-testcommon-module"></span><h2>web_payments.testcommon module<a class="headerlink" href="#module-web_payments.testcommon" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="web_payments.testcommon.create_test_payment">
+<code class="descclassname">web_payments.testcommon.</code><code class="descname">create_test_payment</code><span class="sig-paren">(</span><em>PAYMENT_VARIANTS_API={'DirectPaymentProvider': ('web_payments_externalpayments.DirectPaymentProvider'</em>, <em>{}</em>, <em>{})</em>, <em>'DummyProvider': ('web_payments_dummy.DummyProvider'</em>, <em>{}</em>, <em>{'test_var': 'test'})</em>, <em>'default': ('web_payments_dummy.DummyProvider'</em>, <em>{}</em>, <em>{})</em>, <em>'iban': ('web_payments_externalpayments.BankTransferProvider'</em>, <em>{'iban': 'GL5604449876543210'</em>, <em>'bic': 'DABAIE2D'}</em>, <em>{'localized_name': 'iban'})}</em>, <em>**attributes</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/testcommon.html#create_test_payment"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.testcommon.create_test_payment" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-web_payments.translation">
+<span id="web-payments-translation-module"></span><h2>web_payments.translation module<a class="headerlink" href="#module-web_payments.translation" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="web_payments.translation.set_language">
+<code class="descclassname">web_payments.translation.</code><code class="descname">set_language</code><span class="sig-paren">(</span><em>language</em><span class="sig-paren">)</span><a class="headerlink" href="#web_payments.translation.set_language" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="web_payments.translation.get_language">
+<code class="descclassname">web_payments.translation.</code><code class="descname">get_language</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/django/utils/translation.html#get_language"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.translation.get_language" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="web_payments.translation.Translation">
+<em class="property">class </em><code class="descclassname">web_payments.translation.</code><code class="descname">Translation</code><span class="sig-paren">(</span><em>instance_path</em>, <em>translation_path</em>, <em>domain='web_payments'</em>, <em>fallback=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/translation.html#Translation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.translation.Translation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="web_payments.translation.Translation.domain">
+<code class="descname">domain</code><em class="property"> = None</em><a class="headerlink" href="#web_payments.translation.Translation.domain" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.translation.Translation.fallback">
+<code class="descname">fallback</code><em class="property"> = None</em><a class="headerlink" href="#web_payments.translation.Translation.fallback" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="web_payments.translation.Translation.gettext">
+<code class="descname">gettext</code><span class="sig-paren">(</span><em>msg</em>, <em>cur_lang=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/translation.html#Translation.gettext"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.translation.Translation.gettext" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="web_payments.translation.Translation.gettext_lazy">
+<code class="descname">gettext_lazy</code><span class="sig-paren">(</span><em>msg</em>, <em>cur_lang=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/translation.html#Translation.gettext_lazy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.translation.Translation.gettext_lazy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.translation.Translation.instance_path">
+<code class="descname">instance_path</code><em class="property"> = None</em><a class="headerlink" href="#web_payments.translation.Translation.instance_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="web_payments.translation.Translation.ngettext">
+<code class="descname">ngettext</code><span class="sig-paren">(</span><em>msg</em>, <em>msgplural</em>, <em>n</em>, <em>cur_lang=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/translation.html#Translation.ngettext"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.translation.Translation.ngettext" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="web_payments.translation.Translation.ngettext_lazy">
+<code class="descname">ngettext_lazy</code><span class="sig-paren">(</span><em>msg</em>, <em>msgplural</em>, <em>n</em>, <em>cur_lang=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/translation.html#Translation.ngettext_lazy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.translation.Translation.ngettext_lazy" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="web_payments.translation.Translation.trans">
+<code class="descname">trans</code><span class="sig-paren">(</span><em>cur_lang=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/translation.html#Translation.trans"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.translation.Translation.trans" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.translation.Translation.translation_path">
+<code class="descname">translation_path</code><em class="property"> = None</em><a class="headerlink" href="#web_payments.translation.Translation.translation_path" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-web_payments.utils">
+<span id="web-payments-utils-module"></span><h2>web_payments.utils module<a class="headerlink" href="#module-web_payments.utils" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="web_payments.utils.split_streetnr">
+<code class="descclassname">web_payments.utils.</code><code class="descname">split_streetnr</code><span class="sig-paren">(</span><em>address</em>, <em>fallback=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/utils.html#split_streetnr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.utils.split_streetnr" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="function">
+<dt id="web_payments.utils.getter_prefixed_address">
+<code class="descclassname">web_payments.utils.</code><code class="descname">getter_prefixed_address</code><span class="sig-paren">(</span><em>prefix</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/utils.html#getter_prefixed_address"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.utils.getter_prefixed_address" title="Permalink to this definition">¶</a></dt>
+<dd><p>create getter for prefixed address format</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="web_payments.utils.get_credit_card_issuer">
+<code class="descclassname">web_payments.utils.</code><code class="descname">get_credit_card_issuer</code><span class="sig-paren">(</span><em>number</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/utils.html#get_credit_card_issuer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.utils.get_credit_card_issuer" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-web_payments">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-web_payments" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="web_payments.PurchasedItem">
+<em class="property">class </em><code class="descclassname">web_payments.</code><code class="descname">PurchasedItem</code><span class="sig-paren">(</span><em>name</em>, <em>quantity</em>, <em>price</em>, <em>currency</em>, <em>sku</em><span class="sig-paren">)</span><a class="headerlink" href="#web_payments.PurchasedItem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></p>
+<dl class="attribute">
+<dt id="web_payments.PurchasedItem.currency">
+<code class="descname">currency</code><a class="headerlink" href="#web_payments.PurchasedItem.currency" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.PurchasedItem.name">
+<code class="descname">name</code><a class="headerlink" href="#web_payments.PurchasedItem.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.PurchasedItem.price">
+<code class="descname">price</code><a class="headerlink" href="#web_payments.PurchasedItem.price" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.PurchasedItem.quantity">
+<code class="descname">quantity</code><a class="headerlink" href="#web_payments.PurchasedItem.quantity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.PurchasedItem.sku">
+<code class="descname">sku</code><a class="headerlink" href="#web_payments.PurchasedItem.sku" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 4</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="web_payments.HttpRequest">
+<em class="property">class </em><code class="descclassname">web_payments.</code><code class="descname">HttpRequest</code><span class="sig-paren">(</span><em>method</em>, <em>GET</em>, <em>POST</em>, <em>content_type</em><span class="sig-paren">)</span><a class="headerlink" href="#web_payments.HttpRequest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></p>
+<dl class="attribute">
+<dt id="web_payments.HttpRequest.GET">
+<code class="descname">GET</code><a class="headerlink" href="#web_payments.HttpRequest.GET" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.HttpRequest.POST">
+<code class="descname">POST</code><a class="headerlink" href="#web_payments.HttpRequest.POST" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 2</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.HttpRequest.content_type">
+<code class="descname">content_type</code><a class="headerlink" href="#web_payments.HttpRequest.content_type" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 3</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.HttpRequest.method">
+<code class="descname">method</code><a class="headerlink" href="#web_payments.HttpRequest.method" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="web_payments.PaymentStatus">
+<em class="property">class </em><code class="descclassname">web_payments.</code><code class="descname">PaymentStatus</code><a class="reference internal" href="_modules/web_payments/status.html#PaymentStatus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.PaymentStatus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="web_payments.PaymentStatus.CHOICES">
+<code class="descname">CHOICES</code><em class="property"> = [('waiting', 'Waiting for confirmation'), ('preauth', 'Pre-authorized'), ('confirmed', 'Confirmed'), ('rejected', 'Rejected'), ('refunded', 'Refunded'), ('error', 'Error'), ('input', 'Input')]</em><a class="headerlink" href="#web_payments.PaymentStatus.CHOICES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.PaymentStatus.CONFIRMED">
+<code class="descname">CONFIRMED</code><em class="property"> = 'confirmed'</em><a class="headerlink" href="#web_payments.PaymentStatus.CONFIRMED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.PaymentStatus.ERROR">
+<code class="descname">ERROR</code><em class="property"> = 'error'</em><a class="headerlink" href="#web_payments.PaymentStatus.ERROR" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.PaymentStatus.INPUT">
+<code class="descname">INPUT</code><em class="property"> = 'input'</em><a class="headerlink" href="#web_payments.PaymentStatus.INPUT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.PaymentStatus.PREAUTH">
+<code class="descname">PREAUTH</code><em class="property"> = 'preauth'</em><a class="headerlink" href="#web_payments.PaymentStatus.PREAUTH" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.PaymentStatus.REFUNDED">
+<code class="descname">REFUNDED</code><em class="property"> = 'refunded'</em><a class="headerlink" href="#web_payments.PaymentStatus.REFUNDED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.PaymentStatus.REJECTED">
+<code class="descname">REJECTED</code><em class="property"> = 'rejected'</em><a class="headerlink" href="#web_payments.PaymentStatus.REJECTED" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.PaymentStatus.WAITING">
+<code class="descname">WAITING</code><em class="property"> = 'waiting'</em><a class="headerlink" href="#web_payments.PaymentStatus.WAITING" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="web_payments.FraudStatus">
+<em class="property">class </em><code class="descclassname">web_payments.</code><code class="descname">FraudStatus</code><a class="reference internal" href="_modules/web_payments/status.html#FraudStatus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.FraudStatus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="attribute">
+<dt id="web_payments.FraudStatus.ACCEPT">
+<code class="descname">ACCEPT</code><em class="property"> = 'accept'</em><a class="headerlink" href="#web_payments.FraudStatus.ACCEPT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.FraudStatus.CHOICES">
+<code class="descname">CHOICES</code><em class="property"> = [('unknown', 'Unknown'), ('accept', 'Passed'), ('reject', 'Rejected'), ('review', 'Review')]</em><a class="headerlink" href="#web_payments.FraudStatus.CHOICES" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.FraudStatus.REJECT">
+<code class="descname">REJECT</code><em class="property"> = 'reject'</em><a class="headerlink" href="#web_payments.FraudStatus.REJECT" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.FraudStatus.REVIEW">
+<code class="descname">REVIEW</code><em class="property"> = 'review'</em><a class="headerlink" href="#web_payments.FraudStatus.REVIEW" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="web_payments.FraudStatus.UNKNOWN">
+<code class="descname">UNKNOWN</code><em class="property"> = 'unknown'</em><a class="headerlink" href="#web_payments.FraudStatus.UNKNOWN" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="web_payments.RedirectNeeded">
+<em class="property">exception </em><code class="descclassname">web_payments.</code><code class="descname">RedirectNeeded</code><a class="reference internal" href="_modules/web_payments/_exceptions.html#RedirectNeeded"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.RedirectNeeded" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="web_payments.ExternalPostNeeded">
+<em class="property">exception </em><code class="descclassname">web_payments.</code><code class="descname">ExternalPostNeeded</code><a class="reference internal" href="_modules/web_payments/_exceptions.html#ExternalPostNeeded"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.ExternalPostNeeded" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="web_payments.PaymentError">
+<em class="property">exception </em><code class="descclassname">web_payments.</code><code class="descname">PaymentError</code><span class="sig-paren">(</span><em>message</em>, <em>code=None</em>, <em>gateway_message=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments/_exceptions.html#PaymentError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.PaymentError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="web_payments.NotInitialized">
+<em class="property">exception </em><code class="descclassname">web_payments.</code><code class="descname">NotInitialized</code><a class="reference internal" href="_modules/web_payments/_exceptions.html#NotInitialized"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.NotInitialized" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">NotImplementedError</span></code></p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="web_payments.NotSupported">
+<em class="property">exception </em><code class="descclassname">web_payments.</code><code class="descname">NotSupported</code><a class="reference internal" href="_modules/web_payments/_exceptions.html#NotSupported"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.NotSupported" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="function">
+<dt id="web_payments.provider_factory">
+<code class="descclassname">web_payments.</code><code class="descname">provider_factory</code><span class="sig-paren">(</span><em>variant</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/web_payments.html#provider_factory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#web_payments.provider_factory" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the provider instance based on ProviderVariant</p>
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">web_payments package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-web_payments.forms">web_payments.forms module</a></li>
+<li><a class="reference internal" href="#module-web_payments.logic">web_payments.logic module</a></li>
+<li><a class="reference internal" href="#module-web_payments.status">web_payments.status module</a></li>
+<li><a class="reference internal" href="#module-web_payments.testcommon">web_payments.testcommon module</a></li>
+<li><a class="reference internal" href="#module-web_payments.translation">web_payments.translation module</a></li>
+<li><a class="reference internal" href="#module-web_payments.utils">web_payments.utils module</a></li>
+<li><a class="reference internal" href="#module-web_payments">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="modules.html"
+                        title="previous chapter">web_payments</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="web_payments.django.html"
+                        title="next chapter">web_payments.django package</a></p>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/web_payments.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="web_payments.django.html" title="web_payments.django package"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="web_payments"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="index.html">web-payments-connector  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="modules.html" >web_payments</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.3.
+    </div>
+  </body>
+</html>

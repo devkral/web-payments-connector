@@ -15,6 +15,7 @@
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="web_payments" href="modules.html" />
     <link rel="prev" title="Authorization and capture" href="preauth.html" /> 
   </head><body>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -23,6 +24,12 @@
         <li class="right" style="margin-right: 10px">
           <a href="genindex.html" title="General Index"
              accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="web_payments"
+             accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="preauth.html" title="Authorization and capture"
              accesskey="P">previous</a> |</li>
@@ -39,12 +46,14 @@
 <h1>Basic Backend Definition<a class="headerlink" href="#basic-backend-definition" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="default-arguments">
 <h2>Default arguments<a class="headerlink" href="#default-arguments" title="Permalink to this headline">¶</a></h2>
-<p>captured: Default: True, if False enable preauth
-time_reserve: Default: timedelta(seconds=0), how many time should a used token have left at least?</p>
+<ul class="simple">
+<li>captured: Default: True, if False enable preauth</li>
+<li>time_reserve: Default: timedelta(seconds=0), how many time should a used token have left at least?</li>
+</ul>
 </div>
-<div class="section" id="extras">
-<h2>Extras<a class="headerlink" href="#extras" title="Permalink to this headline">¶</a></h2>
-<p>Extras should not affect Provider, it is only for the integration.
+<div class="section" id="extra">
+<h2>Extra<a class="headerlink" href="#extra" title="Permalink to this headline">¶</a></h2>
+<p>Extra should not affect Provider, it is only for the integration.
 Notable exception is name:
 name is used for provider_factory caching</p>
 <p>Rational behind this is that providers of the same type but different parameters can exist.</p>
@@ -54,35 +63,13 @@ Provider Class Name</p>
 </div>
 <div class="section" id="builtin-backends">
 <h1>Builtin backends<a class="headerlink" href="#builtin-backends" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="dummy">
-<h2>Dummy<a class="headerlink" href="#dummy" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="web_payments_dummy.DummyProvider">
-<em class="property">class </em><code class="descclassname">web_payments_dummy.</code><code class="descname">DummyProvider</code><a class="headerlink" href="#web_payments_dummy.DummyProvider" title="Permalink to this definition">¶</a></dt>
-<dd><p>This is a dummy backend suitable for testing your store without contacting any payment gateways. Instead of using an external service it will simply show you a form that allows you to confirm or reject the payment.</p>
-</dd></dl>
-
-</div>
-<div class="section" id="external-payments">
-<h2>External Payments<a class="headerlink" href="#external-payments" title="Permalink to this headline">¶</a></h2>
-<dl class="class">
-<dt id="web_payments_externalpayments.DirectPaymentProvider">
-<em class="property">class </em><code class="descclassname">web_payments_externalpayments.</code><code class="descname">DirectPaymentProvider</code><a class="headerlink" href="#web_payments_externalpayments.DirectPaymentProvider" title="Permalink to this definition">¶</a></dt>
-<dd><p>This Provider is suitable for manual cashing processes</p>
-</dd></dl>
-
-<dl class="class">
-<dt id="web_payments_externalpayments.BankTransferProvider">
-<em class="property">class </em><code class="descclassname">web_payments_externalpayments.</code><code class="descname">BankTransferProvider</code><a class="headerlink" href="#web_payments_externalpayments.BankTransferProvider" title="Permalink to this definition">¶</a></dt>
-<dd><p>This Provider allows manual bank transactions. It requires a human
-or a program checking the bank transactions</p>
-</dd></dl>
-
-</div>
+<p>See <a class="reference internal" href="web_payments_dummy.html"><span class="doc">web_payments_dummy package</span></a> and <a class="reference internal" href="web_payments_externalpayments.html"><span class="doc">web_payments_externalpayments package</span></a></p>
 </div>
 <div class="section" id="writing-a-backend">
 <h1>Writing a backend<a class="headerlink" href="#writing-a-backend" title="Permalink to this headline">¶</a></h1>
 <p>See testcommon and externalpayments for good examples.</p>
+<blockquote>
+<div></div></blockquote>
 <div class="section" id="test-project">
 <h2>Test project<a class="headerlink" href="#test-project" title="Permalink to this headline">¶</a></h2>
 <p>For developing a backend a test project exists. It’s located in web_payments_dummy/django_dummy.</p>
@@ -97,7 +84,6 @@ or a program checking the bank transactions</p>
 <p>Adding your own backends can be done with the DJANGO_SETTINGS_MODULE environment variable and
 point to your own settings.
 Own settings can live in the settings folder (gitignored) and inherit from web_payments_dummy.django_dummy.settings (for defaults)</p>
-<p>TODO: Further documentation</p>
 </div>
 </div>
 
@@ -111,14 +97,10 @@ Own settings can live in the settings folder (gitignored) and inherit from web_p
   <ul>
 <li><a class="reference internal" href="#">Basic Backend Definition</a><ul>
 <li><a class="reference internal" href="#default-arguments">Default arguments</a></li>
-<li><a class="reference internal" href="#extras">Extras</a></li>
+<li><a class="reference internal" href="#extra">Extra</a></li>
 </ul>
 </li>
-<li><a class="reference internal" href="#builtin-backends">Builtin backends</a><ul>
-<li><a class="reference internal" href="#dummy">Dummy</a></li>
-<li><a class="reference internal" href="#external-payments">External Payments</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#builtin-backends">Builtin backends</a></li>
 <li><a class="reference internal" href="#writing-a-backend">Writing a backend</a><ul>
 <li><a class="reference internal" href="#test-project">Test project</a></li>
 </ul>
@@ -128,6 +110,9 @@ Own settings can live in the settings folder (gitignored) and inherit from web_p
   <h4>Previous topic</h4>
   <p class="topless"><a href="preauth.html"
                         title="previous chapter">Authorization and capture</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="modules.html"
+                        title="next chapter">web_payments</a></p>
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
@@ -158,6 +143,12 @@ Own settings can live in the settings folder (gitignored) and inherit from web_p
           <a href="genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
+          <a href="py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="modules.html" title="web_payments"
+             >next</a> |</li>
+        <li class="right" >
           <a href="preauth.html" title="Authorization and capture"
              >previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="index.html">web-payments-connector  documentation</a> &#187;</li> 
@@ -165,7 +156,7 @@ Own settings can live in the settings folder (gitignored) and inherit from web_p
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright .
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.2.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.3.
     </div>
   </body>
 </html>

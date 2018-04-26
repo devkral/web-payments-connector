@@ -1,0 +1,194 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>web_payments.translation &#8212; web-payments-connector  documentation</title>
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">web-payments-connector  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../web_payments.html" accesskey="U">web_payments</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for web_payments.translation</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">gettext</span>
+<span class="kn">import</span> <span class="nn">functools</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;web_payments_translation_path&quot;</span><span class="p">,</span> <span class="s2">&quot;set_language&quot;</span><span class="p">,</span> <span class="s2">&quot;get_language&quot;</span><span class="p">,</span> <span class="s2">&quot;Translation&quot;</span><span class="p">,</span> <span class="s2">&quot;translation&quot;</span><span class="p">]</span>
+
+<span class="n">web_payments_translation_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="vm">__file__</span><span class="p">),</span> <span class="s2">&quot;locale&quot;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">_TLocal</span><span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">local</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+
+<span class="n">_tlocal</span> <span class="o">=</span> <span class="n">_TLocal</span><span class="p">(</span><span class="n">current_language</span><span class="o">=</span><span class="s2">&quot;en&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">set_language</span><span class="p">(</span><span class="n">lang</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Set language. Default implementation</span>
+<span class="sd">    Note: if get_language is overwritten this method should be also overwritten</span>
+<span class="sd">    or not used</span>
+<span class="sd">    Note: loading with django overwrites this method if not initialized</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">_tlocal</span><span class="o">.</span><span class="n">current_language</span> <span class="o">=</span> <span class="n">lang</span>
+
+<span class="k">def</span> <span class="nf">get_language</span><span class="p">():</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Get language. For translations.</span>
+<span class="sd">    Default implementation can be overwritten.</span>
+<span class="sd">    Note: if set_language is overwritten this method should be also overwritten</span>
+<span class="sd">    Note: loading with django overwrites this method if not initialized</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="k">return</span> <span class="n">_tlocal</span><span class="o">.</span><span class="n">current_language</span>
+
+<span class="k">class</span> <span class="nc">_lazy_constant</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+            <span class="n">instance_path</span><span class="p">,</span> <span class="n">func_name</span> <span class="o">=</span> <span class="n">func</span>
+            <span class="n">module_path</span><span class="p">,</span> <span class="n">instance_path</span> <span class="o">=</span> <span class="n">instance_path</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="n">module</span> <span class="o">=</span> <span class="nb">__import__</span><span class="p">(</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">module_path</span><span class="p">),</span> <span class="nb">globals</span><span class="p">(),</span> <span class="nb">locals</span><span class="p">(),</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">instance_path</span><span class="p">)])</span>
+            <span class="n">instance_</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">instance_path</span><span class="p">)</span>
+            <span class="n">func</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">instance_</span><span class="p">,</span> <span class="n">func_name</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">func</span> <span class="o">=</span> <span class="n">functools</span><span class="o">.</span><span class="n">partial</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="c1"># skip partial, provide func</span>
+        <span class="n">functools</span><span class="o">.</span><span class="n">update_wrapper</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">deconstruct</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">selfname</span> <span class="o">=</span> <span class="s2">&quot;.&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">_lazy_constant</span><span class="o">.</span><span class="vm">__module__</span><span class="p">,</span> <span class="n">_lazy_constant</span><span class="o">.</span><span class="vm">__qualname__</span><span class="p">])</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">[(</span><span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="vm">__self__</span><span class="o">.</span><span class="n">instance_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="vm">__qualname__</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">])]</span>
+        <span class="c1"># python 3.4 compatibility</span>
+        <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="n">args</span><span class="p">:</span>
+            <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">selfname</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="o">.</span><span class="n">keywords</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__getattribute__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">item</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;func&quot;</span><span class="p">,</span> <span class="s2">&quot;__dict__&quot;</span><span class="p">,</span> <span class="s2">&quot;__init__&quot;</span><span class="p">,</span> <span class="s2">&quot;deconstruct&quot;</span><span class="p">):</span>
+            <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">()</span><span class="o">.</span><span class="fm">__getattribute__</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">()</span><span class="o">.</span><span class="fm">__eq__</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__ne__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">()</span><span class="o">.</span><span class="fm">__ne__</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__lt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">()</span><span class="o">.</span><span class="fm">__lt__</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__le__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">()</span><span class="o">.</span><span class="fm">__le__</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__gt__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">()</span><span class="o">.</span><span class="fm">__gt__</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__ge__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">()</span><span class="o">.</span><span class="fm">__ge__</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">()</span><span class="o">.</span><span class="fm">__iter__</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">()</span><span class="o">.</span><span class="fm">__len__</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span> <span class="k">return</span> <span class="s2">&quot;&#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">func</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Translation"><a class="viewcode-back" href="../../web_payments.html#web_payments.translation.Translation">[docs]</a><span class="k">class</span> <span class="nc">Translation</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="n">fallback</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">domain</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">instance_path</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">translation_path</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">instance_path</span><span class="p">,</span> <span class="n">translation_path</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;web_payments&quot;</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">translation_path</span> <span class="o">=</span> <span class="n">translation_path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">instance_path</span> <span class="o">=</span> <span class="n">instance_path</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="n">domain</span>
+        <span class="k">if</span> <span class="n">fallback</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fallback</span> <span class="o">=</span> <span class="n">fallback</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fallback</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="nd">@functools</span><span class="o">.</span><span class="n">lru_cache</span><span class="p">(</span><span class="n">typed</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">_trans</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lang</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">lang</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">gettext</span><span class="o">.</span><span class="n">translation</span><span class="p">(</span><span class="s2">&quot;web_payments&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">translation_path</span><span class="p">,</span> <span class="p">[</span><span class="n">lang</span><span class="p">]</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">fallback</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">gettext</span><span class="o">.</span><span class="n">translation</span><span class="p">(</span><span class="s2">&quot;web_payments&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">translation_path</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">fallback</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Translation.trans"><a class="viewcode-back" href="../../web_payments.html#web_payments.translation.Translation.trans">[docs]</a>    <span class="k">def</span> <span class="nf">trans</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cur_lang</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">cur_lang</span><span class="p">:</span>
+            <span class="n">cur_lang</span> <span class="o">=</span> <span class="n">get_language</span><span class="p">()</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_trans</span><span class="p">(</span><span class="n">cur_lang</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Translation.gettext"><a class="viewcode-back" href="../../web_payments.html#web_payments.translation.Translation.gettext">[docs]</a>    <span class="k">def</span> <span class="nf">gettext</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">cur_lang</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">trans</span><span class="p">(</span><span class="n">cur_lang</span><span class="p">)</span><span class="o">.</span><span class="n">gettext</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Translation.ngettext"><a class="viewcode-back" href="../../web_payments.html#web_payments.translation.Translation.ngettext">[docs]</a>    <span class="k">def</span> <span class="nf">ngettext</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msgplural</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">cur_lang</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">trans</span><span class="p">(</span><span class="n">cur_lang</span><span class="p">)</span><span class="o">.</span><span class="n">ngettext</span><span class="p">(</span><span class="n">msg</span><span class="p">,</span> <span class="n">msgplural</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Translation.gettext_lazy"><a class="viewcode-back" href="../../web_payments.html#web_payments.translation.Translation.gettext_lazy">[docs]</a>    <span class="k">def</span> <span class="nf">gettext_lazy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">cur_lang</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_lazy_constant</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gettext</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">cur_lang</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Translation.ngettext_lazy"><a class="viewcode-back" href="../../web_payments.html#web_payments.translation.Translation.ngettext_lazy">[docs]</a>    <span class="k">def</span> <span class="nf">ngettext_lazy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msgplural</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">cur_lang</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">_lazy_constant</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ngettext</span><span class="p">,</span> <span class="n">msg</span><span class="p">,</span> <span class="n">msgplural</span><span class="p">,</span> <span class="n">n</span><span class="p">,</span> <span class="n">cur_lang</span><span class="p">)</span></div></div>
+
+<span class="n">translation</span> <span class="o">=</span> <span class="n">Translation</span><span class="p">(</span><span class="s2">&quot;web_payments.translation.translation&quot;</span><span class="p">,</span> <span class="n">web_payments_translation_path</span><span class="p">,</span> <span class="n">domain</span><span class="o">=</span><span class="s2">&quot;web_payments&quot;</span><span class="p">)</span>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">web-payments-connector  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../web_payments.html" >web_payments</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.3.
+    </div>
+  </body>
+</html>

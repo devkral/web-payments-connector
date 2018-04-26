@@ -1,0 +1,202 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>web_payments.forms &#8212; web-payments-connector  documentation</title>
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">web-payments-connector  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../web_payments.html" accesskey="U">web_payments</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for web_payments.forms</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">import</span> <span class="nn">datetime</span>
+
+<span class="kn">from</span> <span class="nn">wtforms</span> <span class="k">import</span> <span class="n">Form</span><span class="p">,</span> <span class="n">validators</span><span class="p">,</span> <span class="n">ValidationError</span>
+<span class="kn">from</span> <span class="nn">wtforms</span> <span class="k">import</span> <span class="n">StringField</span><span class="p">,</span> <span class="n">DateField</span>
+<span class="kn">from</span> <span class="nn">wtforms.utils</span> <span class="k">import</span> <span class="n">WebobInputWrapper</span>
+
+<span class="kn">from</span> <span class="nn">.translation</span> <span class="k">import</span> <span class="n">translation</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">translation</span><span class="o">.</span><span class="n">gettext_lazy</span>
+
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">get_credit_card_issuer</span><span class="p">,</span> <span class="n">DictInputWrapper</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;DateValidator&quot;</span><span class="p">,</span> <span class="s2">&quot;CreditCardNumberValidator&quot;</span><span class="p">,</span> <span class="s2">&quot;PaymentForm&quot;</span><span class="p">,</span> <span class="s2">&quot;CreditCardPaymentForm&quot;</span><span class="p">,</span> <span class="s2">&quot;CreditCardPaymentFormWithName&quot;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="DateValidator"><a class="viewcode-back" href="../../web_payments.html#web_payments.forms.DateValidator">[docs]</a><span class="k">class</span> <span class="nc">DateValidator</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">message</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;Please enter a valid date.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span>
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form</span><span class="p">,</span> <span class="n">field</span><span class="p">):</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">field</span><span class="o">.</span><span class="n">data</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="o">.</span><span class="n">strptime</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="s1">&#39;%Y-%m&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">date</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span> <span class="ow">or</span> <span class="n">data</span> <span class="o">&lt;</span> <span class="n">datetime</span><span class="o">.</span><span class="n">date</span><span class="o">.</span><span class="n">today</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CreditCardNumberValidator"><a class="viewcode-back" href="../../web_payments.html#web_payments.forms.CreditCardNumberValidator">[docs]</a><span class="k">class</span> <span class="nc">CreditCardNumberValidator</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">message</span><span class="p">:</span>
+            <span class="n">message</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s1">&#39;Please enter a valid card number.&#39;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span>
+
+    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form</span><span class="p">,</span> <span class="n">field</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">cart_number_checksum_validation</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">data</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CreditCardNumberValidator.cart_number_checksum_validation"><a class="viewcode-back" href="../../web_payments.html#web_payments.forms.CreditCardNumberValidator.cart_number_checksum_validation">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">cart_number_checksum_validation</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+        <span class="n">digits</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">even</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">number</span><span class="o">.</span><span class="n">isdigit</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">digit</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">number</span><span class="p">):</span>
+            <span class="n">digit</span> <span class="o">=</span> <span class="nb">ord</span><span class="p">(</span><span class="n">digit</span><span class="p">)</span> <span class="o">-</span> <span class="nb">ord</span><span class="p">(</span><span class="s1">&#39;0&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">even</span><span class="p">:</span>
+                <span class="n">digit</span> <span class="o">*=</span> <span class="mi">2</span>
+                <span class="k">if</span> <span class="n">digit</span> <span class="o">&gt;=</span> <span class="mi">10</span><span class="p">:</span>
+                    <span class="n">digit</span> <span class="o">=</span> <span class="n">digit</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">+</span> <span class="n">digit</span> <span class="o">//</span> <span class="mi">10</span>
+            <span class="n">digits</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">digit</span><span class="p">)</span>
+            <span class="n">even</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">even</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">digits</span><span class="p">)</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">digits</span> <span class="k">else</span> <span class="kc">False</span></div></div>
+
+<div class="viewcode-block" id="PaymentForm"><a class="viewcode-back" href="../../web_payments.html#web_payments.forms.PaymentForm">[docs]</a><span class="k">class</span> <span class="nc">PaymentForm</span><span class="p">(</span><span class="n">Form</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">    Payment form</span>
+
+<span class="sd">    When displaying the form remember to use *action* and *method*.</span>
+<span class="sd">    use always formdata except for defaults.</span>
+<span class="sd">    formdata of is different to Wtforms as it supports dicts</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="n">method</span> <span class="o">=</span> <span class="s1">&#39;post&#39;</span>
+    <span class="n">action</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">provider</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">payment</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="PaymentForm.Meta"><a class="viewcode-back" href="../../web_payments.html#web_payments.forms.PaymentForm.Meta">[docs]</a>    <span class="k">class</span> <span class="nc">Meta</span><span class="p">:</span>
+<div class="viewcode-block" id="PaymentForm.Meta.wrap_formdata"><a class="viewcode-back" href="../../web_payments.html#web_payments.forms.PaymentForm.Meta.wrap_formdata">[docs]</a>        <span class="k">def</span> <span class="nf">wrap_formdata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">form</span><span class="p">,</span> <span class="n">formdata</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot; work around wtform implementation &quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="n">formdata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">formdata</span><span class="p">,</span> <span class="s1">&#39;getlist&#39;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">formdata</span><span class="p">,</span> <span class="s1">&#39;getall&#39;</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">WebobInputWrapper</span><span class="p">(</span><span class="n">formdata</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">formdata</span><span class="p">,</span> <span class="s1">&#39;__getitem__&#39;</span><span class="p">):</span> <span class="c1"># wtform lacks this</span>
+                    <span class="k">return</span> <span class="n">DictInputWrapper</span><span class="p">(</span><span class="n">formdata</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s2">&quot;formdata should be a (multi)dict-type wrapper that supports the &#39;getlist&#39; method&quot;</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">formdata</span></div></div>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">provider</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">payment</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;obj&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">payment</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">provider</span> <span class="o">=</span> <span class="n">provider</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">payment</span> <span class="o">=</span> <span class="n">payment</span>
+        <span class="k">if</span> <span class="n">provider</span> <span class="ow">and</span> <span class="n">payment</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">action</span> <span class="o">=</span> <span class="n">provider</span><span class="o">.</span><span class="n">get_action</span><span class="p">(</span><span class="n">payment</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CreditCardPaymentForm"><a class="viewcode-back" href="../../web_payments.html#web_payments.forms.CreditCardPaymentForm">[docs]</a><span class="k">class</span> <span class="nc">CreditCardPaymentForm</span><span class="p">(</span><span class="n">PaymentForm</span><span class="p">):</span>
+    <span class="c1"># which credit card types are accepted?</span>
+    <span class="n">VALID_TYPES</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="n">number</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;Credit Card Number&#39;</span><span class="p">),</span>
+        <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">validators</span><span class="o">.</span><span class="n">InputRequired</span><span class="p">(),</span> <span class="n">validators</span><span class="o">.</span><span class="n">Length</span><span class="p">(</span><span class="nb">max</span><span class="o">=</span><span class="mi">32</span><span class="p">),</span>
+                    <span class="n">CreditCardNumberValidator</span><span class="p">()],</span>
+        <span class="n">render_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;autocomplete&#39;</span><span class="p">:</span> <span class="s1">&#39;cc-number&#39;</span><span class="p">})</span>
+
+    <span class="n">expiration</span> <span class="o">=</span> <span class="n">DateField</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;Expiration date (MM/YYYY):&#39;</span><span class="p">),</span>
+        <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">validators</span><span class="o">.</span><span class="n">InputRequired</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;Enter a valid expiration date.&#39;</span><span class="p">)),</span> <span class="n">DateValidator</span><span class="p">()],</span>
+        <span class="nb">format</span><span class="o">=</span><span class="s1">&#39;%m/%Y&#39;</span><span class="p">,</span>
+        <span class="n">render_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;autocomplete&#39;</span><span class="p">:</span> <span class="s1">&#39;cc-exp&#39;</span><span class="p">,</span> <span class="s1">&#39;pattern&#39;</span><span class="p">:</span> <span class="s1">&#39;[0-9]</span><span class="si">{2}</span><span class="s1">/[0-9]</span><span class="si">{4}</span><span class="s1">&#39;</span><span class="p">})</span>
+
+    <span class="n">cvv2</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span>
+        <span class="n">label</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;CVV2 Security Number&#39;</span><span class="p">),</span> <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">validators</span><span class="o">.</span><span class="n">InputRequired</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;Enter a valid security number.&#39;</span><span class="p">)),</span> <span class="n">validators</span><span class="o">.</span><span class="n">Regexp</span><span class="p">(</span><span class="s1">&#39;^[0-9]{3,4}$&#39;</span><span class="p">,</span> <span class="n">message</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;Enter a valid security number.&#39;</span><span class="p">))],</span>
+        <span class="n">description</span><span class="o">=</span><span class="n">_</span><span class="p">(</span>
+            <span class="s1">&#39;Last three digits located on the back of your card.&#39;</span>
+            <span class="s1">&#39; For American Express the four digits found on the front side.&#39;</span><span class="p">),</span>
+        <span class="n">render_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;autocomplete&#39;</span><span class="p">:</span> <span class="s1">&#39;cc-csc&#39;</span><span class="p">})</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">valid_types</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">VALID_TYPES</span> <span class="o">=</span> <span class="n">valid_types</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<div class="viewcode-block" id="CreditCardPaymentForm.validate_number"><a class="viewcode-back" href="../../web_payments.html#web_payments.forms.CreditCardPaymentForm.validate_number">[docs]</a>    <span class="k">def</span> <span class="nf">validate_number</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">field</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">VALID_TYPES</span> <span class="ow">and</span> <span class="n">get_credit_card_issuer</span><span class="p">(</span><span class="n">field</span><span class="o">.</span><span class="n">data</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">VALID_TYPES</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ValidationError</span><span class="p">(</span>
+                <span class="n">_</span><span class="p">(</span><span class="s1">&#39;We accept only </span><span class="si">%(valid_types)s</span><span class="s1">&#39;</span><span class="p">)</span> <span class="o">%</span> <span class="p">{</span><span class="s2">&quot;valid_types&quot;</span><span class="p">:</span> <span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">VALID_TYPES</span><span class="p">)})</span></div></div>
+
+
+<div class="viewcode-block" id="CreditCardPaymentFormWithName"><a class="viewcode-back" href="../../web_payments.html#web_payments.forms.CreditCardPaymentFormWithName">[docs]</a><span class="k">class</span> <span class="nc">CreditCardPaymentFormWithName</span><span class="p">(</span><span class="n">CreditCardPaymentForm</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">StringField</span><span class="p">(</span><span class="n">label</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;Name on Credit Card&#39;</span><span class="p">),</span>
+        <span class="n">validators</span><span class="o">=</span><span class="p">[</span><span class="n">validators</span><span class="o">.</span><span class="n">Length</span><span class="p">(</span><span class="nb">max</span><span class="o">=</span><span class="mi">128</span><span class="p">)],</span>
+        <span class="n">render_kw</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;autocomplete&#39;</span><span class="p">:</span> <span class="s1">&#39;cc-name&#39;</span><span class="p">})</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">web-payments-connector  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../web_payments.html" >web_payments</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.3.
+    </div>
+  </body>
+</html>

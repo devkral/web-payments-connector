@@ -1,0 +1,174 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>web_payments.testcommon &#8212; web-payments-connector  documentation</title>
+    <link rel="stylesheet" href="../../_static/classic.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">web-payments-connector  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../web_payments.html" accesskey="U">web_payments</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for web_payments.testcommon</h1><div class="highlight"><pre>
+<span></span>
+<span class="kn">from</span> <span class="nn">decimal</span> <span class="k">import</span> <span class="n">Decimal</span>
+<span class="kn">from</span> <span class="nn">.logic</span> <span class="k">import</span> <span class="n">BasicPayment</span>
+<span class="kn">from</span> <span class="nn">.</span> <span class="k">import</span> <span class="n">PaymentStatus</span><span class="p">,</span> <span class="n">PurchasedItem</span><span class="p">,</span> <span class="n">ProviderVariant</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">getter_prefixed_address</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;create_test_payment&quot;</span><span class="p">]</span>
+
+<span class="n">PAYMENT_VARIANTS_API</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;default&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;web_payments_dummy.DummyProvider&#39;</span><span class="p">,</span> <span class="p">{},</span> <span class="p">{}),</span>
+    <span class="s1">&#39;DummyProvider&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;web_payments_dummy.DummyProvider&#39;</span><span class="p">,</span> <span class="p">{},</span> <span class="p">{</span><span class="s2">&quot;test_var&quot;</span><span class="p">:</span> <span class="s2">&quot;test&quot;</span><span class="p">}),</span>
+    <span class="s1">&#39;DirectPaymentProvider&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;web_payments_externalpayments.DirectPaymentProvider&#39;</span><span class="p">,</span> <span class="p">{},</span> <span class="p">{}),</span>
+    <span class="s1">&#39;iban&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;web_payments_externalpayments.BankTransferProvider&#39;</span><span class="p">,</span> <span class="p">{</span>
+        <span class="s2">&quot;iban&quot;</span><span class="p">:</span> <span class="s2">&quot;GL5604449876543210&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;bic&quot;</span><span class="p">:</span> <span class="s2">&quot;DABAIE2D&quot;</span><span class="p">},</span> <span class="p">{</span><span class="s2">&quot;localized_name&quot;</span><span class="p">:</span> <span class="s2">&quot;iban&quot;</span><span class="p">}</span>
+        <span class="p">),</span>
+    <span class="p">}</span>
+
+<div class="viewcode-block" id="create_test_payment"><a class="viewcode-back" href="../../web_payments.html#web_payments.testcommon.create_test_payment">[docs]</a><span class="k">def</span> <span class="nf">create_test_payment</span><span class="p">(</span><span class="n">PAYMENT_VARIANTS_API</span><span class="o">=</span><span class="n">PAYMENT_VARIANTS_API</span><span class="p">,</span> <span class="o">**</span><span class="n">attributes</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">TestPayment</span><span class="p">(</span><span class="n">BasicPayment</span><span class="p">):</span>
+        <span class="nb">id</span> <span class="o">=</span> <span class="mi">523</span>
+        <span class="n">pk</span> <span class="o">=</span> <span class="nb">id</span>
+        <span class="n">description</span> <span class="o">=</span> <span class="s1">&#39;payment&#39;</span>
+        <span class="n">currency</span> <span class="o">=</span> <span class="s1">&#39;USD&#39;</span>
+        <span class="n">status</span> <span class="o">=</span> <span class="n">PaymentStatus</span><span class="o">.</span><span class="n">WAITING</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">token</span> <span class="o">=</span> <span class="s2">&quot;354338723&quot;</span>
+        <span class="n">total</span> <span class="o">=</span> <span class="n">Decimal</span><span class="p">(</span><span class="mi">100</span><span class="p">)</span>
+        <span class="n">captured_amount</span> <span class="o">=</span> <span class="n">Decimal</span><span class="p">(</span><span class="s2">&quot;0.0&quot;</span><span class="p">)</span>
+        <span class="n">extra_data</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">variant</span> <span class="o">=</span> <span class="s2">&quot;undefined&quot;</span>
+        <span class="n">transaction_id</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="n">billing_first_name</span> <span class="o">=</span> <span class="s2">&quot;John&quot;</span>
+        <span class="n">billing_last_name</span> <span class="o">=</span> <span class="s2">&quot;Smith&quot;</span>
+        <span class="n">billing_address_1</span> <span class="o">=</span> <span class="s2">&quot;JohnStreet 23&quot;</span>
+        <span class="n">billing_address_2</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">billing_city</span> <span class="o">=</span> <span class="s2">&quot;Neches&quot;</span>
+        <span class="n">billing_postcode</span> <span class="o">=</span> <span class="s2">&quot;75779&quot;</span>
+        <span class="n">billing_country_code</span> <span class="o">=</span> <span class="s2">&quot;US&quot;</span>
+        <span class="n">billing_country_area</span> <span class="o">=</span> <span class="s2">&quot;Tennessee&quot;</span>
+        <span class="n">billing_email</span> <span class="o">=</span> <span class="s2">&quot;example@example.com&quot;</span>
+
+        <span class="n">get_billing_address</span> <span class="o">=</span> <span class="n">getter_prefixed_address</span><span class="p">(</span><span class="s2">&quot;billing&quot;</span><span class="p">)</span>
+        <span class="n">get_shipping_address</span> <span class="o">=</span> <span class="n">get_billing_address</span>
+
+        <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+
+        <span class="k">def</span> <span class="nf">get_purchased_items</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="p">[</span>
+                <span class="n">PurchasedItem</span><span class="p">(</span>
+                    <span class="n">name</span><span class="o">=</span><span class="s1">&#39;foo&#39;</span><span class="p">,</span> <span class="n">quantity</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">price</span><span class="o">=</span><span class="n">Decimal</span><span class="p">(</span><span class="s1">&#39;20&#39;</span><span class="p">),</span>
+                    <span class="n">currency</span><span class="o">=</span><span class="s1">&#39;USD&#39;</span><span class="p">,</span> <span class="n">sku</span><span class="o">=</span><span class="s1">&#39;bar&#39;</span><span class="p">)]</span>
+
+        <span class="nd">@staticmethod</span>
+        <span class="k">def</span> <span class="nf">_list_providers_helper</span><span class="p">(</span><span class="n">item</span><span class="p">):</span>
+            <span class="n">_ndict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">item</span><span class="p">[</span><span class="mi">0</span><span class="p">]}</span>
+            <span class="n">_ndict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">2</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">ProviderVariant</span><span class="p">(</span><span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">],</span> <span class="n">item</span><span class="p">[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">],</span> <span class="n">_ndict</span><span class="p">)</span>
+
+        <span class="nd">@classmethod</span>
+        <span class="k">def</span> <span class="nf">list_providers</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="sd">&quot;&quot;&quot; returns an iterable with ProviderVariants &quot;&quot;&quot;</span>
+            <span class="k">if</span> <span class="s2">&quot;name&quot;</span> <span class="ow">in</span> <span class="n">kwargs</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]</span> <span class="ow">in</span> <span class="n">PAYMENT_VARIANTS_API</span><span class="p">:</span>
+                    <span class="k">return</span> <span class="p">[</span><span class="bp">cls</span><span class="o">.</span><span class="n">_list_providers_helper</span><span class="p">((</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">],</span> <span class="n">PAYMENT_VARIANTS_API</span><span class="p">[</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;name&quot;</span><span class="p">]]))]</span>
+                <span class="k">return</span> <span class="p">[]</span>
+            <span class="k">return</span> <span class="nb">map</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_list_providers_helper</span><span class="p">,</span> <span class="n">PAYMENT_VARIANTS_API</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+
+        <span class="k">def</span> <span class="nf">get_provider_variant</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="n">variant_tup</span> <span class="o">=</span> <span class="n">PAYMENT_VARIANTS_API</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">variant</span><span class="p">]</span>
+            <span class="n">variant</span> <span class="o">=</span> <span class="n">ProviderVariant</span><span class="p">(</span><span class="n">variant_tup</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">variant_tup</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="p">{</span><span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">variant</span><span class="p">})</span>
+            <span class="n">variant</span><span class="o">.</span><span class="n">extra</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">variant_tup</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+            <span class="k">return</span> <span class="n">variant</span>
+
+        <span class="k">def</span> <span class="nf">get_failure_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s1">&#39;http://cancel.com&#39;</span>
+
+        <span class="k">def</span> <span class="nf">get_process_url</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extra_data</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s1">&#39;http://example.com/token&#39;</span>
+
+        <span class="k">def</span> <span class="nf">get_success_url</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s1">&#39;http://success.com&#39;</span>
+
+        <span class="k">def</span> <span class="nf">save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+            <span class="k">pass</span>
+    <span class="c1"># workaround limitation in python</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">attributes</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="nb">setattr</span><span class="p">(</span><span class="n">TestPayment</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">val</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">TestPayment</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">web-payments-connector  documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
+          <li class="nav-item nav-item-2"><a href="../web_payments.html" >web_payments</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright .
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.3.
+    </div>
+  </body>
+</html>
