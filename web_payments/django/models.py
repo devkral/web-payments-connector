@@ -88,12 +88,6 @@ class BasePayment(models.Model, BasicPayment):
         else:
             return map(_helper, settings.PAYMENT_VARIANTS_API.items())
 
-    def get_provider_variant(self):
-        t = settings.PAYMENT_VARIANTS_API[self.variant]
-        variant = ProviderVariant(t[0], t[1], {"name": self.variant})
-        variant.extra.update(t[2])
-        return variant
-
     @classmethod
     def check_token_exists(cls, token):
         return cls._default_manager.filter(token=token).exists()

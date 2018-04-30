@@ -81,14 +81,10 @@ def process_data(request, token, provider=None):
 @atomic
 def static_callback(request, variant):
     Payment = get_payment_model()
-    filtered_v = Payment.list_providers(name=variant)
-    if len(filtered_v) != 1:
-        raise Http404('No such provider/or not unique')
-    else:
-        try:
-            provider = provider_factory(filtered_v[0])
-        except ValueError:
-            raise Http404('No such provider')
+    try:
+        provider = Payment.get_provider(name=variant)
+    except ValueError:
+        raise Http404('No such provider')
 
     token = provider.get_token_from_request(request=request, payment=None)
     if not token:

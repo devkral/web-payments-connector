@@ -6,7 +6,7 @@ import datetime
 
 import simplejson as json
 
-from . import NotSupported, FraudStatus, PaymentStatus, ProviderVariant, provider_factory
+from . import NotSupported, FraudStatus, PaymentStatus, ProviderVariant, provider_factory, PROVIDER_CACHE
 
 __all__ = ["BasicPayment", "BasicProvider"]
 
@@ -120,9 +120,6 @@ class BasicPayment(object):
         if commit:
             self.save()
 
-    def __str__(self):
-        return self.variant
-
     def get_form(self, data=None, **kwargs):
         return self.provider.get_form(self, data=data, **kwargs)
 
@@ -157,17 +154,22 @@ class BasicPayment(object):
         '''
         raise NotImplementedError()
 
-    def get_provider_variant(self):
-        ''' return ProviderVariant for this payment object '''
-        raise NotImplementedError()
+    @classmethod
+    def get_provider(cls, name):
+        '''
+            returns provider object with internal name or None, defaults to cls.list_providers(name=name)
+        '''
+        if name in PROVIDER_CACHE:
+            return PROVIDER_CACHE[name]
+        ret = cls.list_providers(name=name)
+        if not ret or not len(ret) == 1:
+            raise ValueError("Invalid provider name/or incorrect implementation")
+        return provider_factory(ret[0])
 
     @property
     def provider(self):
         ''' returns provider object '''
-        try:
-            return provider_factory(self.get_provider_variant())
-        except (KeyError, AttributeError) as exc:
-            raise ValueError("Payment has invalid provider") from exc
+        return self.get_provider(self.variant)
 
     @classmethod
     def load_providers(cls):
