@@ -290,7 +290,6 @@ class BasicProvider(object):
         This class defines the backend provider API. It should not be instantiated directly. Use BasicPayment methods instead.
 
         :param bool capture: automatic capture of payments, False not supported by all backends
-        :param timedelta time_reserve: minimum time left to expire until a new token is requested, defaults to zero
     '''
     form_class = None
 
@@ -298,10 +297,14 @@ class BasicProvider(object):
     # see extra documentation for variant
     extra = None
 
-    def __init__(self, capture=True, time_reserve=_no_reserve):
+    # class used for token_cache, will be initialized with instance copy in __init__
+    # set to None, to disable caching
+    token_cache = TokenCache
+
+    def __init__(self, capture=True):
         self._capture = capture
-        self._time_reserve = time_reserve
-        self.token_cache = TokenCache()
+        if self.token_cache:
+            self.token_cache = self.token_cache()
 
     @property
     def token(self):
@@ -309,24 +312,24 @@ class BasicProvider(object):
             Access to authentication token
         '''
         now = datetime.datetime.now(tz=datetime.timezone.utc)
+        if not self.token_cache:
+            return self.get_auth_token(now)[0]
         with self.token_cache.lock:
             if not self.token_cache.expires or self.token_cache.expires <= now:
                 self.token_cache.token, expires = self.get_auth_token(now)
                 if not isinstance(expires, datetime.datetime):
                     raise TypeError("Invalid expire type (requires datetime):  %s, %s", type(expires), expires)
-                self.token_cache.expires = expires-self._time_reserve
+                self.token_cache.expires = expires
                 if self.token_cache.expires < now:
-                    logging.warning("now > expire - time_reserve, new expire date is in the past: %s", self.token_cache.expires)
+                    logging.warning("now > expire, new expire date is in the past: %s", self.token_cache.expires)
             _token = self.token_cache.token
         return _token
 
     def get_auth_token(self, now):
         '''
-            Takes now, a datetime object with timezone utc, as argument
+            Return authentication token, expire date of token for datetime object
 
-            Must return (authentication token, datetime when it will expire)
-
-            datetime can be now to disable caching
+            :param datetime now: datetime.now(tz=timezone.UTC) object
         '''
         return NotImplemented, now
 
@@ -342,6 +345,9 @@ class BasicProvider(object):
     def get_form(self, payment, data=None, **kwargs):
         '''
             Converts *payment* into a form
+
+            :param Payment payment: Payment object
+            :param dict data: data from e.g. Get dictionary
         '''
         if not self.form_class:
             raise NotSupported("No form class specified")
@@ -351,12 +357,18 @@ class BasicProvider(object):
         '''
             Process callback request from a payment provider.
             Default: return 404 if somebody tries it
+
+            :param Payment payment: Payment object
+            :param HttpRequest request: abstracted Http Request
         '''
         return False
 
-    def get_token_from_request(self, payment, request):
+    def get_token_from_request(self, request):
         '''
             Return payment token from provider request.
+
+            :param Payment payment: Payment object
+            :param HttpRequest request: abstracted Http Request
         '''
         raise NotImplementedError()
 
@@ -364,13 +376,27 @@ class BasicProvider(object):
         '''
             Capture a fraction of the total amount of a payment.
             Return amount captured or None
+
+            :param Payment payment: Payment object
+            :param Decimal amount: amount which should be captured or None for remaining
+            :param bool final: final capturement
         '''
         raise NotImplementedError()
 
     def release(self, payment):
-        ''' Annilates captured payment '''
+        '''
+            Annilates captured payment
+
+            :param Payment payment: Payment object
+        '''
         raise NotImplementedError()
 
     def refund(self, payment, amount=None):
-        ''' Refund payment, return amount which was refunded '''
+        '''
+            Refund payment, return amount which was refunded
+
+            :param Payment payment: Payment object
+            :param Decimal amount: amount which should be refunded or None for all
+            :param bool final: final capturement
+        '''
         raise NotImplementedError()
