@@ -335,9 +335,10 @@ class BasicProvider(object):
 
     def clear_token_cache(self):
         ''' clear token cache '''
-        with self.token_cache.lock:
-            self.token_cache.expires = None
-            self.token_cache.token = None
+        if self.token_cache:
+            with self.token_cache.lock:
+                self.token_cache.expires = None
+                self.token_cache.token = None
 
     def get_action(self, payment):
         return ""

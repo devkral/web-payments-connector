@@ -64,8 +64,16 @@ class TestProvider(TestCase):
         provider.token
         self.assertGreater(provider.token_cache.expires, expires)
 
-    def test_time_reserve_warning(self):
-        provider = DummyProvider(time_reserve=datetime.timedelta(seconds=3))
+    def test_no_token_cache(self):
+        provider = DummyProvider()
+        provider.token_cache = None
+        self.assertEqual(provider.token, 1)
+        provider.clear_token_cache()
+
+    @patch('web_payments_dummy.DummyProvider.get_auth_token')
+    def test_warning(self, get_auth_token):
+        get_auth_token.side_effect = lambda now: (123, now-datetime.timedelta(seconds=3))
+        provider = DummyProvider()
         with self.assertLogs(level=logging.WARNING):
             provider.token
 
