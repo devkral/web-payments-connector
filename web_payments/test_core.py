@@ -51,6 +51,8 @@ class TestProvider(TestCase):
         self.assertEqual(payment.provider.extra.get("name", None), "DummyProvider")
 
     def test_token_cache(self):
+        # unittests are singlethreaded so don't lock explicit (speed)
+        # anyway token_cache should normally not be accessed outside of token property
         provider = DummyProvider()
         self.assertEqual(provider.token, 1)
         self.assertEqual(provider.token_cache.token, 1)

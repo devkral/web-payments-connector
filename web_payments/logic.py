@@ -13,12 +13,16 @@ __all__ = ["BasicPayment", "BasicProvider"]
 # reserve no time, for Provider token
 _no_reserve = datetime.timedelta(seconds=0)
 
-class TokenCache(threading.local):
+class TokenCache(object):
     """
         threadsafe token cache
+        Should not be accessed by other functions than token
     """
     expires = None
     token = None
+    lock = None
+    def __init__(self):
+        self.lock = threading.Lock()
 
 
 class PaymentAttributeProxy(object):
@@ -305,14 +309,16 @@ class BasicProvider(object):
             Access to authentication token
         '''
         now = datetime.datetime.now(tz=datetime.timezone.utc)
-        if not self.token_cache.expires or self.token_cache.expires <= now:
-            self.token_cache.token, expires = self.get_auth_token(now)
-            if not isinstance(expires, datetime.datetime):
-                raise TypeError("Invalid expire type (requires datetime):  %s, %s", type(expires), expires)
-            self.token_cache.expires = expires-self._time_reserve
-            if self.token_cache.expires < now:
-                logging.warning("now > expire - time_reserve, new expire date is in the past: %s", self.token_cache.expires)
-        return self.token_cache.token
+        with self.token_cache.lock:
+            if not self.token_cache.expires or self.token_cache.expires <= now:
+                self.token_cache.token, expires = self.get_auth_token(now)
+                if not isinstance(expires, datetime.datetime):
+                    raise TypeError("Invalid expire type (requires datetime):  %s, %s", type(expires), expires)
+                self.token_cache.expires = expires-self._time_reserve
+                if self.token_cache.expires < now:
+                    logging.warning("now > expire - time_reserve, new expire date is in the past: %s", self.token_cache.expires)
+            _token = self.token_cache.token
+        return _token
 
     def get_auth_token(self, now):
         '''
@@ -326,8 +332,9 @@ class BasicProvider(object):
 
     def clear_token_cache(self):
         ''' clear token cache '''
-        self.token_cache.expires = None
-        self.token_cache.token = None
+        with self.token_cache.lock:
+            self.token_cache.expires = None
+            self.token_cache.token = None
 
     def get_action(self, payment):
         return ""
