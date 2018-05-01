@@ -19,7 +19,7 @@ msgstr ""
 
 #: web_payments/forms.py:18
 msgid "Please enter a valid date."
-msgstr ""
+msgstr "наберите действителную дату."
 
 #: web_payments/forms.py:30
 msgid "Please enter a valid card number."
@@ -31,11 +31,11 @@ msgstr "Номер карты"
 
 #: web_payments/forms.py:95
 msgid "Expiration date (MM/YYYY):"
-msgstr ""
+msgstr "срок действия (MM/YYYY):"
 
 #: web_payments/forms.py:96
 msgid "Enter a valid expiration date."
-msgstr ""
+msgstr "наберите срок действия."
 
 #: web_payments/forms.py:101
 msgid "CVV2 Security Number"
@@ -43,20 +43,20 @@ msgstr "Код безопасности CVV2"
 
 #: web_payments/forms.py:101
 msgid "Enter a valid security number."
-msgstr "Введите правильный код безопасности"
+msgstr "Введите правильный код безопасности."
 
 #: web_payments/forms.py:103
 msgid ""
 "Last three digits located on the back of your card. For American Express the "
 "four digits found on the front side."
 msgstr ""
+"Последние три цифры, находящиеся на обратной стороне карты. Для карт "
+"American Express - четыре цифры на лицевой стороне."
 
 #: web_payments/forms.py:114
 #, python-format
 msgid "We accept only %(valid_types)s"
-msgstr ""
-"Последние три цифры, находящиеся на обратной стороне карты. Для карт "
-"American Express - четыре цифры на лицевой стороне."
+msgstr "Мы принимаем только %(valid_types)s"
 
 #: web_payments/forms.py:118
 msgid "Name on Credit Card"
