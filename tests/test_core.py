@@ -4,11 +4,11 @@ import logging
 from unittest import TestCase
 from unittest.mock import patch, NonCallableMock
 
-from . import provider_factory, PROVIDER_CACHE
-from . import PaymentStatus, FraudStatus
-from .forms import CreditCardPaymentFormWithName, PaymentForm
-from . import translation
-from .testcommon import create_test_payment
+from web_payments import provider_factory, PROVIDER_CACHE
+from web_payments import PaymentStatus, FraudStatus
+from web_payments.forms import CreditCardPaymentFormWithName, PaymentForm
+from web_payments import translation
+from web_payments.testcommon import create_test_payment
 
 from web_payments_dummy import DummyProvider
 

@@ -3,7 +3,7 @@ from web_payments import RedirectNeeded
 from web_payments.status import PaymentStatus
 from web_payments.testcommon import create_test_payment
 
-from . import DirectPaymentProvider, BankTransferProvider
+from web_payments_externalpayments import DirectPaymentProvider, BankTransferProvider
 
 Payment = create_test_payment()
 

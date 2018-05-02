@@ -4,7 +4,7 @@ from urllib.parse import urlencode
 from unittest import TestCase
 from unittest.mock import MagicMock
 
-from . import DummyProvider
+from web_payments_dummy import DummyProvider
 from web_payments import PaymentError, RedirectNeeded
 from web_payments import FraudStatus, PaymentStatus
 from web_payments.testcommon import create_test_payment

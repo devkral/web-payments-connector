@@ -10,9 +10,6 @@ from . import NotSupported, FraudStatus, PaymentStatus, ProviderVariant, provide
 
 __all__ = ["BasicPayment", "BasicProvider"]
 
-# reserve no time, for Provider token
-_no_reserve = datetime.timedelta(seconds=0)
-
 class TokenCache(object):
     """
         threadsafe token cache

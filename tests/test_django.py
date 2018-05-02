@@ -3,10 +3,10 @@ from unittest.mock import patch, NonCallableMock, MagicMock
 
 import simplejson as json
 
-from . import get_base_url
-from .models import BasePayment
-from .urls import _process_data
-from .. import ProviderVariant, PROVIDER_CACHE, PaymentStatus, HttpRequest, RedirectNeeded
+from web_payments.django import get_base_url
+from web_payments.django.models import BasePayment
+from web_payments.django.urls import _process_data
+from web_payments import ProviderVariant, PROVIDER_CACHE, PaymentStatus, HttpRequest, RedirectNeeded
 from web_payments_dummy import DummyProvider
 
 class TestHelpers(TestCase):
