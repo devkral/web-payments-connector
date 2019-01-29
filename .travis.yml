@@ -16,6 +16,8 @@ matrix:
       env: DJANGO="master"
     - python: "3.6"
       env: DJANGO="master"
+    - python: "3.7"
+      env: DJANGO="master"
   exclude:
     - python: "2.7"
       env: DJANGO="2.0"
