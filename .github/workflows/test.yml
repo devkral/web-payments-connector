@@ -1,4 +1,4 @@
-name:web-payments-connector
+name: web-payments-connector
 
 on: [push]
 
