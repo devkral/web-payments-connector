@@ -14,21 +14,19 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-try:
-    from django.urls import include
-    from django.urls import path_re as url
-except ImportError:
-    from django.conf.urls import url
-    from django.conf.urls import include
+from django.urls import include
+from django.urls import path, re_path
 
 from web_payments.django import urls as web_payment_urls
 from .views import PaymentView, PayObView, SelectView
 
 
 urlpatterns = [
-    url('^admin/', admin.site.urls),
-    url('^payment/', include(web_payment_urls)),
-    url('^payob/(?P<id>[0-9]+)/$', PayObView.as_view(), name="paymentob"),
-    url('^form/(?P<id>[0-9]+)/$', PaymentView.as_view(), name="payment-form"),
-    url('', SelectView.as_view(), name="select-form"),
+    path("admin/", admin.site.urls),
+    path("payment/", include(web_payment_urls)),
+    re_path("^payob/(?P<id>[0-9]+)/$", PayObView.as_view(), name="paymentob"),
+    re_path(
+        "^form/(?P<id>[0-9]+)/$", PaymentView.as_view(), name="payment-form"
+    ),
+    path("", SelectView.as_view(), name="select-form"),
 ]

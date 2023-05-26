@@ -1,2 +1,0 @@
-include LICENSE.md LICENSE.mirumee.md README.md
-recursive-include web_payments/locale *.po *.mo

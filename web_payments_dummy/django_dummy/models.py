@@ -6,9 +6,11 @@ from django.db import models
 from web_payments.django import get_base_url
 from web_payments.django.models import BasePaymentWithAddress
 
+
 class QPayment(BasePaymentWithAddress):
     class Meta:
-        ordering = ['-id']
+        ordering = ["-id"]
+
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
 

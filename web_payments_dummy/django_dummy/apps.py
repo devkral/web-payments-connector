@@ -1,5 +1,6 @@
 from django.apps import AppConfig
-from django.conf import settings
+
 
 class DummyPaymentsConfig(AppConfig):
-    name = 'web_payments_dummy.django_dummy'
+    name = "web_payments_dummy.django_dummy"
+    DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"

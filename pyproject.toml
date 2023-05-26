@@ -1,0 +1,56 @@
+[tool.poetry]
+name = "web-payments-connector"
+version = "3.0.1-post.4+722e155.dirty"
+description = "Universal payment handling for Web Frameworks"
+authors = ["alex <devkral@web.de>"]
+license = "BSD"
+readme = "README.md"
+
+classifiers = [
+'Environment :: Web Environment',
+'License :: OSI Approved :: BSD License',
+'Operating System :: OS Independent',
+'Development Status :: 4 - Beta',
+'Programming Language :: Python',
+'Programming Language :: Python :: 3 :: Only',
+'Framework :: Django',
+'Topic :: Software Development :: Libraries :: Application Frameworks',
+'Topic :: Software Development :: Libraries :: Python Modules'
+]
+
+packages = [{include = "web_payments"},{include = "web_payments_dummy"},{include = "web_payments_externalpayments"}]
+
+[tool.poetry.dependencies]
+python = ">=3.9,<4.0"
+simplejson = ">=3.0.0"
+wtforms = ">=3.0.0"
+email_validator = "*"
+# before some people open security holes by handling xml wrong, implement it here and give them only a dict
+# required for xmltodict, if not given it uses the vulnerable implementation as fallback
+defusedxml = "*"
+xmltodict = "*"
+
+
+[tool.black]
+line-length = 79
+
+[tool.poetry-dynamic-versioning]
+enable = true
+vcs = "git"
+style = "semver"
+dirty = true
+
+[tool.poetry.group.dev.dependencies]
+tox = "*"
+django = ">=4.2"
+poetry-dynamic-versioning = {extras = ["plugin"], version = "*"}
+
+[tool.poetry.group.test]
+optional = true
+
+[tool.poetry.group.test.dependencies]
+tox = "*"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
