@@ -22,3 +22,5 @@ jobs:
             - name: Run tox
               # Run tox using the version of Python in `PATH`
               run: poetry run tox -s
+            - name: Upload Coverage to Codecov
+              uses: codecov/codecov-action@v2
