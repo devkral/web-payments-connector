@@ -22,6 +22,6 @@ jobs:
             - name: Run tox
               run: poetry run tox -s
             - name: Convert coverage
-              run: poetry run converage xml
+              run: poetry run coverage xml
             - name: Upload Coverage to Codecov
               uses: codecov/codecov-action@v2
