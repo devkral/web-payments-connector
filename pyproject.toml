@@ -42,6 +42,7 @@ dirty = true
 
 [tool.poetry.group.dev.dependencies]
 tox = "*"
+coverage = "*"
 django = ">=4.2"
 poetry-dynamic-versioning = {extras = ["plugin"], version = "*"}
 
@@ -50,6 +51,7 @@ optional = true
 
 [tool.poetry.group.test.dependencies]
 tox = "*"
+coverage = "*"
 
 [build-system]
 requires = ["poetry-core"]
