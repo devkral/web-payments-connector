@@ -1,7 +1,7 @@
 from urllib.parse import urljoin
 
-from django.urls import reverse
 from django.db import models
+from django.urls import reverse
 
 from web_payments.django import get_base_url
 from web_payments.django.models import BasePaymentWithAddress
